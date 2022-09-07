@@ -1,6 +1,6 @@
 {
-    "name": "bleumanager",
-    "short_name": "bleumanager",
+    "name": "Bleu Manager",
+    "short_name": "Bleu Manager",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

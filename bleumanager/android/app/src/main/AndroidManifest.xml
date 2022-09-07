@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="be.ac.umons.bleumanager">
    <application
-        android:label="bleumanager"
+        android:label="Bleu Manager"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

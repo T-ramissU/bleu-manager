@@ -1,5 +1,5 @@
 function onFormSubmit(e) {
-  var url = "http://bleusaille.emixam.be/google_form.php";
+  var url = "https://bleusaille.emixam.be/google_form.php";
 
   var data =
   {

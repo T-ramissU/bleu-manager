@@ -21,9 +21,6 @@ class App extends StatelessWidget {
       home: LoginPage(title: title),
       // TODO: si la personne est déjà connecté affiché la ListPage
       // TODO: ou peut etre faire ça dans LoginPage ?
-      routes: <String, WidgetBuilder>{
-        '/list': (context) => ListPage(title: title),
-      },
     );
   }
 }

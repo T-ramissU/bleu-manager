@@ -33,19 +33,17 @@ class TableView extends StatefulWidget {
 
 class _TableViewState extends State<TableView> {
   // Sortable table that contains data of [_BleuDataSource]
-  // Contain three column Matricule, First Name, Last Name
+  // Contain ? columns: Matricule, Nom, Regio TODO
   // which respectively represent the attributes of a [Bleu] object
-  int _rowIndex = 0;
-  int _rowsPerPage = PaginatedDataTable.defaultRowsPerPage;
   bool _sortAscending = true;
   int? _sortColumnIndex;
-  final BleuDataSource _bleuDataSource =  BleuDataSource();
+  final BleuDataSource _bleuDataSource = BleuDataSource();
 
   void _sort<T>(
-      Comparable<T> Function(Bleu b) getField,
-      int columnIndex,
-      bool ascending,
-      ) {
+    Comparable<T> Function(Bleu b) getField,
+    int columnIndex,
+    bool ascending,
+  ) {
     _bleuDataSource.sort<T>(getField, ascending);
     setState(() {
       _sortColumnIndex = columnIndex;
@@ -63,7 +61,6 @@ class _TableViewState extends State<TableView> {
         children: [
           DataTable(
             showCheckboxColumn: false,
-
             sortColumnIndex: _sortColumnIndex,
             sortAscending: _sortAscending,
             columns: [

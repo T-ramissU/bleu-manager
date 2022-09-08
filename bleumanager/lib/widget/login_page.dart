@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:bleumanager/widget/list_page.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key, required this.title});
@@ -22,16 +23,18 @@ class _LoginPageState extends State<LoginPage> {
             SingleChildScrollView(
               child: Container(
                 padding: EdgeInsets.only(
-                    top: MediaQuery.of(context).size.height * 0.6,
-                    right: 35,
-                    left: 35),
+                  top: MediaQuery.of(context).size.height * 0.6,
+                  right: 35,
+                  left: 35,
+                ),
                 child: Column(
                   children: [
                     TextField(
                       decoration: InputDecoration(
                           hintText: 'Matricule',
                           border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10)),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
                           filled: true,
                           fillColor: Colors.white),
                       style: const TextStyle(color: Colors.blueAccent),
@@ -40,11 +43,13 @@ class _LoginPageState extends State<LoginPage> {
                     TextField(
                       obscureText: true,
                       decoration: InputDecoration(
-                          hintText: 'Mot de passe',
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10)),
-                          filled: true,
-                          fillColor: Colors.white),
+                        hintText: 'Mot de passe',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        filled: true,
+                        fillColor: Colors.white,
+                      ),
                       style: const TextStyle(color: Colors.blueAccent),
                     ),
                     const SizedBox(
@@ -56,9 +61,10 @@ class _LoginPageState extends State<LoginPage> {
                           const Text(
                             'Se connecter',
                             style: TextStyle(
-                                fontSize: 24,
-                                fontWeight: FontWeight.w800,
-                                color: Colors.white),
+                              fontSize: 24,
+                              fontWeight: FontWeight.w800,
+                              color: Colors.white,
+                            ),
                           ),
                           CircleAvatar(
                             radius: 30,
@@ -66,8 +72,13 @@ class _LoginPageState extends State<LoginPage> {
                             child: IconButton(
                                 onPressed: () => {
                                       // TODO: vérifier les id avec le serveur
-                                      Navigator.pushReplacementNamed(
-                                          context, "/list")
+                                      Navigator.pushReplacement(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              ListPage(title: widget.title),
+                                        ),
+                                      ),
                                     },
                                 icon: const Icon(Icons.arrow_forward_rounded)),
                           )

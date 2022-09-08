@@ -61,41 +61,29 @@ class _TableViewState extends State<TableView> {
         restorationId: 'data_table_list_view',
         padding: const EdgeInsets.all(16),
         children: [
-          PaginatedDataTable(
+          DataTable(
             showCheckboxColumn: false,
-            rowsPerPage: _rowsPerPage,
-            onRowsPerPageChanged: (value) {
-              setState(() {
-                _rowsPerPage = value!;
-              });
-            },
-            initialFirstRowIndex: _rowIndex,
-            onPageChanged: (rowIndex) {
-              setState(() {
-                _rowIndex = rowIndex;
-              });
-            },
+
             sortColumnIndex: _sortColumnIndex,
             sortAscending: _sortAscending,
             columns: [
               DataColumn(
-                label: const Text("Matricule"),
-                numeric: true,
+                label: const Text("Nom"),
                 onSort: (columnIndex, ascending) =>
-                    _sort<num>((b) => b.matricule, columnIndex, ascending),
+                    _sort<String>((b) => b.lastname, columnIndex, ascending),
               ),
               DataColumn(
-                label: const Text("First Name"),
+                label: const Text("Prénom"),
                 onSort: (columnIndex, ascending) =>
                     _sort<String>((b) => b.firstname, columnIndex, ascending),
               ),
               DataColumn(
-                label: const Text("Last Name"),
+                label: const Text("Regio"),
                 onSort: (columnIndex, ascending) =>
-                    _sort<String>((b) => b.lastname, columnIndex, ascending),
+                    _sort<String>((b) => b.regio, columnIndex, ascending),
               ),
             ],
-            source: _bleuDataSource,
+            rows: _bleuDataSource.getdata(context),
           ),
         ],
       ),

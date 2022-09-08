@@ -1,4 +1,4 @@
-import 'package:bleumanager/widget/mini_menu.dart';
+import 'package:bleumanager/widget/bleu_popup.dart';
 import 'package:flutter/material.dart';
 
 class Bleu {
@@ -17,8 +17,6 @@ class Bleu {
 
 class BleuDataSource {
   // Model which represents all [Bleu] objects
-  // The class extends [DataTableSource] in order automatically be used as
-  // source in a [PaginatedDataTable]
   late List<Bleu> _bleu;
 
   BleuDataSource() {
@@ -39,17 +37,17 @@ class BleuDataSource {
   List<DataRow> getdata(BuildContext context)  {
     List<DataRow> listbleu = <DataRow>[];
 
-    for (var bleu in _bleu) {
-      DataRow truc = DataRow(
+    for (Bleu bleu in _bleu) {
+      DataRow row = DataRow(
         onLongPress:() async { await showDialog(
-            context: context, builder: (BuildContext context) => MiniMenu());},
+            context: context, builder: (BuildContext context) => BleuPopup(bleu));},
         cells: [
           DataCell(Text('${bleu.matricule}')),
           DataCell(Text(bleu.firstname)),
           DataCell(Text(bleu.lastname)),
         ],
       );
-      listbleu.add(truc);
+      listbleu.add(row);
     }
     return listbleu;
   }

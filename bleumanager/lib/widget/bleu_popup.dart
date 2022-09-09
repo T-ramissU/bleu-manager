@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:bleumanager/object/bleu.dart';
-
+import 'package:bleumanager/widget/edit_page.dart';
 class BleuPopup extends StatelessWidget {
   final Bleu _bleu;
 
@@ -13,9 +13,11 @@ class BleuPopup extends StatelessWidget {
           textAlign: TextAlign.center),
       content: Column(
         mainAxisSize: MainAxisSize.min,
-        children: const [
+        children:  [
           PopupMenuItem(child: Text("Details")),
-          PopupMenuItem(child: Text("Modifier")),
+          TextButton(child: Text("Modifier"),onPressed:()=>{
+            Navigator.push(context, MaterialPageRoute(builder: (context) =>  EditPage(_bleu)))
+          }),
           PopupMenuItem(child: Text("Supprimer")),
         ],
       ),

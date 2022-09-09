@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:bleumanager/widget/login_page.dart';
 import 'package:bleumanager/widget/list_page.dart';
 
+import 'util/credential.dart';
 void main() {
   runApp(const App());
 }
@@ -11,8 +12,9 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final String title = "Bleu Manager ${DateTime.now().year}";
+    Credential().load().whenComplete(() => null);
 
+    final String title = "Bleu Manager ${DateTime.now().year}";
     return MaterialApp(
       title: 'Bleu Manager',
       theme: ThemeData(

@@ -40,7 +40,7 @@ class _EditPageState extends State<EditPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: ListView(
-        padding: EdgeInsets.all(32),
+        padding: const EdgeInsets.all(32),
         children: [
           buildMatricule(bleu),
           const SizedBox(height: 24),
@@ -60,8 +60,11 @@ class _EditPageState extends State<EditPage> {
               backgroundColor: Colors.redAccent,
               disabledForegroundColor: Colors.red.withOpacity(0.38),
             ),
-            onPressed: () {},
-            child: Text("Mettre à jour"),
+            onPressed: () {
+              Navigator.pop(context);
+              //TODO mettre à jour l'object Bleu
+              },
+            child: const Text("Mettre à jour"),
           ),
         ],
       ),
@@ -71,14 +74,14 @@ class _EditPageState extends State<EditPage> {
   Widget buildMatricule(Bleu bleu) => TextField(
         controller: matriculeController,
         decoration: InputDecoration(
-            border: OutlineInputBorder(),
+            border: const OutlineInputBorder(),
             labelText: 'Matricule',
             hintText: "]-${bleu.matricule}",
-            prefixIcon: Icon(Icons.numbers),
+            prefixIcon: const Icon(Icons.numbers),
             suffixIcon: matriculeController.text.isEmpty
                 ? Container(width: 0)
                 : IconButton(
-                    icon: Icon(Icons.close),
+                    icon: const Icon(Icons.close),
                     onPressed: () => matriculeController.clear(),
                   )),
         keyboardType: TextInputType.number,
@@ -89,14 +92,14 @@ class _EditPageState extends State<EditPage> {
   Widget buildFName(Bleu bleu) => TextField(
         controller: fnameController,
         decoration: InputDecoration(
-            border: OutlineInputBorder(),
+            border: const OutlineInputBorder(),
             labelText: 'Prénom',
             hintText: bleu.firstname,
-            prefixIcon: Icon(Icons.person_outline_outlined),
+            prefixIcon: const Icon(Icons.person_outline_outlined),
             suffixIcon: fnameController.text.isEmpty
                 ? Container(width: 0)
                 : IconButton(
-                    icon: Icon(Icons.close),
+                    icon: const Icon(Icons.close),
                     onPressed: () => fnameController.clear(),
                   )),
         keyboardType: TextInputType.name,
@@ -107,14 +110,14 @@ class _EditPageState extends State<EditPage> {
   Widget buildLName(Bleu bleu) => TextField(
         controller: fnameController,
         decoration: InputDecoration(
-            border: OutlineInputBorder(),
+            border: const OutlineInputBorder(),
             labelText: 'Nom',
             hintText: bleu.lastname,
-            prefixIcon: Icon(Icons.person_outline),
+            prefixIcon: const Icon(Icons.person_outline),
             suffixIcon: lnameController.text.isEmpty
                 ? Container(width: 0)
                 : IconButton(
-                    icon: Icon(Icons.close),
+                    icon: const Icon(Icons.close),
                     onPressed: () => lnameController.clear(),
                   )),
         keyboardType: TextInputType.name,
@@ -125,14 +128,14 @@ class _EditPageState extends State<EditPage> {
   Widget buildNumber(Bleu bleu) => TextField(
         controller: numberController,
         decoration: InputDecoration(
-            border: OutlineInputBorder(),
+            border: const OutlineInputBorder(),
             labelText: 'Numéro de téléphone',
             hintText: bleu.tel,
-            prefixIcon: Icon(Icons.phone),
+            prefixIcon: const Icon(Icons.phone),
             suffixIcon: numberController.text.isEmpty
                 ? Container(width: 0)
                 : IconButton(
-                    icon: Icon(Icons.close),
+                    icon: const Icon(Icons.close),
                     onPressed: () => numberController.clear(),
                   )),
         keyboardType: TextInputType.number,
@@ -143,14 +146,14 @@ class _EditPageState extends State<EditPage> {
   Widget buildLocation(Bleu bleu) => TextField(
         controller: locationController,
         decoration: InputDecoration(
-            border: OutlineInputBorder(),
+            border: const OutlineInputBorder(),
             labelText: 'Régional',
             hintText: bleu.regio,
-            prefixIcon: Icon(Icons.location_on),
+            prefixIcon: const Icon(Icons.location_on),
             suffixIcon: locationController.text.isEmpty
                 ? Container(width: 0)
                 : IconButton(
-                    icon: Icon(Icons.close),
+                    icon: const Icon(Icons.close),
                     onPressed: () => locationController.clear(),
                   )),
         keyboardType: TextInputType.text,
@@ -161,14 +164,14 @@ class _EditPageState extends State<EditPage> {
   Widget buildMedical(Bleu bleu) => TextField(
         controller: medicalController,
         decoration: InputDecoration(
-            border: OutlineInputBorder(),
+            border: const OutlineInputBorder(),
             labelText: 'Problèmes médicaux',
             hintText: bleu.med,
-            prefixIcon: Icon(Icons.medical_services),
+            prefixIcon: const Icon(Icons.medical_services),
             suffixIcon: medicalController.text.isEmpty
                 ? Container(width: 0)
                 : IconButton(
-                    icon: Icon(Icons.close),
+                    icon: const Icon(Icons.close),
                     onPressed: () => medicalController.clear(),
                   )),
         keyboardType: TextInputType.text,

@@ -38,145 +38,141 @@ class _EditPageState extends State<EditPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: ListView(
-        padding: const EdgeInsets.all(32),
-        children: [
-          buildMatricule(bleu),
-          const SizedBox(height: 24),
-          buildFName(bleu),
-          const SizedBox(height: 24),
-          buildLName(bleu),
-          const SizedBox(height: 24),
-          buildNumber(bleu),
-          const SizedBox(height: 24),
-          buildLocation(bleu),
-          const SizedBox(height: 24),
-          buildMedical(bleu),
-          const SizedBox(height: 24),
-          TextButton(
-            style: TextButton.styleFrom(
-              foregroundColor: Colors.white,
-              backgroundColor: Colors.redAccent,
-              disabledForegroundColor: Colors.red.withOpacity(0.38),
-            ),
-            onPressed: () {
-              Navigator.pop(context);
-              //TODO mettre à jour l'object Bleu
-              },
-            child: const Text("Mettre à jour"),
-          ),
-        ],
-      ),
-    );
+    return GestureDetector(
+        onTap: () {
+          FocusManager.instance.primaryFocus?.unfocus();
+          //hides keyboard when the screen is pressed
+        },
+        child: Container(
+            child: Scaffold(
+                body: Stack(children: [
+          SingleChildScrollView(
+              keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+              child: Container(
+                padding: EdgeInsets.only(
+                  top: MediaQuery.of(context).size.height * 0.05,
+                  right: 35,
+                  left: 35,
+                ),
+                child: Column(
+                  children: [
+                    buildMatricule(bleu),
+                    const SizedBox(height: 24),
+                    buildFName(bleu),
+                    const SizedBox(height: 24),
+                    buildLName(bleu),
+                    const SizedBox(height: 24),
+                    buildNumber(bleu),
+                    const SizedBox(height: 24),
+                    buildLocation(bleu),
+                    const SizedBox(height: 24),
+                    buildMedical(bleu),
+                    const SizedBox(height: 24),
+                    buildCom(bleu),
+                    const SizedBox(height: 24),
+                    TextButton(
+                      style: TextButton.styleFrom(
+                        foregroundColor: Colors.white,
+                        backgroundColor: Colors.redAccent,
+                        disabledForegroundColor: Colors.red.withOpacity(0.38),
+                      ),
+                      onPressed: () {
+                        Navigator.pop(context);
+                        //TODO mettre à jour l'object Bleu
+                      },
+                      child: const Text("Mettre à jour"),
+                    ),
+                  ],
+                ),
+              ))
+        ]))));
   }
 
   Widget buildMatricule(Bleu bleu) => TextField(
-        controller: matriculeController,
-        decoration: InputDecoration(
-            border: const OutlineInputBorder(),
-            labelText: 'Matricule',
-            hintText: "]-${bleu.matricule}",
-            prefixIcon: const Icon(Icons.numbers),
-            suffixIcon: matriculeController.text.isEmpty
-                ? Container(width: 0)
-                : IconButton(
-                    icon: const Icon(Icons.close),
-                    onPressed: () => matriculeController.clear(),
-                  )),
+        controller: TextEditingController()..text = "${bleu.matricule}",
+        decoration: const InputDecoration(
+          border: OutlineInputBorder(),
+          labelText: 'Matricule',
+          prefixIcon: Icon(Icons.numbers),
+        ),
         keyboardType: TextInputType.number,
         // suggests emails when keyboard is opened if any saved
         textInputAction: TextInputAction.done,
       );
 
   Widget buildFName(Bleu bleu) => TextField(
-        controller: fnameController,
-        decoration: InputDecoration(
-            border: const OutlineInputBorder(),
-            labelText: 'Prénom',
-            hintText: bleu.firstname,
-            prefixIcon: const Icon(Icons.person_outline_outlined),
-            suffixIcon: fnameController.text.isEmpty
-                ? Container(width: 0)
-                : IconButton(
-                    icon: const Icon(Icons.close),
-                    onPressed: () => fnameController.clear(),
-                  )),
+        controller: TextEditingController()..text = "${bleu.firstname}",
+        decoration: const InputDecoration(
+          border: OutlineInputBorder(),
+          labelText: 'Prénom',
+          prefixIcon: Icon(Icons.person_outline_outlined),
+        ),
         keyboardType: TextInputType.name,
         // suggests emails when keyboard is opened if any saved
         textInputAction: TextInputAction.done,
       );
 
   Widget buildLName(Bleu bleu) => TextField(
-        controller: fnameController,
-        decoration: InputDecoration(
-            border: const OutlineInputBorder(),
-            labelText: 'Nom',
-            hintText: bleu.lastname,
-            prefixIcon: const Icon(Icons.person_outline),
-            suffixIcon: lnameController.text.isEmpty
-                ? Container(width: 0)
-                : IconButton(
-                    icon: const Icon(Icons.close),
-                    onPressed: () => lnameController.clear(),
-                  )),
+        controller: TextEditingController()..text = "${bleu.lastname}",
+        decoration: const InputDecoration(
+          border: OutlineInputBorder(),
+          labelText: 'Nom',
+          prefixIcon: Icon(Icons.person_outline),
+        ),
         keyboardType: TextInputType.name,
         // suggests emails when keyboard is opened if any saved
         textInputAction: TextInputAction.done,
       );
 
   Widget buildNumber(Bleu bleu) => TextField(
-        controller: numberController,
-        decoration: InputDecoration(
-            border: const OutlineInputBorder(),
-            labelText: 'Numéro de téléphone',
-            hintText: bleu.tel,
-            prefixIcon: const Icon(Icons.phone),
-            suffixIcon: numberController.text.isEmpty
-                ? Container(width: 0)
-                : IconButton(
-                    icon: const Icon(Icons.close),
-                    onPressed: () => numberController.clear(),
-                  )),
+        controller: TextEditingController()..text = "${bleu.tel}",
+        decoration: const InputDecoration(
+          border: OutlineInputBorder(),
+          labelText: 'Numéro de téléphone',
+          prefixIcon: Icon(Icons.phone),
+        ),
         keyboardType: TextInputType.number,
         // suggests emails when keyboard is opened if any saved
         textInputAction: TextInputAction.done,
       );
 
   Widget buildLocation(Bleu bleu) => TextField(
-        controller: locationController,
-        decoration: InputDecoration(
-            border: const OutlineInputBorder(),
-            labelText: 'Régional',
-            hintText: bleu.regio,
-            prefixIcon: const Icon(Icons.location_on),
-            suffixIcon: locationController.text.isEmpty
-                ? Container(width: 0)
-                : IconButton(
-                    icon: const Icon(Icons.close),
-                    onPressed: () => locationController.clear(),
-                  )),
+        controller: TextEditingController()..text = "${bleu.regio}",
+        decoration: const InputDecoration(
+          border: OutlineInputBorder(),
+          labelText: 'Régional',
+          prefixIcon: Icon(Icons.location_on),
+        ),
         keyboardType: TextInputType.text,
         // suggests emails when keyboard is opened if any saved
         textInputAction: TextInputAction.done,
       );
 
   Widget buildMedical(Bleu bleu) => TextField(
-        controller: medicalController,
-        decoration: InputDecoration(
-            border: const OutlineInputBorder(),
-            labelText: 'Problèmes médicaux',
-            hintText: bleu.med,
-            prefixIcon: const Icon(Icons.medical_services),
-            suffixIcon: medicalController.text.isEmpty
-                ? Container(width: 0)
-                : IconButton(
-                    icon: const Icon(Icons.close),
-                    onPressed: () => medicalController.clear(),
-                  )),
-        keyboardType: TextInputType.text,
+        controller: TextEditingController()..text = "${bleu.med}",
+        decoration: const InputDecoration(
+          border: OutlineInputBorder(),
+          labelText: 'Problèmes médicaux',
+          prefixIcon: Icon(Icons.medical_services),
+        ),
+        keyboardType: TextInputType.multiline,
         // suggests emails when keyboard is opened if any saved
         textInputAction: TextInputAction.done,
-        maxLines: 4,
+        maxLines: null,
+        minLines: 5,
+      );
+
+  Widget buildCom(Bleu bleu) => TextField(
+        controller: TextEditingController()..text = "${bleu.com}",
+        decoration: const InputDecoration(
+          border: OutlineInputBorder(),
+          labelText: 'Commentaires',
+          prefixIcon: Icon(Icons.comment),
+        ),
+        keyboardType: TextInputType.multiline,
+        // suggests emails when keyboard is opened if any saved
+        textInputAction: TextInputAction.done,
+        maxLines: null,
+        minLines: 3,
       );
 }

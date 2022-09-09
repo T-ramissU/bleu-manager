@@ -5,7 +5,7 @@ class Bleu {
   Bleu(this.matricule, this.lastname, this.firstname, this.supp, this.regio,
       this.tel, this.med, this.com);
 
-  final int matricule;
+  final String matricule;
   final String lastname;
   final String firstname;
   final bool supp;
@@ -21,7 +21,7 @@ class BleuDataSource {
 
   BleuDataSource() {
     // TODO fetch data from the server
-    _bleu = <Bleu>[Bleu(45,"TRuc","machin",true,"Fronta","4568566","polente","rien")];
+    _bleu = <Bleu>[Bleu("45","TRuc","machin",true,"Fronta","4568566","polente","rien")];
   }
 
   void sort<T>(Comparable<T> Function(Bleu b) getField, bool ascending) {

@@ -80,7 +80,7 @@ class _TableViewState extends State<TableView> {
                     _sort<String>((b) => b.regio, columnIndex, ascending),
               ),
             ],
-            rows: _bleuDataSource.getdata(context),
+            rows: _bleuDataSource.getData(context),
           ),
         ],
       ),

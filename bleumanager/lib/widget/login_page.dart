@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:bleumanager/widget/list_page.dart';
 import 'package:bleumanager/util/credential.dart';
 import 'package:bleumanager/util/server_connector.dart';
 
@@ -24,7 +23,9 @@ class _LoginPageState extends State<LoginPage> {
       body: Container(
         padding: const EdgeInsets.only(right: 35, left: 35, bottom: 15),
         decoration: const BoxDecoration(
-            image: DecorationImage(image: AssetImage('assets/polytech.png'), alignment: AlignmentDirectional.topEnd)),
+            image: DecorationImage(
+                image: AssetImage('assets/polytech.png'),
+                alignment: AlignmentDirectional.topEnd)),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
@@ -78,12 +79,9 @@ class _LoginPageState extends State<LoginPage> {
                           tokenController.value.text);
                       ServerConnector.checkAdmin(Credential()).then((ok) {
                         if (ok) {
-                          Navigator.pushReplacement(
+                          Navigator.pushReplacementNamed(
                             context,
-                            MaterialPageRoute(
-                              builder: (context) =>
-                                  ListPage(title: widget.title),
-                            ),
+                            "/list",
                           );
                         } else {
                           Credential().delete();

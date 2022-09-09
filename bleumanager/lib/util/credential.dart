@@ -28,15 +28,12 @@ class Credential {
 
   // Initialize the class attributes [this.matricule] and [this.token]
   // with the credential previously saved.
-  Future<void> load() async {
+  // return the new value of [exists]
+  Future<bool> load() async {
     matricule = await _storage.read(key: "MATRICULE");
     token = await _storage.read(key: "TOKEN");
-
-    if (matricule != null && token != null) {
-      exists = true;
-    } else {
-      exists = false;
-    }
+    exists = matricule != null && token != null;
+    return exists!;
   }
 
   void delete() {

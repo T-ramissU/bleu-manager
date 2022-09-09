@@ -3,26 +3,31 @@ import 'package:bleumanager/widget/login_page.dart';
 import 'package:bleumanager/widget/list_page.dart';
 
 import 'util/credential.dart';
-void main() {
-  runApp(const App());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  bool credExists = await Credential().load();
+  runApp(App(credExists));
 }
 
 class App extends StatelessWidget {
-  const App({super.key});
+  final bool credExists;
+  const App(this.credExists, {super.key});
 
   @override
   Widget build(BuildContext context) {
-    Credential().load().whenComplete(() => null);
-
     final String title = "Bleu Manager ${DateTime.now().year}";
+    final ListPage listPage = ListPage(title: title);
+    final Widget home = credExists ? listPage : LoginPage(title: title);
+
     return MaterialApp(
       title: 'Bleu Manager',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: LoginPage(title: title),
-      // TODO: si la personne est déjà connecté affiché la ListPage
-      // TODO: ou peut etre faire ça dans LoginPage ?
+      routes: {
+        '/list': (context) => listPage,
+      },
+      home: home,
     );
   }
 }

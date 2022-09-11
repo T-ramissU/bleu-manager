@@ -10,13 +10,15 @@ const String _fetchBleuUrl = "$_serverUrl/fetch.php";
 const String _deleteBleuUrl = "$_serverUrl/delete.php";
 
 class ServerConnector {
-  static Future<bool> modifyBleu(Credential credential, Bleu bleu) async {
+  static Future<bool> modifyBleu(
+      Credential credential, String key, String value) async {
     if (credential.exists != true) return false;
 
     var res = await http.post(Uri.parse(_deleteBleuUrl), body: {
       "matricule": credential.matricule,
       "token": credential.token,
-      "bleu": bleu.toJson(),
+      "key": key,
+      key: value,
     });
 
     return res.statusCode == _successCode;

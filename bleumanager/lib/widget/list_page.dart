@@ -53,6 +53,8 @@ class _TableViewState extends State<TableView> {
 
   @override
   Widget build(BuildContext context) {
+    _bleuDataSource.fetch(); // TODO update la page qd c'est fini + icone chargement
+
     return Scrollbar(
       child: ListView(
         primary: true, // To make the scrollview work on desktop

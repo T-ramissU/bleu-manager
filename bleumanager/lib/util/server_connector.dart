@@ -32,7 +32,6 @@ class ServerConnector {
       "token": credential.token,
     });
 
-    return []; // TODO supp qd le server sera fait
     List<Bleu> bleuList = [];
     for (dynamic bleuJson in json.decode(res.body)) {
       bleuList.add(Bleu.fromJson(bleuJson));
@@ -48,7 +47,6 @@ class ServerConnector {
       "token": credential.token,
     });
 
-    return true; // TODO supp qd le server sera fait
     return res.statusCode == _successCode;
   }
 }

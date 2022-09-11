@@ -119,13 +119,11 @@ class Bleu with ChangeNotifierParametric<String> {
 
 // Model which represents all [Bleu] objects
 class BleuDataSource with ChangeNotifier {
-  List<Bleu> _bleuRemaining = [];
-  List<Bleu> _bleuDeleted = [];
+  final List<Bleu> _bleuRemaining = [];
+  final List<Bleu> _bleuDeleted = [];
 
   BleuDataSource() {
-    _bleuRemaining = <Bleu>[
-      Bleu("45", "TRuc", "machin", true, "Fronta", "4568566", "polente", "rien")
-    ];
+    _bleuRemaining.add(Bleu("45", "TRuc", "machin", true, "Fronta", "4568566", "polente", "rien"));
   }
 
   Future<void> fetch() async {

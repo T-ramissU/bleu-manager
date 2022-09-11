@@ -4,9 +4,25 @@ include_once("global.php");
 // Prepare json response
 header("Content-Type: application/json");
 
+if (!isset($_POST["matricule"]) || !isset($_POST["token"])) {
+    http_response_code(BAD_REQUEST);
+    echo "[]";  // return empty json array
+    exit();
+}
+
+$admin_matricule = $_POST["matricule"];
+$admin_token = $_POST["token"];
+
 $conn = new mysqli(MYSQL_SERVER, MYSQL_USERNAME, MYSQL_PASSWORD, MYSQL_DB);
 if ($conn->connect_error) { // connection to the mysql db failed
     http_response_code(CONN_ERROR);
+    echo "[]";
+    exit();
+}
+
+// verify admin authorization
+if (!checkAdmin($conn, $admin_matricule, $admin_token)) {
+    http_response_code(UNAUTHORIZED);
     echo "[]";
     exit();
 }

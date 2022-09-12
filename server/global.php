@@ -6,8 +6,7 @@ include_once("credential.php");
 define('SUCCESS', 200);
 define('BAD_REQUEST', 400);
 define('UNAUTHORIZED', 401);
-define('QUERY_ERROR', 501);
-define('CONN_ERROR', 503);
+define('SERVER_ERROR', 500);
 
 function checkAdmin($conn, $matricule, $token) {
 

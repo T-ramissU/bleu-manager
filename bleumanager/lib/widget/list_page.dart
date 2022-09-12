@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:bleumanager/object/bleu.dart';
 
+/// Display all bleu and offer to the user the possibility to manage them
 class ListPage extends StatefulWidget {
   const ListPage({super.key, required this.title});
 
@@ -11,10 +12,19 @@ class ListPage extends StatefulWidget {
 }
 
 class _ListPageState extends State<ListPage> {
+  /// Equal to the select column, null if no one is selected
+  int? selectedColumn;
+
+  /// If true the [sortColumnIndex] is sorted in ascending otherwise descending
   bool sortAscending = true;
+
+  /// If true the deleted bleu are showed other the reamaining one
   bool showDeleted = false;
+
+  /// If true, the fetching is not yet finished
   bool fetching = true;
-  int? sortColumnIndex;
+
+  /// Give an access to all bleu
   final BleuDataSource bleuDataSource = BleuDataSource();
 
   void sort<T>(
@@ -24,7 +34,7 @@ class _ListPageState extends State<ListPage> {
   ) {
     bleuDataSource.sort<T>(getField, ascending);
     setState(() {
-      sortColumnIndex = columnIndex;
+      selectedColumn = columnIndex;
       sortAscending = ascending;
     });
   }
@@ -32,10 +42,17 @@ class _ListPageState extends State<ListPage> {
   @override
   void initState() {
     super.initState();
-    bleuDataSource.fetch().then((value) {
-      setState(() {
-        fetching = false;
-      });
+    bleuDataSource.fetch().then((res) {
+      fetching = false;
+      switch (res) {
+        case 1: // unauthorized access TODO SHOW ERROR POPUP
+          Navigator.pushReplacementNamed(
+              context, "/login"); // redirect to LoginPage
+          break;
+        case 3: // server error TODO SHOW ERROR POPUP
+          break;
+      }
+      setState(() {});
     });
   }
 
@@ -59,7 +76,7 @@ class _ListPageState extends State<ListPage> {
               children: [
                 DataTable(
                   showCheckboxColumn: false,
-                  sortColumnIndex: sortColumnIndex,
+                  sortColumnIndex: selectedColumn,
                   sortAscending: sortAscending,
                   columns: [
                     DataColumn(

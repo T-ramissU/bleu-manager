@@ -1,7 +1,9 @@
+import 'package:flutter/material.dart';
+import 'package:tuple/tuple.dart';
+
 import 'package:bleumanager/widget/bleu_popup.dart';
 import 'package:bleumanager/util/server_connector.dart';
 import 'package:bleumanager/util/credential.dart';
-import 'package:flutter/material.dart';
 
 class ChangeNotifierParametric<T> {
   List<void Function(T param)> listeners = [];
@@ -117,18 +119,26 @@ class Bleu with ChangeNotifierParametric<String> {
   }
 }
 
-// Model which represents all [Bleu] objects
+/// Model which represents all [Bleu] objects
 class BleuDataSource with ChangeNotifier {
   final List<Bleu> _bleuRemaining = [];
   final List<Bleu> _bleuDeleted = [];
 
-  Future<void> fetch() async {
-    List<Bleu> bleuList = await ServerConnector.fetchBleu(Credential());
-    for (Bleu bleu in bleuList) {
+  /// Return an integer equal to :
+  /// 0 if success
+  /// 1 if the [credential] are not authorized on the server
+  ///   or not defined
+  /// 3 if error server or something else
+  Future<int> fetch() async {
+    Tuple2 res = await ServerConnector.fetchBleu(Credential());
+
+    for (Bleu bleu in res.item1) {
       bleu.addListener(
           (String updatedJsonKey) => _updateBleu(bleu, updatedJsonKey));
       bleu.del ? _bleuDeleted.add(bleu) : _bleuRemaining.add(bleu);
     }
+
+    return res.item1;
   }
 
   void _updateBleu(Bleu bleu, String updatedJsonKey) {

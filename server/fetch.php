@@ -15,13 +15,14 @@ $admin_token = $_POST["token"];
 
 $conn = new mysqli(MYSQL_SERVER, MYSQL_USERNAME, MYSQL_PASSWORD, MYSQL_DB);
 if ($conn->connect_error) { // connection to the mysql db failed
-    http_response_code(CONN_ERROR);
+    http_response_code(SERVER_ERROR);
     echo "[]";
     exit();
 }
 
 // verify admin authorization
 if (!checkAdmin($conn, $admin_matricule, $admin_token)) {
+    $conn->close();
     http_response_code(UNAUTHORIZED);
     echo "[]";
     exit();
@@ -32,7 +33,8 @@ $query = "SELECT * FROM LISTING";
 $result = $conn->query($query);
 
 if (!$result) { // bad query
-    http_response_code(QUERY_ERROR);
+    $conn->close();
+    http_response_code(BAD_REQUEST);
     echo "[]";
     exit();
 }
@@ -43,5 +45,6 @@ while ($row = $result->fetch_assoc())
     $result_array[] = $row;
 echo json_encode($result_array);
 
+$conn->close();
 http_response_code(SUCCESS);
 exit();

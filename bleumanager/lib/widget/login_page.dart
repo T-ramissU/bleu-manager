@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+
 import 'package:bleumanager/util/credential.dart';
 import 'package:bleumanager/util/server_connector.dart';
 
+/// Page which offer to the user to setup login credential
+/// with the server, if it is authorized
 class LoginPage extends StatefulWidget {
+  /// [title] of the page
   const LoginPage({super.key, required this.title});
 
   final String title;
@@ -14,7 +18,7 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final TextEditingController matriculeController = TextEditingController();
   final TextEditingController tokenController = TextEditingController();
-  String errorMessage = "";
+  String errorMessage = ""; // no error message by default
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +29,7 @@ class _LoginPageState extends State<LoginPage> {
         decoration: const BoxDecoration(
             image: DecorationImage(
                 image: AssetImage('assets/polytech.png'),
-                alignment: AlignmentDirectional.topEnd)),
+                alignment: AlignmentDirectional.topCenter)),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
@@ -77,18 +81,19 @@ class _LoginPageState extends State<LoginPage> {
                     onPressed: () {
                       Credential().save(matriculeController.value.text,
                           tokenController.value.text);
-                      ServerConnector.checkAdmin(Credential()).then((ok) {
-                        if (ok) {
-                          Navigator.pushReplacementNamed(
-                            context,
-                            "/list",
-                          );
-                        } else {
-                          Credential().delete();
-                          setState(() {
+                      ServerConnector.checkAdmin(Credential()).then((res) {
+                        switch (res) {
+                          case 0: // success, display Listpage
+                            Navigator.pushReplacementNamed(context, "/list");
+                            return;
+                          case 1:
                             errorMessage = "Identifiant invalide";
-                          });
+                            break;
+                          case 3:
+                            errorMessage = "Une erreur est survenue";
                         }
+                        Credential().delete(); // delete seved credential
+                        setState(() {}); // relaad to show the error message
                       });
                     },
                     icon: const Icon(Icons.arrow_forward_rounded)),

@@ -15,7 +15,7 @@ $tel = $_POST["tel"];
 
 $conn = new mysqli(MYSQL_SERVER, MYSQL_USERNAME, MYSQL_PASSWORD, MYSQL_DB);
 if ($conn->connect_error) { // connection to the mysql db failed
-    http_response_code(CONN_ERROR);
+    http_response_code(SERVER_ERROR);
     exit();
 }
 
@@ -24,10 +24,12 @@ $query = "INSERT INTO LISTING (Matricule,Nom,Prenom,Med,Tel,Regio) VALUES ('" . 
 $result = $conn->query($query);
 
 if (!$result) { // bad query
-    http_response_code(QUERY_ERROR);
+    $conn->close();
+    http_response_code(BAD_REQUEST);
     error_log($conn->error);
     exit();
 }
 
+$conn->close();
 http_response_code(SUCCESS);
 exit();

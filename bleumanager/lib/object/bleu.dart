@@ -122,10 +122,6 @@ class BleuDataSource with ChangeNotifier {
   final List<Bleu> _bleuRemaining = [];
   final List<Bleu> _bleuDeleted = [];
 
-  BleuDataSource() {
-    _bleuRemaining.add(Bleu("45", "TRuc", "machin", true, "Fronta", "4568566", "polente", "rien"));
-  }
-
   Future<void> fetch() async {
     List<Bleu> bleuList = await ServerConnector.fetchBleu(Credential());
     for (Bleu bleu in bleuList) {
@@ -195,8 +191,8 @@ class BleuDataSource with ChangeNotifier {
   }
 
   // Set [deleted] to true to get deleted Bleu otherwise it return remaining Bleu
-  List<DataRow> getData(BuildContext context, {bool? deleted}) {
-    List<Bleu> list = deleted == null ? _bleuRemaining : _bleuDeleted;
+  List<DataRow> getData(BuildContext context, bool deleted) {
+    List<Bleu> list = deleted ? _bleuDeleted : _bleuRemaining;
 
     List<DataRow> listBleu = <DataRow>[];
     for (Bleu bleu in list) {

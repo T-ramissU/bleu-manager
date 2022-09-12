@@ -35,54 +35,74 @@ class _TableViewState extends State<TableView> {
   // Sortable table that contains data of [_BleuDataSource]
   // Contain ? columns: Matricule, Nom, Regio TODO
   // which respectively represent the attributes of a [Bleu] object
-  bool _sortAscending = true;
-  int? _sortColumnIndex;
-  final BleuDataSource _bleuDataSource = BleuDataSource();
+  bool sortAscending = true;
+  bool showDeleted = false;
+  bool fetching = true;
+  int? sortColumnIndex;
+  final BleuDataSource bleuDataSource = BleuDataSource();
 
-  void _sort<T>(
+  void sort<T>(
     Comparable<T> Function(Bleu b) getField,
     int columnIndex,
     bool ascending,
   ) {
-    _bleuDataSource.sort<T>(getField, ascending);
+    bleuDataSource.sort<T>(getField, ascending);
     setState(() {
-      _sortColumnIndex = columnIndex;
-      _sortAscending = ascending;
+      sortColumnIndex = columnIndex;
+      sortAscending = ascending;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    bleuDataSource.fetch().then((value) {
+      setState(() {
+        fetching = false;
+      });
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    _bleuDataSource.fetch(); // TODO update la page qd c'est fini + icone chargement
-
     return Scrollbar(
-      child: ListView(
-        primary: true, // To make the scrollview work on desktop
-        restorationId: 'data_table_list_view',
-        padding: const EdgeInsets.all(16),
+      child: Stack( // To superpose loading animation and listview
+        alignment: AlignmentDirectional.center,
         children: [
-          DataTable(
-            showCheckboxColumn: false,
-            sortColumnIndex: _sortColumnIndex,
-            sortAscending: _sortAscending,
-            columns: [
-              DataColumn(
-                label: const Text("Nom"),
-                onSort: (columnIndex, ascending) =>
-                    _sort<String>((b) => b.lastname, columnIndex, ascending),
-              ),
-              DataColumn(
-                label: const Text("Prénom"),
-                onSort: (columnIndex, ascending) =>
-                    _sort<String>((b) => b.firstname, columnIndex, ascending),
-              ),
-              DataColumn(
-                label: const Text("Regio"),
-                onSort: (columnIndex, ascending) =>
-                    _sort<String>((b) => b.regio, columnIndex, ascending),
+          fetching
+              ? const CircularProgressIndicator(
+                  color: Colors.redAccent,
+                )
+              : const Text(''), // invisible widget if fetching is finished
+          ListView(
+            primary: true, // To make the scrollview work on desktop
+            restorationId: 'data_table_list_view',
+            padding: const EdgeInsets.all(16),
+            children: [
+              DataTable(
+                showCheckboxColumn: false,
+                sortColumnIndex: sortColumnIndex,
+                sortAscending: sortAscending,
+                columns: [
+                  DataColumn(
+                    label: const Text("Nom"),
+                    onSort: (columnIndex, ascending) =>
+                        sort<String>((b) => b.lastname, columnIndex, ascending),
+                  ),
+                  DataColumn(
+                    label: const Text("Prénom"),
+                    onSort: (columnIndex, ascending) => sort<String>(
+                        (b) => b.firstname, columnIndex, ascending),
+                  ),
+                  DataColumn(
+                    label: const Text("Regio"),
+                    onSort: (columnIndex, ascending) =>
+                        sort<String>((b) => b.regio, columnIndex, ascending),
+                  ),
+                ],
+                rows: bleuDataSource.getData(context, showDeleted),
               ),
             ],
-            rows: _bleuDataSource.getData(context),
           ),
         ],
       ),

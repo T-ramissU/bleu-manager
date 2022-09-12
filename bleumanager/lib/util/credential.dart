@@ -12,7 +12,7 @@ class Credential {
   /// or if no username exists
   late String? password;
 
-  Credential._privateConstructor() {}
+  Credential._privateConstructor();
   static final Credential _instance = Credential._privateConstructor();
 
   factory Credential() => _instance;

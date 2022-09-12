@@ -16,24 +16,43 @@ class EditPage extends StatefulWidget {
 
 class _EditPageState extends State<EditPage> {
   final Bleu bleu;
-  final matriculeController = TextEditingController();
+
   final fnameController = TextEditingController();
   final lnameController = TextEditingController();
   final numberController = TextEditingController();
-  final locationController = TextEditingController();
+  final regioController = TextEditingController();
   final medicalController = TextEditingController();
+  final locController = TextEditingController();
+  final ageController = TextEditingController();
+  final bdController = TextEditingController();
+  final sexeController =  TextEditingController();
+  final respController = TextEditingController();
+  final telrespController = TextEditingController();
+  final ramController1 = TextEditingController();
+  final ramController2 = TextEditingController();
+  final ramController3 = TextEditingController();
+  final ramController4 = TextEditingController();
 
   _EditPageState(this.bleu);
 
   @override
   void initState() {
     super.initState();
-    matriculeController.addListener(() => setState(() {}));
     fnameController.addListener(() => setState(() {}));
     lnameController.addListener(() => setState(() {}));
     numberController.addListener(() => setState(() {}));
-    locationController.addListener(() => setState(() {}));
+    regioController.addListener(() => setState(() {}));
     medicalController.addListener(() => setState(() {}));
+    sexeController.addListener(() => setState(() {}));
+    locController.addListener(() => setState(() {}));
+    ageController.addListener(() => setState(() {}));
+    bdController.addListener(() => setState(() {}));
+    respController.addListener(() => setState(() {}));
+    telrespController.addListener(() => setState(() {}));
+    ramController1.addListener(() => setState(() {}));
+    ramController2.addListener(() => setState(() {}));
+    ramController3.addListener(() => setState(() {}));
+    ramController4.addListener(() => setState(() {}));
   }
 
   @override
@@ -43,9 +62,8 @@ class _EditPageState extends State<EditPage> {
           FocusManager.instance.primaryFocus?.unfocus();
           //hides keyboard when the screen is pressed
         },
-        child: Container(
-            child: Scaffold(
-                body: Stack(children: [
+        child: Scaffold(
+            body: Stack(children: [
           SingleChildScrollView(
               keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
               child: Container(
@@ -56,8 +74,6 @@ class _EditPageState extends State<EditPage> {
                 ),
                 child: Column(
                   children: [
-                    buildMatricule(bleu),
-                    const SizedBox(height: 24),
                     buildFName(bleu),
                     const SizedBox(height: 24),
                     buildLName(bleu),
@@ -85,23 +101,11 @@ class _EditPageState extends State<EditPage> {
                   ],
                 ),
               ))
-        ]))));
+        ])));
   }
 
-  Widget buildMatricule(Bleu bleu) => TextField(
-        controller: TextEditingController()..text = "${bleu.matricule}",
-        decoration: const InputDecoration(
-          border: OutlineInputBorder(),
-          labelText: 'Matricule',
-          prefixIcon: Icon(Icons.numbers),
-        ),
-        keyboardType: TextInputType.number,
-        // suggests emails when keyboard is opened if any saved
-        textInputAction: TextInputAction.done,
-      );
-
   Widget buildFName(Bleu bleu) => TextField(
-        controller: TextEditingController()..text = "${bleu.firstname}",
+        controller: TextEditingController()..text = bleu.firstname,
         decoration: const InputDecoration(
           border: OutlineInputBorder(),
           labelText: 'Prénom',
@@ -113,7 +117,7 @@ class _EditPageState extends State<EditPage> {
       );
 
   Widget buildLName(Bleu bleu) => TextField(
-        controller: TextEditingController()..text = "${bleu.lastname}",
+        controller: TextEditingController()..text = bleu.lastname,
         decoration: const InputDecoration(
           border: OutlineInputBorder(),
           labelText: 'Nom',
@@ -125,7 +129,7 @@ class _EditPageState extends State<EditPage> {
       );
 
   Widget buildNumber(Bleu bleu) => TextField(
-        controller: TextEditingController()..text = "${bleu.tel}",
+        controller: TextEditingController()..text = bleu.tel,
         decoration: const InputDecoration(
           border: OutlineInputBorder(),
           labelText: 'Numéro de téléphone',
@@ -137,7 +141,7 @@ class _EditPageState extends State<EditPage> {
       );
 
   Widget buildLocation(Bleu bleu) => TextField(
-        controller: TextEditingController()..text = "${bleu.regio}",
+        controller: TextEditingController()..text = bleu.regio,
         decoration: const InputDecoration(
           border: OutlineInputBorder(),
           labelText: 'Régional',
@@ -149,7 +153,7 @@ class _EditPageState extends State<EditPage> {
       );
 
   Widget buildMedical(Bleu bleu) => TextField(
-        controller: TextEditingController()..text = "${bleu.med}",
+        controller: TextEditingController()..text = bleu.med,
         decoration: const InputDecoration(
           border: OutlineInputBorder(),
           labelText: 'Problèmes médicaux',
@@ -163,7 +167,7 @@ class _EditPageState extends State<EditPage> {
       );
 
   Widget buildCom(Bleu bleu) => TextField(
-        controller: TextEditingController()..text = "${bleu.com}",
+        controller: TextEditingController()..text = bleu.com,
         decoration: const InputDecoration(
           border: OutlineInputBorder(),
           labelText: 'Commentaires',

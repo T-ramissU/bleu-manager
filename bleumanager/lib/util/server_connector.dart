@@ -7,14 +7,14 @@ const int _successCode = 200;
 const String _serverUrl = "https://bleusaille.emixam.be";
 const String _checkAdminUrl = "$_serverUrl/check_admin.php";
 const String _fetchBleuUrl = "$_serverUrl/fetch.php";
-const String _deleteBleuUrl = "$_serverUrl/delete.php";
+const String _modifyBleuUrl = "$_serverUrl/modify.php";
 
 class ServerConnector {
   static Future<bool> modifyBleu(
       Credential credential, String key, String value) async {
     if (credential.exists != true) return false;
 
-    var res = await http.post(Uri.parse(_deleteBleuUrl), body: {
+    var res = await http.post(Uri.parse(_modifyBleuUrl), body: {
       "matricule": credential.matricule,
       "token": credential.token,
       "key": key,

@@ -365,7 +365,7 @@ class BleuDataSource with ChangeNotifier {
         onLongPress: () async {
           await showDialog(
               context: context,
-              builder: (BuildContext context) => BleuPopup(bleu));
+              builder: (BuildContext context) => BleuPopup(bleu, !bleu.del));
         },
         cells: [
           DataCell(Text(bleu.firstname)),

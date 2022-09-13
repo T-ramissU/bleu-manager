@@ -370,9 +370,9 @@ class BleuDataSource with ChangeNotifier {
         cells: [
           DataCell(Text(bleu.firstname)),
           DataCell(Text(bleu.lastname)),
+          DataCell(Text(bleu.regio)),
           /* TODO DETERMINER LA RÉPARTITON DANS LISTPAGE/DETAILPAGE
           DataCell(Text(bleu.sexe)),
-          DataCell(Text(bleu.regio)),
           DataCell(Text(bleu.tel)),
           DataCell(Text(bleu.com)),
           DataCell(Text(bleu.med)),

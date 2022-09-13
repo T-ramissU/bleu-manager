@@ -24,6 +24,12 @@ class _ListPageState extends State<ListPage> {
   /// If true, the fetching is not yet finished
   bool fetching = true;
 
+  /// Contains the regios to display, null means all
+  String? regioFilter;
+
+  /// Contains the prenoms to display, null means all
+  String? prenomFilter;
+
   /// Give an access to all bleu
   final BleuDataSource bleuDataSource = BleuDataSource();
 
@@ -56,6 +62,26 @@ class _ListPageState extends State<ListPage> {
         }
       });
     });
+  }
+
+  List<DataRow> getRowsToDipslay(BuildContext context) {
+    List<DataRow> allRows = bleuDataSource.getData(context, showDeleted);
+    if (prenomFilter == null && regioFilter == null) return allRows;
+
+    List<DataRow> filteredRows = allRows.where((bleu) {
+      bool choosed = true;
+      if (regioFilter != null) {
+        Text regioColumn = bleu.cells[2].child as Text;
+        choosed = regioColumn.data == regioFilter;
+      }
+      if (choosed && prenomFilter != null) {
+        Text prenomColumn = bleu.cells[0].child as Text;
+        choosed = prenomColumn.data!.contains(prenomFilter!);
+      }
+      return choosed;
+    }).toList();
+
+    return filteredRows;
   }
 
   @override
@@ -91,8 +117,13 @@ class _ListPageState extends State<ListPage> {
                       onSort: (columnIndex, ascending) => sort<String>(
                           (b) => b.firstname, columnIndex, ascending),
                     ),
+                    DataColumn(
+                      label: const Text("Regio"),
+                      onSort: (columnIndex, ascending) => sort<String>(
+                              (b) => b.regio, columnIndex, ascending),
+                    ),
                   ],
-                  rows: bleuDataSource.getData(context, showDeleted),
+                  rows: getRowsToDipslay(context),
                 ),
               ],
             ),

@@ -30,8 +30,11 @@ class _ListPageState extends State<ListPage> {
   /// Contains the prenoms to display, null means all
   String? prenomFilter;
 
+  /// TextField controller for the prenom's filter
+  late final TextEditingController prenomController;
+
   /// Give an access to all bleu
-  final BleuDataSource bleuDataSource = BleuDataSource();
+  late final BleuDataSource bleuDataSource;
 
   void sort<T>(
     Comparable<T> Function(Bleu b) getField,
@@ -48,7 +51,9 @@ class _ListPageState extends State<ListPage> {
   @override
   void initState() {
     super.initState();
-    // fetch from the server all bleu
+    prenomController = TextEditingController();
+    bleuDataSource = BleuDataSource();
+    // fetch from the server all bleu and then refresh
     bleuDataSource.fetch().then((res) {
       setState(() {
         fetching = false;
@@ -62,6 +67,12 @@ class _ListPageState extends State<ListPage> {
         }
       });
     });
+  }
+
+  @override
+  void dispose() {
+    prenomController.dispose();
+    super.dispose();
   }
 
   /// Return rows to display depending on [showDeleted], [prenomFilter] and [regioFilter]
@@ -85,6 +96,103 @@ class _ListPageState extends State<ListPage> {
     return filteredRows;
   }
 
+  Widget _buildProgressIndictor(BuildContext context) {
+    if (fetching) {
+      return const CircularProgressIndicator(color: Colors.redAccent);
+    }
+    return const Text(''); // No progress indicator, the widget is invisible
+  }
+
+  Widget _buildTable(BuildContext context) {
+    return SingleChildScrollView(
+      child: ListView(
+        scrollDirection: Axis.vertical,
+        // To fix "Vertical viewport was given unbounded height" error
+        shrinkWrap: true,
+        // To fix "Vertical viewport was given unbounded height" error
+        primary: true,
+        // To make the scrollview work on desktop
+        restorationId: 'data_table_list_view',
+        padding: const EdgeInsets.all(16),
+        children: [
+          DataTable(
+            showCheckboxColumn: false,
+            sortColumnIndex: selectedColumn,
+            sortAscending: sortAscending,
+            columns: [
+              DataColumn(
+                label: const Text("Nom"),
+                onSort: (columnIndex, ascending) =>
+                    sort<String>((b) => b.lastname, columnIndex, ascending),
+              ),
+              DataColumn(
+                label: const Text("Prénom"),
+                onSort: (columnIndex, ascending) =>
+                    sort<String>((b) => b.firstname, columnIndex, ascending),
+              ),
+              DataColumn(
+                label: const Text("Regio"),
+                onSort: (columnIndex, ascending) =>
+                    sort<String>((b) => b.regio, columnIndex, ascending),
+              ),
+            ],
+            rows: getRowsToDipslay(context),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildFilter(BuildContext context) {
+    return Card(
+      child: ListTile(
+        leading: const Icon(Icons.search),
+        title: Row(
+          children: [
+            Flexible(
+              child: TextField(
+                controller: prenomController,
+                decoration: const InputDecoration(
+                    hintText: 'Rechercher un prénom', border: InputBorder.none),
+                onChanged: (value) {
+                  setState(() {
+                    prenomFilter = value.isEmpty ? null : value;
+                  });
+                },
+              ),
+            ),
+            DropdownButton<String>(
+              value: regioFilter,
+              hint: const Text("Region"),
+              onChanged: (String? value) {
+                // This is called when the user selects an item.
+                setState(() {
+                  regioFilter = value;
+                });
+              },
+              items: bleuAllRegio.map<DropdownMenuItem<String>>((String regio) {
+                return DropdownMenuItem<String>(
+                  value: regio,
+                  child: Text(regio),
+                );
+              }).toList(),
+            ),
+          ],
+        ),
+        trailing: IconButton(
+          icon: const Icon(Icons.cancel),
+          onPressed: () {
+            setState(() {
+              prenomController.clear();
+              prenomFilter = null;
+              regioFilter = null;
+            });
+          },
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -92,42 +200,12 @@ class _ListPageState extends State<ListPage> {
       body: Stack(
         alignment: AlignmentDirectional.center,
         children: [
-          fetching
-              ? const CircularProgressIndicator(
-                  color: Colors.redAccent,
-                )
-              : const Text(''),
-          Scrollbar(
-            child: ListView(
-              primary: true, // To make the scrollview work on desktop
-              restorationId: 'data_table_list_view',
-              padding: const EdgeInsets.all(16),
-              children: [
-                DataTable(
-                  showCheckboxColumn: false,
-                  sortColumnIndex: selectedColumn,
-                  sortAscending: sortAscending,
-                  columns: [
-                    DataColumn(
-                      label: const Text("Nom"),
-                      onSort: (columnIndex, ascending) => sort<String>(
-                          (b) => b.lastname, columnIndex, ascending),
-                    ),
-                    DataColumn(
-                      label: const Text("Prénom"),
-                      onSort: (columnIndex, ascending) => sort<String>(
-                          (b) => b.firstname, columnIndex, ascending),
-                    ),
-                    DataColumn(
-                      label: const Text("Regio"),
-                      onSort: (columnIndex, ascending) => sort<String>(
-                              (b) => b.regio, columnIndex, ascending),
-                    ),
-                  ],
-                  rows: getRowsToDipslay(context),
-                ),
-              ],
-            ),
+          _buildProgressIndictor(context),
+          Column(
+            children: [
+              _buildFilter(context),
+              _buildTable(context),
+            ],
           ),
         ],
       ),
@@ -135,11 +213,11 @@ class _ListPageState extends State<ListPage> {
         title: Text(widget.title),
         actions: [
           IconButton(
-             // allow to switch from list of remaining and deleted bleu
-              onPressed: () => setState(() => showDeleted = !showDeleted),
-              icon: showDeleted
-                  ? const Icon(Icons.person)
-                  : const Icon(Icons.person_remove),
+            // allow to switch from list of remaining and deleted bleu
+            onPressed: () => setState(() => showDeleted = !showDeleted),
+            icon: showDeleted
+                ? const Icon(Icons.person)
+                : const Icon(Icons.person_remove),
           )
         ],
       ),

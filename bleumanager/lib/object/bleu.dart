@@ -24,6 +24,9 @@ class ChangeNotifierParametric<T> {
   bool removeListener(void Function(T param) callback) => _listeners.remove(callback);
 }
 
+/// Contains all regio name recognized by the server
+const List<String> bleuAllRegio = ["boraine", "carolo", "centrale", "front"];
+
 /// Contains all Json key used by the server to identify the bleu's attributes.
 /// Allow to translate the attribute name used in [Bleu] with the one used on the server
 class _BleuJsonKey {

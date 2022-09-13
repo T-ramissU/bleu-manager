@@ -42,17 +42,19 @@ class _ListPageState extends State<ListPage> {
   @override
   void initState() {
     super.initState();
+    // fetch from the server all bleu
     bleuDataSource.fetch().then((res) {
-      fetching = false;
-      switch (res) {
-        case 1: // unauthorized access TODO SHOW ERROR POPUP
-          Navigator.pushReplacementNamed(
-              context, "/login"); // redirect to LoginPage
-          break;
-        case 3: // server error TODO SHOW ERROR POPUP
-          break;
-      }
-      setState(() {});
+      setState(() {
+        fetching = false;
+        switch (res) {
+          case 1: // unauthorized access TODO SHOW ERROR POPUP
+            // redirect to LoginPage
+            Navigator.pushReplacementNamed(context, "/login");
+            break;
+          case 3: // server error TODO SHOW ERROR POPUP
+            break;
+        }
+      });
     });
   }
 
@@ -89,11 +91,6 @@ class _ListPageState extends State<ListPage> {
                       onSort: (columnIndex, ascending) => sort<String>(
                           (b) => b.firstname, columnIndex, ascending),
                     ),
-                    DataColumn(
-                      label: const Text("Regio"),
-                      onSort: (columnIndex, ascending) =>
-                          sort<String>((b) => b.regio, columnIndex, ascending),
-                    ),
                   ],
                   rows: bleuDataSource.getData(context, showDeleted),
                 ),
@@ -106,10 +103,12 @@ class _ListPageState extends State<ListPage> {
         title: Text(widget.title),
         actions: [
           IconButton(
+             // allow to switch from list of remaining and deleted bleu
               onPressed: () => setState(() => showDeleted = !showDeleted),
               icon: showDeleted
                   ? const Icon(Icons.person)
-                  : const Icon(Icons.person_remove))
+                  : const Icon(Icons.person_remove),
+          )
         ],
       ),
     );

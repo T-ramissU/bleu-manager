@@ -1,13 +1,12 @@
-// Copyright 2019 The Flutter team. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
-
-import 'package:bleumanager/object/bleu.dart';
 import 'package:flutter/material.dart';
 
+import 'package:bleumanager/object/bleu.dart';
+
+/// Offer to the user the possibility to modify a bleu
 class EditPage extends StatefulWidget {
   final Bleu _bleu;
 
+  /// [_bleu] to modify in the page
   const EditPage(this._bleu, {super.key});
 
   @override
@@ -25,7 +24,7 @@ class _EditPageState extends State<EditPage> {
   final locController = TextEditingController();
   final ageController = TextEditingController();
   final bdController = TextEditingController();
-  final sexeController =  TextEditingController();
+  final sexeController = TextEditingController();
   final respController = TextEditingController();
   final telrespController = TextEditingController();
   final ramController1 = TextEditingController();
@@ -38,6 +37,7 @@ class _EditPageState extends State<EditPage> {
   @override
   void initState() {
     super.initState();
+    // TODO MARK AS MODIFIED TO UPDATE THEM ON SAVE
     fnameController.addListener(() => setState(() {}));
     lnameController.addListener(() => setState(() {}));
     numberController.addListener(() => setState(() {}));
@@ -58,13 +58,14 @@ class _EditPageState extends State<EditPage> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-        onTap: () {
-          FocusManager.instance.primaryFocus?.unfocus();
-          //hides keyboard when the screen is pressed
-        },
-        child: Scaffold(
-            body: Stack(children: [
-          SingleChildScrollView(
+      onTap: () {
+        // Hides keyboard when the screen is pressed
+        FocusManager.instance.primaryFocus?.unfocus();
+      },
+      child: Scaffold(
+        body: Stack(
+          children: [
+            SingleChildScrollView(
               keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
               child: Container(
                 padding: EdgeInsets.only(
@@ -94,14 +95,18 @@ class _EditPageState extends State<EditPage> {
                       ),
                       onPressed: () {
                         Navigator.pop(context);
-                        //TODO mettre à jour l'object Bleu
+                        //TODO mettre à jour ce qui a été modifié
                       },
                       child: const Text("Mettre à jour"),
                     ),
                   ],
                 ),
-              ))
-        ])));
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   Widget buildFName(Bleu bleu) => TextField(
@@ -123,8 +128,8 @@ class _EditPageState extends State<EditPage> {
           labelText: 'Nom',
           prefixIcon: Icon(Icons.person_outline),
         ),
-        keyboardType: TextInputType.name,
         // suggests emails when keyboard is opened if any saved
+        keyboardType: TextInputType.name,
         textInputAction: TextInputAction.done,
       );
 

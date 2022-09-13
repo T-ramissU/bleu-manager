@@ -4,19 +4,29 @@ import 'package:bleumanager/widget/bleu_popup.dart';
 import 'package:flutter/material.dart';
 import 'package:tuple/tuple.dart';
 
+/// Inerith of this class allow to add listenner on the object
+/// The difference with [ChangeNotifier] is that a parameter of type [T] can 
+/// be passed by the notifier to the listener.
 class ChangeNotifierParametric<T> {
-  List<void Function(T param)> listeners = [];
+  final List<void Function(T param)> _listeners = [];
 
-  void addListener(void Function(T param) callback) => listeners.add(callback);
+  /// Add a listener
+  void addListener(void Function(T param) callback) => _listeners.add(callback);
 
+  /// Notify all listeners
   void notifyListeners(T arg) {
-    for (dynamic listener in listeners) {
+    for (dynamic listener in _listeners) {
       listener(arg);
     }
   }
+
+  /// Return true if the listener has been removed, false if it does not exists
+  bool removeListener(void Function(T param) callback) => _listeners.remove(callback);
 }
 
-class BleuJsonKey {
+/// Contains all Json key used by the server to identify the bleu's attributes.
+/// Allow to translate the attribute name used in [Bleu] with the one used on the server
+class _BleuJsonKey {
   static const String lastname = "Nom";
   static const String firstname = "Prenom";
   static const String sexe = "Sexe";
@@ -36,6 +46,7 @@ class BleuJsonKey {
   static const String ram4 = " Ramassage4";
 }
 
+/// Represents a bleu
 class Bleu with ChangeNotifierParametric<String> {
   String _lastname;
   String _firstname;
@@ -74,162 +85,149 @@ class Bleu with ChangeNotifierParametric<String> {
       this._resp,
       this._telresp);
 
+  /// Convert a json object where the keys are the static attribute of the class [_BleuJsonKey],
+  /// to a [Bleu] object
   Bleu.fromJson(Map<String, dynamic> json)
-      : _lastname = json[BleuJsonKey.lastname],
-        _firstname = json[BleuJsonKey.firstname],
-        _sexe = json[BleuJsonKey.sexe],
-        _del = json[BleuJsonKey.del] == '1',
-        _regio = json[BleuJsonKey.regio],
-        _tel = json[BleuJsonKey.tel],
-        _com = json[BleuJsonKey.com],
-        _med = json[BleuJsonKey.med],
-        _age = json[BleuJsonKey.age],
-        _bd = json[BleuJsonKey.bd],
-        _loc = json[BleuJsonKey.loc],
-        _ram1 = json[BleuJsonKey.ram1],
-        _ram2 = json[BleuJsonKey.ram2],
-        _ram3 = json[BleuJsonKey.ram3],
-        _ram4 = json[BleuJsonKey.ram4],
-        _resp = json[BleuJsonKey.resp],
-        _telresp = json[BleuJsonKey.telresp];
+      : _lastname = json[_BleuJsonKey.lastname],
+        _firstname = json[_BleuJsonKey.firstname],
+        _sexe = json[_BleuJsonKey.sexe],
+        _del = json[_BleuJsonKey.del] == '1',
+        _regio = json[_BleuJsonKey.regio],
+        _tel = json[_BleuJsonKey.tel],
+        _com = json[_BleuJsonKey.com],
+        _med = json[_BleuJsonKey.med],
+        _age = json[_BleuJsonKey.age],
+        _bd = json[_BleuJsonKey.bd],
+        _loc = json[_BleuJsonKey.loc],
+        _ram1 = json[_BleuJsonKey.ram1],
+        _ram2 = json[_BleuJsonKey.ram2],
+        _ram3 = json[_BleuJsonKey.ram3],
+        _ram4 = json[_BleuJsonKey.ram4],
+        _resp = json[_BleuJsonKey.resp],
+        _telresp = json[_BleuJsonKey.telresp];
 
+  /// Convert a [Bleu] object, to a json object where the keys
+  /// are the static attribute of the class [_BleuJsonKey]
   Map<String, dynamic> toJson() => {
-        BleuJsonKey.lastname: _lastname,
-        BleuJsonKey.firstname: _firstname,
-        BleuJsonKey.sexe: _sexe,
-        BleuJsonKey.del: _del.toString(),
-        BleuJsonKey.regio: _regio,
-        BleuJsonKey.tel: _tel,
-        BleuJsonKey.com: _com,
-        BleuJsonKey.med: _med,
-        BleuJsonKey.age: _age,
-        BleuJsonKey.bd: _bd,
-        BleuJsonKey.loc: _loc,
-        BleuJsonKey.ram1: _ram1,
-        BleuJsonKey.ram2: _ram2,
-        BleuJsonKey.ram3: _ram3,
-        BleuJsonKey.ram4: _ram4,
-        BleuJsonKey.resp: _resp,
-        BleuJsonKey.telresp: _telresp,
+        _BleuJsonKey.lastname: _lastname,
+        _BleuJsonKey.firstname: _firstname,
+        _BleuJsonKey.sexe: _sexe,
+        _BleuJsonKey.del: _del.toString(),
+        _BleuJsonKey.regio: _regio,
+        _BleuJsonKey.tel: _tel,
+        _BleuJsonKey.com: _com,
+        _BleuJsonKey.med: _med,
+        _BleuJsonKey.age: _age,
+        _BleuJsonKey.bd: _bd,
+        _BleuJsonKey.loc: _loc,
+        _BleuJsonKey.ram1: _ram1,
+        _BleuJsonKey.ram2: _ram2,
+        _BleuJsonKey.ram3: _ram3,
+        _BleuJsonKey.ram4: _ram4,
+        _BleuJsonKey.resp: _resp,
+        _BleuJsonKey.telresp: _telresp,
       };
 
   String get lastname => _lastname;
-
-  String get firstname => _firstname;
-
-  String get sexe => _sexe;
-
-  bool get del => _del;
-
-  String get regio => _regio;
-
-  String get tel => _tel;
-
-  String get com => _com;
-
-  String get med => _med;
-
-  String get age => _age;
-
-  String get loc => _loc;
-
-  String get bd => _bd;
-
-  String get ram1 => _ram1;
-
-  String get ram2 => _ram2;
-
-  String get ram3 => _ram3;
-
-  String get ram4 => _ram4;
-
-  String get resp => _resp;
-
-  String get telresp => _telresp;
-
   set lastname(String value) {
     _lastname = value;
-    notifyListeners(BleuJsonKey.lastname);
+    notifyListeners(_BleuJsonKey.lastname);
   }
 
+  String get firstname => _firstname;
   set firstname(String value) {
     _firstname = value;
-    notifyListeners(BleuJsonKey.lastname);
+    notifyListeners(_BleuJsonKey.lastname);
   }
 
+  String get sexe => _sexe;
   set sexe(String value) {
     _sexe = value;
-    notifyListeners(BleuJsonKey.sexe);
+    notifyListeners(_BleuJsonKey.sexe);
   }
 
-  set del(bool supp) {
-    _del = supp;
-    notifyListeners(BleuJsonKey.del);
+  bool get del => _del;
+  set del(bool value) {
+    _del = value;
+    notifyListeners(_BleuJsonKey.del);
   }
 
+  String get regio => _regio;
   set regio(String value) {
     _regio = value;
-    notifyListeners(BleuJsonKey.regio);
+    notifyListeners(_BleuJsonKey.regio);
   }
 
+  String get tel => _tel;
   set tel(String value) {
     _tel = value;
-    notifyListeners(BleuJsonKey.tel);
+    notifyListeners(_BleuJsonKey.tel);
   }
 
+  String get com => _com;
   set com(String value) {
     _com = value;
-    notifyListeners(BleuJsonKey.com);
+    notifyListeners(_BleuJsonKey.com);
   }
 
+  String get med => _med;
   set med(String value) {
     _med = value;
-    notifyListeners(BleuJsonKey.med);
+    notifyListeners(_BleuJsonKey.med);
   }
 
+  String get age => _age;
   set age(String value) {
     _age = value;
-    notifyListeners(BleuJsonKey.age);
+    notifyListeners(_BleuJsonKey.age);
   }
 
+  String get loc => _loc;
   set loc(String value) {
     _loc = value;
-    notifyListeners(BleuJsonKey.loc);
+    notifyListeners(_BleuJsonKey.loc);
   }
 
+  String get bd => _bd;
   set bd(String value) {
     _bd = value;
-    notifyListeners(BleuJsonKey.bd);
+    notifyListeners(_BleuJsonKey.bd);
   }
 
-  set resp(String value) {
-    _resp = value;
-    notifyListeners(BleuJsonKey.resp);
-  }
-
-  set telresp(String value) {
-    _telresp = value;
-    notifyListeners(BleuJsonKey.telresp);
-  }
-
+  String get ram1 => _ram1;
   set ram1(String value) {
     _ram1 = value;
-    notifyListeners(BleuJsonKey.ram1);
+    notifyListeners(_BleuJsonKey.ram1);
   }
 
+  String get ram2 => _ram2;
   set ram2(String value) {
     _ram2 = value;
-    notifyListeners(BleuJsonKey.ram2);
+    notifyListeners(_BleuJsonKey.ram2);
   }
 
+  String get ram3 => _ram3;
   set ram3(String value) {
     _ram3 = value;
-    notifyListeners(BleuJsonKey.ram3);
+    notifyListeners(_BleuJsonKey.ram3);
   }
 
+  String get ram4 => _ram4;
   set ram4(String value) {
     _ram4 = value;
-    notifyListeners(BleuJsonKey.ram4);
+    notifyListeners(_BleuJsonKey.ram4);
+  }
+
+  String get resp => _resp;
+  set resp(String value) {
+    _resp = value;
+    notifyListeners(_BleuJsonKey.resp);
+  }
+
+  String get telresp => _telresp;
+  set telresp(String value) {
+    _telresp = value;
+    notifyListeners(_BleuJsonKey.telresp);
   }
 }
 
@@ -247,29 +245,35 @@ class BleuDataSource with ChangeNotifier {
     Tuple2 res = await ServerConnector.fetchBleu(Credential());
 
     for (Bleu bleu in res.item1) {
-      bleu.addListener(
-          (String updatedJsonKey) => _updateBleu(bleu, updatedJsonKey));
+      // When the [bleu] is modified, the notifier send the updated attribute as a [updatedJsonKey] string,
+      // which correspond to a static attribute of the class [BleuJsonKey]
+      // which is propoagated to the function [_updateBleu] in order to update the
+      // corresponding [bleu] on the server
+      bleu.addListener((String updatedJsonKey) => _updateBleu(bleu, updatedJsonKey));
       bleu.del ? _bleuDeleted.add(bleu) : _bleuRemaining.add(bleu);
     }
 
     return res.item1;
   }
 
+  /// Callback fonction triggered when a [Bleu] object is modified
+  /// in order to update the [bleu] on the server. Using the
+  /// [updatedJsonKey] string (given by the class [_BleuJsonKey])
+  /// to identify the attribute updated
   void _updateBleu(Bleu bleu, String updatedJsonKey) {
     String? value;
+    // determine the updated attribute
     switch (updatedJsonKey) {
-      // determine the updated attribute
-
-      case BleuJsonKey.lastname:
+      case _BleuJsonKey.lastname:
         value = bleu.lastname;
         break;
-      case BleuJsonKey.firstname:
+      case _BleuJsonKey.firstname:
         value = bleu.firstname;
         break;
-      case BleuJsonKey.sexe:
+      case _BleuJsonKey.sexe:
         value = bleu.sexe;
         break;
-      case BleuJsonKey.del:
+      case _BleuJsonKey.del:
         {
           //place the bleu in the right list if bleu.del has been switched
           int i = _bleuRemaining.indexOf(bleu);
@@ -285,52 +289,55 @@ class BleuDataSource with ChangeNotifier {
           value = bleu.del.toString();
         }
         break;
-      case BleuJsonKey.regio:
+      case _BleuJsonKey.regio:
         value = bleu.regio;
         break;
-      case BleuJsonKey.tel:
+      case _BleuJsonKey.tel:
         value = bleu.tel;
         break;
-      case BleuJsonKey.com:
+      case _BleuJsonKey.com:
         value = bleu.com;
         break;
-      case BleuJsonKey.med:
+      case _BleuJsonKey.med:
         value = bleu.med;
         break;
-      case BleuJsonKey.age:
+      case _BleuJsonKey.age:
         value = bleu.age;
         break;
-      case BleuJsonKey.bd:
+      case _BleuJsonKey.bd:
         value = bleu.bd;
         break;
-      case BleuJsonKey.loc:
+      case _BleuJsonKey.loc:
         value = bleu.loc;
         break;
-      case BleuJsonKey.resp:
+      case _BleuJsonKey.resp:
         value = bleu.resp;
         break;
-      case BleuJsonKey.telresp:
+      case _BleuJsonKey.telresp:
         value = bleu.telresp;
         break;
-      case BleuJsonKey.ram1:
+      case _BleuJsonKey.ram1:
         value = bleu.ram1;
         break;
-      case BleuJsonKey.ram2:
+      case _BleuJsonKey.ram2:
         value = bleu.ram2;
         break;
-      case BleuJsonKey.ram3:
+      case _BleuJsonKey.ram3:
         value = bleu.ram3;
         break;
-      case BleuJsonKey.ram4:
+      case _BleuJsonKey.ram4:
         value = bleu.ram4;
         break;
     }
     if (value != null) {
-      ServerConnector.modifyBleu(Credential(), updatedJsonKey, value);
+      ServerConnector.modifyBleu(Credential(), updatedJsonKey, value); // update it on the server
     }
   }
 
-  // Set [deleted] to true to sort deleted Bleu other it sort remaining Bleu
+  /// Sort bleu
+  ///
+  /// Set [deleted] to true to sort deleted all bleu, otherwise it sort all remainig bleu
+  /// [ascending] determines if the sort is in ascending or descending order
   void sort<T>(Comparable<T> Function(Bleu b) getField, bool ascending,
       {bool? deleted}) {
     List<Bleu> list = deleted == null ? _bleuRemaining : _bleuDeleted;
@@ -343,7 +350,12 @@ class BleuDataSource with ChangeNotifier {
     });
   }
 
-  // Set [deleted] to true to get deleted Bleu otherwise it return remaining Bleu
+  /// Return all bleu as a [List] of [DataRow] where each [DataCell] of the row is the [Text] value of a bleu's attribute
+  /// The cells order is the following :  [Bleu.lastname], [Bleu.firstname], [Bleu.sexe],
+  /// [Bleu.regio], [Bleu.tel], [Bleu.com], [Bleu.med], [Bleu.age], [Bleu.bd], [Bleu.loc], [Bleu.resp],
+  /// [Bleu.telresp], [Bleu.ram1], [Bleu.ram2], [Bleu.ram3], [Bleu.ram4]
+  ///
+  /// Set [deleted] to true to get all deleted bleu otherwise it return all remaining bleu
   List<DataRow> getData(BuildContext context, bool deleted) {
     List<Bleu> list = deleted ? _bleuDeleted : _bleuRemaining;
 
@@ -358,6 +370,21 @@ class BleuDataSource with ChangeNotifier {
         cells: [
           DataCell(Text(bleu.firstname)),
           DataCell(Text(bleu.lastname)),
+          /* TODO DETERMINER LA RÉPARTITON DANS LISTPAGE/DETAILPAGE
+          DataCell(Text(bleu.sexe)),
+          DataCell(Text(bleu.regio)),
+          DataCell(Text(bleu.tel)),
+          DataCell(Text(bleu.com)),
+          DataCell(Text(bleu.med)),
+          DataCell(Text(bleu.age)),
+          DataCell(Text(bleu.bd)),
+          DataCell(Text(bleu.loc)),
+          DataCell(Text(bleu.resp)),
+          DataCell(Text(bleu.telresp)),
+          DataCell(Text(bleu.ram1)),
+          DataCell(Text(bleu.ram2)),
+          DataCell(Text(bleu.ram3)),
+          DataCell(Text(bleu.ram4)),*/
         ],
       );
       listBleu.add(row);

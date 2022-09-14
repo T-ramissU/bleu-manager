@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+
 import 'package:bleumanager/object/bleu.dart';
+import 'package:bleumanager/util/show_message.dart';
 
 /// Display all bleu and offer to the user the possibility to manage them
 class ListPage extends StatefulWidget {
@@ -58,11 +60,13 @@ class _ListPageState extends State<ListPage> {
       setState(() {
         fetching = false;
         switch (res) {
-          case 1: // unauthorized access TODO SHOW ERROR POPUP
-            // redirect to LoginPage
-            Navigator.pushReplacementNamed(context, "/login");
+          case 1: // unauthorized access
+            showMessage(context, "Accès non autorisé. Vous avez été déconnecté.");
+            Navigator.pushReplacementNamed(context, "/login"); // redirect to LoginPage
             break;
-          case 3: // server error TODO SHOW ERROR POPUP
+          case 3: // server error
+            showMessage(context,
+                "Une erreur est survenue lors de la communication avec le serveur.");
             break;
         }
       });

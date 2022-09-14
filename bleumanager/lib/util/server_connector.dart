@@ -68,10 +68,15 @@ class ServerConnector {
       return const Tuple2([], 1);
     }
 
-    var res = await http.post(Uri.parse(_fetchBleuUrl), body: {
-      "matricule": credential.username,
-      "token": credential.password,
-    });
+    dynamic res;
+    try {
+      res = await http.post(Uri.parse(_fetchBleuUrl), body: {
+        "matricule": credential.username,
+        "token": credential.password,
+      });
+    } on Exception catch (_) {
+      return const Tuple2([], 3);
+    }
 
     List<Bleu> bleuList = [];
     for (dynamic bleuJson in json.decode(res.body)) {

@@ -1,3 +1,4 @@
+import 'package:bleumanager/util/show_message.dart';
 import 'package:flutter/material.dart';
 
 import 'package:bleumanager/util/credential.dart';
@@ -18,7 +19,6 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final TextEditingController matriculeController = TextEditingController();
   final TextEditingController tokenController = TextEditingController();
-  String errorMessage = ""; // no error message by default
 
   @override
   Widget build(BuildContext context) {
@@ -33,10 +33,6 @@ class _LoginPageState extends State<LoginPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            Text(
-              errorMessage,
-              style: const TextStyle(color: Colors.redAccent),
-            ),
             const SizedBox(height: 15),
             TextField(
               controller: matriculeController,
@@ -87,13 +83,13 @@ class _LoginPageState extends State<LoginPage> {
                             Navigator.pushReplacementNamed(context, "/list");
                             return;
                           case 1:
-                            errorMessage = "Identifiant invalide";
+                            showMessage(context, "Identifiant invalides.");
                             break;
                           case 3:
-                            errorMessage = "Une erreur est survenue";
+                            showMessage(context,
+                                "Une erreur est survenue lors de la communication avec le serveur.");
                         }
                         Credential().delete(); // delete seved credential
-                        setState(() {}); // relaad to show the error message
                       });
                     },
                     icon: const Icon(Icons.arrow_forward_rounded)),

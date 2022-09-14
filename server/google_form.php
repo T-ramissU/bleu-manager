@@ -6,7 +6,6 @@ if (!isset($_POST["nom"]) || !isset($_POST["prenom"]) || !isset($_POST["regio"])
     !isset($_POST["sexe"]) || !isset($_POST["adresse"]) || !isset($_POST["respLegal"]) ||
     isset($_POST["telRespLegal"]) ) {
     http_response_code(BAD_REQUEST);
-    //updater avec la table listing
     exit();
 }
 
@@ -28,10 +27,9 @@ if ($conn->connect_error) { // connection to the mysql db failed
 }
 
 // Execute query
-$query = "INSERT INTO LISTING (Nom,Prenom,Sexe,DateN,Adresse,Med,Com,Tel,Regio,Supp,RespLegal
-,NumRespLegal) VALUES ('" . $nom . "','" . $prenom . "','" . $sexe . "','" . $dateN .
- "','" . $adresse ."','" . $med "','" . $com "','" . $tel "','" . $regio "','" . $supp "','" .
-  $respLegal "','" . $telRespLegal "')" ;
+$query = "INSERT INTO LISTING (Nom,Prenom,Sexe,DateN,Adresse,Med,Com,Tel,Regio,Supp,RespLegal,NumRespLegal) VALUES ('" . 
+$nom . "','" . $prenom . "','" . $sexe . "','" . $dateN . "','" . $adresse . "','" . $med . "','" . $com . "','" . 
+$tel . "','" . $regio . "','" . $supp . "','" . $respLegal . "','" . $telRespLegal . "')";
 $result = $conn->query($query);
 
 if (!$result) { // bad query

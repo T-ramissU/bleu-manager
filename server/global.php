@@ -11,8 +11,10 @@ define('SERVER_ERROR', 500);
 function checkAdmin($conn, $matricule, $token) {
     $querry ="SELECT * FROM ADMIN";
     $result= $conn->querry($querry);
-    if(array_key_exists($matricule,$result) && $result[$matricule]==$token)
-    return true;
-    return false;
+    if (!$result) // bad query
+        return false;
+    
+    
+    return array_key_exists($matricule,$result) && $result[$matricule]==$token;
 }
 ?>

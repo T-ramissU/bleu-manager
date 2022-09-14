@@ -43,10 +43,10 @@ class _BleuJsonKey {
   static const String med = "Med";
   static const String resp = "RespLegal";
   static const String telresp = "NumRespLegal";
-  static const String ram1 = "Ramasage1";
+  static const String ram1 = "Ramassage1";
   static const String ram2 = "Ramassage2";
   static const String ram3 = "Ramassage3";
-  static const String ram4 = " Ramassage4";
+  static const String ram4 = "Ramassage4";
 }
 
 /// Represents a bleu
@@ -59,7 +59,6 @@ class Bleu with ChangeNotifierParametric<String> {
   String _tel;
   String _com;
   String _med;
-  String _age;
   String _bd;
   String _loc;
   String _resp;
@@ -78,7 +77,6 @@ class Bleu with ChangeNotifierParametric<String> {
       this._tel,
       this._med,
       this._com,
-      this._age,
       this._bd,
       this._loc,
       this._ram1,
@@ -99,7 +97,6 @@ class Bleu with ChangeNotifierParametric<String> {
         _tel = json[_BleuJsonKey.tel],
         _com = json[_BleuJsonKey.com],
         _med = json[_BleuJsonKey.med],
-        _age = json[_BleuJsonKey.age],
         _bd = json[_BleuJsonKey.bd],
         _loc = json[_BleuJsonKey.loc],
         _ram1 = json[_BleuJsonKey.ram1],
@@ -120,7 +117,6 @@ class Bleu with ChangeNotifierParametric<String> {
         _BleuJsonKey.tel: _tel,
         _BleuJsonKey.com: _com,
         _BleuJsonKey.med: _med,
-        _BleuJsonKey.age: _age,
         _BleuJsonKey.bd: _bd,
         _BleuJsonKey.loc: _loc,
         _BleuJsonKey.ram1: _ram1,
@@ -177,12 +173,6 @@ class Bleu with ChangeNotifierParametric<String> {
   set med(String value) {
     _med = value;
     notifyListeners(_BleuJsonKey.med);
-  }
-
-  String get age => _age;
-  set age(String value) {
-    _age = value;
-    notifyListeners(_BleuJsonKey.age);
   }
 
   String get loc => _loc;
@@ -256,7 +246,7 @@ class BleuDataSource with ChangeNotifier {
       bleu.del ? _bleuDeleted.add(bleu) : _bleuRemaining.add(bleu);
     }
 
-    return res.item1;
+    return res.item2;
   }
 
   /// Callback fonction triggered when a [Bleu] object is modified
@@ -303,9 +293,6 @@ class BleuDataSource with ChangeNotifier {
         break;
       case _BleuJsonKey.med:
         value = bleu.med;
-        break;
-      case _BleuJsonKey.age:
-        value = bleu.age;
         break;
       case _BleuJsonKey.bd:
         value = bleu.bd;
@@ -355,7 +342,7 @@ class BleuDataSource with ChangeNotifier {
 
   /// Return all bleu as a [List] of [DataRow] where each [DataCell] of the row is the [Text] value of a bleu's attribute
   /// The cells order is the following :  [Bleu.lastname], [Bleu.firstname], [Bleu.sexe],
-  /// [Bleu.regio], [Bleu.tel], [Bleu.com], [Bleu.med], [Bleu.age], [Bleu.bd], [Bleu.loc], [Bleu.resp],
+  /// [Bleu.regio], [Bleu.tel], [Bleu.com], [Bleu.med], [Bleu.bd], [Bleu.loc], [Bleu.resp],
   /// [Bleu.telresp], [Bleu.ram1], [Bleu.ram2], [Bleu.ram3], [Bleu.ram4]
   ///
   /// Set [deleted] to true to get all deleted bleu otherwise it return all remaining bleu
@@ -379,7 +366,6 @@ class BleuDataSource with ChangeNotifier {
           DataCell(Text(bleu.tel)),
           DataCell(Text(bleu.com)),
           DataCell(Text(bleu.med)),
-          DataCell(Text(bleu.age)),
           DataCell(Text(bleu.bd)),
           DataCell(Text(bleu.loc)),
           DataCell(Text(bleu.resp)),

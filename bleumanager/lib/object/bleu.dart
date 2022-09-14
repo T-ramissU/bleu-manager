@@ -151,7 +151,12 @@ class Bleu with ChangeNotifierParametric<String> {
   }
 
   String get regio => _regio;
+  /// Throw [Exception] in case of non accepted [value]
+  /// The list of valid [value] are in given by [allBleuRegio]
   set regio(String value) {
+    if (!bleuAllRegio.contains(value)) {
+      throw Exception();
+    }
     _regio = value;
     notifyListeners(_BleuJsonKey.regio);
   }
@@ -225,8 +230,8 @@ class Bleu with ChangeNotifierParametric<String> {
 
 /// Model which represents all [Bleu] objects
 class BleuDataSource with ChangeNotifier {
-  final List<Bleu> _bleuRemaining = [];
-  final List<Bleu> _bleuDeleted = [];
+  List<Bleu> _bleuRemaining = [];
+  List<Bleu> _bleuDeleted = [];
 
   /// Return an integer equal to :
   /// 0 if success
@@ -235,6 +240,9 @@ class BleuDataSource with ChangeNotifier {
   /// 3 if error server or something else
   Future<int> fetch() async {
     Tuple2 res = await ServerConnector.fetchBleu(Credential());
+
+    _bleuRemaining = [];
+    _bleuDeleted = [];
 
     for (Bleu bleu in res.item1) {
       // When the [bleu] is modified, the notifier send the updated attribute as a [updatedJsonKey] string,
@@ -252,6 +260,7 @@ class BleuDataSource with ChangeNotifier {
   /// in order to update the [bleu] on the server. Using the
   /// [updatedJsonKey] string (given by the class [_BleuJsonKey])
   /// to identify the attribute updated
+  /// Errors are ignored (client side and server side)
   void _updateBleu(Bleu bleu, String updatedJsonKey) {
     String? value;
     // determine the updated attribute

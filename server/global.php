@@ -8,6 +8,10 @@ define('BAD_REQUEST', 400);
 define('UNAUTHORIZED', 401);
 define('SERVER_ERROR', 500);
 
+function send_mail($obj, $msg) {
+    mail(MAIL_DEST, $obj, $msg, MAIL_HEADER);
+}
+
 function checkAdmin($conn, $matricule, $token) {
     $query ="SELECT * FROM ACCESS WHERE Matricule='$matricule' AND Mdp='$token'";
     $result= $conn->query($query);

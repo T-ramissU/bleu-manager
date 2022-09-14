@@ -33,7 +33,6 @@ class _BleuJsonKey {
   static const String lastname = "Nom";
   static const String firstname = "Prenom";
   static const String sexe = "Sexe";
-  static const String age = "Age";
   static const String bd = "DateN";
   static const String loc = "Adresse";
   static const String del = "Supp";

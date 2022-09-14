@@ -198,6 +198,7 @@ class _ListPageState extends State<ListPage> {
           builder: (context, snapshot) {
             if (snapshot.hasData && snapshot.data == 0) {
               // successful fetch, return table
+
               return Column(
                 children: [
                   _buildFilter(context),

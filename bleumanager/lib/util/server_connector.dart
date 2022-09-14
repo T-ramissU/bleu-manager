@@ -74,10 +74,12 @@ class ServerConnector {
     try {
       res = await http.post(Uri.parse(_fetchBleuUrl), body: {
         "matricule": credential.username,
-        "token": credential.password,
+        "token": credential.password
       });
     } on Exception catch (_) {
+
       return const Tuple2([], 3);
+
     }
 
     List<Bleu> bleuList = [];

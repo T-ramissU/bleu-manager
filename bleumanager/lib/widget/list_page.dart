@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 
 import 'package:bleumanager/object/bleu.dart';
@@ -32,51 +33,42 @@ class _ListPageState extends State<ListPage> {
   /// Contains the prenoms to display, null means all
   String? prenomFilter;
 
+  /// Used to retrigger build and contains the result code of the fetch
+  final StreamController<int> fetchController = StreamController();
+
   /// TextField controller for the prenom's filter
-  late final TextEditingController prenomController;
+  final TextEditingController prenomController = TextEditingController();
 
   /// Give an access to all bleu
-  late final BleuDataSource bleuDataSource;
+  final BleuDataSource bleuDataSource = BleuDataSource();
 
-  void sort<T>(
-    Comparable<T> Function(Bleu b) getField,
-    int columnIndex,
-    bool ascending,
-  ) {
-    bleuDataSource.sort<T>(getField, ascending);
-    setState(() {
-      selectedColumn = columnIndex;
-      sortAscending = ascending;
-    });
+  /// Fetch all bleu from the server
+  Future<void> fetch() async {
+    int res = await bleuDataSource.fetch();
+    fetchController.add(res); // trigger build
   }
 
   @override
   void initState() {
     super.initState();
-    prenomController = TextEditingController();
-    bleuDataSource = BleuDataSource();
-    // fetch from the server all bleu and then refresh
-    bleuDataSource.fetch().then((res) {
-      setState(() {
-        fetching = false;
-        switch (res) {
-          case 1: // unauthorized access
-            showMessage(context, "Accès non autorisé. Vous avez été déconnecté.");
-            Navigator.pushReplacementNamed(context, "/login"); // redirect to LoginPage
-            break;
-          case 3: // server error
-            showMessage(context,
-                "Une erreur est survenue lors de la communication avec le serveur.");
-            break;
-        }
-      });
-    });
+    fetch();
   }
 
   @override
   void dispose() {
     prenomController.dispose();
     super.dispose();
+  }
+
+  /// Sort table depending on the [columnIndex], using the value returned by [getField],
+  /// in a [ascending] order or not. (Refresh the page)
+  void sort<T>(Comparable<T> Function(Bleu b) getField, int columnIndex,
+      bool ascending) {
+    bleuDataSource.sort<T>(getField, ascending);
+    setState(() {
+      selectedColumn = columnIndex;
+      sortAscending = ascending;
+    });
   }
 
   /// Return rows to display depending on [showDeleted], [prenomFilter] and [regioFilter]
@@ -100,49 +92,45 @@ class _ListPageState extends State<ListPage> {
     return filteredRows;
   }
 
-  Widget _buildProgressIndictor(BuildContext context) {
-    if (fetching) {
-      return const CircularProgressIndicator(color: Colors.redAccent);
-    }
-    return const Text(''); // No progress indicator, the widget is invisible
-  }
-
   Widget _buildTable(BuildContext context) {
     return SingleChildScrollView(
-      child: ListView(
-        scrollDirection: Axis.vertical,
-        // To fix "Vertical viewport was given unbounded height" error
-        shrinkWrap: true,
-        // To fix "Vertical viewport was given unbounded height" error
-        primary: true,
-        // To make the scrollview work on desktop
-        restorationId: 'data_table_list_view',
-        padding: const EdgeInsets.all(16),
-        children: [
-          DataTable(
-            showCheckboxColumn: false,
-            sortColumnIndex: selectedColumn,
-            sortAscending: sortAscending,
-            columns: [
-              DataColumn(
-                label: const Text("Nom"),
-                onSort: (columnIndex, ascending) =>
-                    sort<String>((b) => b.lastname, columnIndex, ascending),
-              ),
-              DataColumn(
-                label: const Text("Prénom"),
-                onSort: (columnIndex, ascending) =>
-                    sort<String>((b) => b.firstname, columnIndex, ascending),
-              ),
-              DataColumn(
-                label: const Text("Regio"),
-                onSort: (columnIndex, ascending) =>
-                    sort<String>((b) => b.regio, columnIndex, ascending),
-              ),
-            ],
-            rows: getRowsToDipslay(context),
-          ),
-        ],
+      child: RefreshIndicator(
+        onRefresh: () => fetch(),
+        child: ListView(
+          scrollDirection: Axis.vertical,
+          // To fix "Vertical viewport was given unbounded height" error
+          shrinkWrap: true,
+          // To fix "Vertical viewport was given unbounded height" error
+          primary: true,
+          // To make the scrollview work on desktop
+          restorationId: 'data_table_list_view',
+          padding: const EdgeInsets.all(16),
+          children: [
+            DataTable(
+              showCheckboxColumn: false,
+              sortColumnIndex: selectedColumn,
+              sortAscending: sortAscending,
+              columns: [
+                DataColumn(
+                  label: const Text("Nom"),
+                  onSort: (columnIndex, ascending) =>
+                      sort<String>((b) => b.lastname, columnIndex, ascending),
+                ),
+                DataColumn(
+                  label: const Text("Prénom"),
+                  onSort: (columnIndex, ascending) =>
+                      sort<String>((b) => b.firstname, columnIndex, ascending),
+                ),
+                DataColumn(
+                  label: const Text("Regio"),
+                  onSort: (columnIndex, ascending) =>
+                      sort<String>((b) => b.regio, columnIndex, ascending),
+                ),
+              ],
+              rows: getRowsToDipslay(context),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -157,7 +145,9 @@ class _ListPageState extends State<ListPage> {
               child: TextField(
                 controller: prenomController,
                 decoration: const InputDecoration(
-                    hintText: 'Rechercher un prénom', border: InputBorder.none),
+                  hintText: 'Rechercher ...',
+                  border: InputBorder.none,
+                ),
                 onChanged: (value) {
                   setState(() {
                     prenomFilter = value.isEmpty ? null : value;
@@ -200,19 +190,40 @@ class _ListPageState extends State<ListPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // Stack is used to superpose fetching animation and list view
-      body: Stack(
-        alignment: AlignmentDirectional.center,
-        children: [
-          _buildProgressIndictor(context),
-          Column(
-            children: [
-              _buildFilter(context),
-              _buildTable(context),
-            ],
-          ),
-        ],
-      ),
+      body: StreamBuilder(
+          // will be re-trigger when fetchRes will contains a value
+          stream: fetchController.stream,
+          builder: (context, snapshot) {
+            if (snapshot.hasData && snapshot.data == 0) {
+              // successful fetch, return table
+              return Column(
+                children: [
+                  _buildFilter(context),
+                  _buildTable(context),
+                ],
+              );
+            } else if (snapshot.hasData) {
+              // error during fetch
+              // wait until build is finished to show message
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                switch (snapshot.data) {
+                  case 1: // unauthorized access
+                    showMessage(context,
+                        "Accès non autorisé. Vous avez été déconnecté.");
+                    Navigator.pushReplacementNamed(
+                        context, "/login"); // redirect to LoginPage
+                    break;
+                  case 3: // server error
+                    showMessage(context,
+                        "Une erreur est survenue lors de la communication avec le serveur.");
+                    break;
+                }
+              });
+              return const Text(""); // return invisible widget
+            }
+            // fetch not yet terminated, return progress indicator
+            return const CircularProgressIndicator(color: Colors.redAccent);
+          }),
       appBar: AppBar(
         title: Text(widget.title),
         actions: [

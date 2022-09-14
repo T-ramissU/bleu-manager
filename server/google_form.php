@@ -27,9 +27,8 @@ if ($conn->connect_error) { // connection to the mysql db failed
 }
 
 // Execute query
-$query = "INSERT INTO LISTING (Nom,Prenom,Sexe,DateN,Adresse,Med,Com,Tel,Regio,Supp,RespLegal,NumRespLegal) VALUES ('" . 
-$nom . "','" . $prenom . "','" . $sexe . "','" . $dateN . "','" . $adresse . "','" . $med . "','" . $com . "','" . 
-$tel . "','" . $regio . "','" . $supp . "','" . $respLegal . "','" . $telRespLegal . "')";
+$query = "INSERT INTO LISTING (Nom,Prenom,Sexe,DateN,Adresse,Med,Com,Tel,Regio,Supp,RespLegal,NumRespLegal) VALUES 
+('$nom','$prenom','$sexe','$dateN','$adresse','$med','$com','$tel','$regio','$supp','$respLegal','$telRespLegal')";
 $result = $conn->query($query);
 
 if (!$result) { // bad query

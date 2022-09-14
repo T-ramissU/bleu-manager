@@ -95,6 +95,7 @@ class _ListPageState extends State<ListPage> {
 
   Widget _buildTable(BuildContext context) {
     return SingleChildScrollView(
+      keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
       child: RefreshIndicator(
         onRefresh: () => fetch(),
         child: ListView(
@@ -222,7 +223,7 @@ class _ListPageState extends State<ListPage> {
                 }
               });
               return const Text(""); // return invisible widget
-            }
+            };
             // fetch not yet terminated, return progress indicator
             return const Center(
               child: CircularProgressIndicator(color: Colors.redAccent),

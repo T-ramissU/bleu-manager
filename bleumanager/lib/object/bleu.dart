@@ -25,7 +25,7 @@ class ChangeNotifierParametric<T> {
 }
 
 /// Contains all regio name recognized by the server
-const List<String> bleuAllRegio = ["boraine", "carolo", "centrale", "fronta"];
+const List<String> bleuAllRegio = [ "carolo","fronta", "centrale","boraine"];
 
 /// Contains all Json key used by the server to identify the bleu's attributes.
 /// Allow to translate the attribute name used in [Bleu] with the one used on the server
@@ -328,7 +328,7 @@ class BleuDataSource with ChangeNotifier {
         break;
     }
     if (value != null) {
-      ServerConnector.modifyBleu(Credential(), updatedJsonKey, value); // update it on the server
+      ServerConnector.modifyBleu(Credential(), updatedJsonKey, value,bleu.lastname,bleu.firstname); // update it on the server
     }
   }
 

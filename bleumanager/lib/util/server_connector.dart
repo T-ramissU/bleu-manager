@@ -42,13 +42,14 @@ class ServerConnector {
   /// Return 2 if the [key] or [value] are not valid
   /// Return 3 if error server or something else
   static Future<int> modifyBleu(
-      Credential credential, String key, String value) async {
+      Credential credential, String key, String value,String lname, String fname) async {
     if (credential.username == null || credential.password == null) return 1;
 
     var res = await http.post(Uri.parse(_modifyBleuUrl), body: {
       "matricule": credential.username,
       "token": credential.password,
-      // nom + prénom du bleu a modifier
+      "nom": lname,
+      "prenom": fname,
       "key": key,
       "value": value,
     });

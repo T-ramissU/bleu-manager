@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import 'package:bleumanager/object/bleu.dart';
 import 'package:bleumanager/util/show_message.dart';
+import 'package:bleumanager/util/credential.dart';
 
 /// Display all bleu and offer to the user the possibility to manage them
 class ListPage extends StatefulWidget {
@@ -210,6 +211,7 @@ class _ListPageState extends State<ListPage> {
                   case 1: // unauthorized access
                     showMessage(context,
                         "Accès non autorisé. Vous avez été déconnecté.");
+                    Credential().delete();
                     Navigator.pushReplacementNamed(
                         context, "/login"); // redirect to LoginPage
                     break;

@@ -9,12 +9,11 @@ define('UNAUTHORIZED', 401);
 define('SERVER_ERROR', 500);
 
 function checkAdmin($conn, $matricule, $token) {
-    $query ="SELECT * FROM ACCESS WHERE Matricule='{$matricule}' AND Mdp='{$token}'";
+    $query ="SELECT * FROM ACCESS WHERE Matricule='$matricule' AND Mdp='$token'";
     $result= $conn->query($query);
     
     if (!$result) // bad query
         return false;
     
-    error_log(mysqli_num_rows($result));
     return mysqli_num_rows($result) == 1;
 }

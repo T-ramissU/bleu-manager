@@ -30,8 +30,10 @@ if (!checkAdmin($conn, $admin_matricule, $admin_token)) {
 $query = "UPDATE LISTING FROM SET '$key'='$value' WHERE Nom='$bleu_last_name' AND Prenom='$bleu_first_name' ";
 $result = $conn->query($query);
 $conn->close();
-if($result)
+if(!$result) {
+    http_response_code(BAD_REQUEST);
+    exit();
+}
+
 http_response_code(SUCCESS);
-exit();
-http_response_code(BAD_REQUEST)
 exit();

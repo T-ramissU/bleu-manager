@@ -222,7 +222,9 @@ class _ListPageState extends State<ListPage> {
               return const Text(""); // return invisible widget
             }
             // fetch not yet terminated, return progress indicator
-            return const CircularProgressIndicator(color: Colors.redAccent);
+            return const Center(
+              child: CircularProgressIndicator(color: Colors.redAccent),
+            );
           }),
       appBar: AppBar(
         title: Text(widget.title),

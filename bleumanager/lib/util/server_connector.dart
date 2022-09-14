@@ -48,8 +48,9 @@ class ServerConnector {
     var res = await http.post(Uri.parse(_modifyBleuUrl), body: {
       "matricule": credential.username,
       "token": credential.password,
+      // nom + prénom du bleu a modifier
       "key": key,
-      key: value,
+      "value": value,
     });
 
     return _statusCodeToReturnInt(res.statusCode);

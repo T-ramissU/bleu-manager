@@ -27,7 +27,7 @@ class BleuPopup extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           TextButton(
-            child: const Text("Modifier"),
+            child: const Text("Details"),
             onPressed: () => Navigator.push(
               context,
               MaterialPageRoute(

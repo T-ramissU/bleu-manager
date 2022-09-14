@@ -34,7 +34,7 @@ $result = $conn->query($query);
 
 if (!$result) { // bad query
     $conn->close();
-    http_response_code(BAD_REQUEST);
+    http_response_code(SERVER_ERROR);
     echo "[]";
     exit();
 }

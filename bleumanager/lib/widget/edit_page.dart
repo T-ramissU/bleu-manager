@@ -22,7 +22,6 @@ class _EditPageState extends State<EditPage> {
   final regioController = TextEditingController();
   final medicalController = TextEditingController();
   final locController = TextEditingController();
-  final ageController = TextEditingController();
   final bdController = TextEditingController();
   final sexeController = TextEditingController();
   final respController = TextEditingController();
@@ -45,7 +44,6 @@ class _EditPageState extends State<EditPage> {
     medicalController.addListener(() => setState(() {}));
     sexeController.addListener(() => setState(() {}));
     locController.addListener(() => setState(() {}));
-    ageController.addListener(() => setState(() {}));
     bdController.addListener(() => setState(() {}));
     respController.addListener(() => setState(() {}));
     telrespController.addListener(() => setState(() {}));
@@ -79,14 +77,20 @@ class _EditPageState extends State<EditPage> {
                     const SizedBox(height: 24),
                     buildLName(bleu),
                     const SizedBox(height: 24),
+                    buildSexe(bleu),
+                    const SizedBox(height:24),
                     buildNumber(bleu),
+                    const SizedBox(height:24),
+                    buildLoc(bleu),
                     const SizedBox(height: 24),
-                    buildLocation(bleu),
+                    buildRegio(bleu),
                     const SizedBox(height: 24),
                     buildMedical(bleu),
                     const SizedBox(height: 24),
-                    buildCom(bleu),
+                    buildResp(bleu),
                     const SizedBox(height: 24),
+                    buildTelResp(bleu),
+                    const SizedBox(height:24),
                     TextButton(
                       style: TextButton.styleFrom(
                         foregroundColor: Colors.white,
@@ -120,7 +124,6 @@ class _EditPageState extends State<EditPage> {
         // suggests emails when keyboard is opened if any saved
         textInputAction: TextInputAction.done,
       );
-
   Widget buildLName(Bleu bleu) => TextField(
         controller: TextEditingController()..text = bleu.lastname,
         decoration: const InputDecoration(
@@ -132,7 +135,6 @@ class _EditPageState extends State<EditPage> {
         keyboardType: TextInputType.name,
         textInputAction: TextInputAction.done,
       );
-
   Widget buildNumber(Bleu bleu) => TextField(
         controller: TextEditingController()..text = bleu.tel,
         decoration: const InputDecoration(
@@ -144,24 +146,11 @@ class _EditPageState extends State<EditPage> {
         // suggests emails when keyboard is opened if any saved
         textInputAction: TextInputAction.done,
       );
-
-  Widget buildLocation(Bleu bleu) => TextField(
-        controller: TextEditingController()..text = bleu.regio,
-        decoration: const InputDecoration(
-          border: OutlineInputBorder(),
-          labelText: 'Régional',
-          prefixIcon: Icon(Icons.location_on),
-        ),
-        keyboardType: TextInputType.text,
-        // suggests emails when keyboard is opened if any saved
-        textInputAction: TextInputAction.done,
-      );
-
   Widget buildMedical(Bleu bleu) => TextField(
         controller: TextEditingController()..text = bleu.med,
         decoration: const InputDecoration(
           border: OutlineInputBorder(),
-          labelText: 'Problèmes médicaux',
+          labelText: 'Floquettes',
           prefixIcon: Icon(Icons.medical_services),
         ),
         keyboardType: TextInputType.multiline,
@@ -170,18 +159,67 @@ class _EditPageState extends State<EditPage> {
         maxLines: null,
         minLines: 5,
       );
+  Widget buildSexe(Bleu bleu) => TextField(
+    controller: TextEditingController()..text = bleu.sexe,
+    decoration: const InputDecoration(
+      border: OutlineInputBorder(),
+      labelText: 'Sexe',
+      prefixIcon: Icon(Icons.accessibility_sharp),
+    ),
+    keyboardType: TextInputType.text,
+    // suggests emails when keyboard is opened if any saved
+    textInputAction: TextInputAction.done,
+  );
+  Widget buildLoc(Bleu bleu) => TextField(
+    controller: TextEditingController()..text = bleu.loc,
+    decoration: const InputDecoration(
+      border: OutlineInputBorder(),
+      labelText: 'Adresse',
+      prefixIcon: Icon(Icons.house),
+    ),
+    keyboardType: TextInputType.text,
+    // suggests emails when keyboard is opened if any saved
+    textInputAction: TextInputAction.done,
+  );
+  Widget buildRegio(Bleu bleu)=>DropdownButton<String>(
+  value: bleu.regio,
+  hint: const Text("Region"),
+  onChanged: (String? value) {
+  // This is called when the user selects an item.
+  setState(() {
+  bleu.regio = value!;
+  });
+  },
+  items: bleuAllRegio.map<DropdownMenuItem<String>>((String regio) {
+  return DropdownMenuItem<String>(
+  value: regio,
+  child: Text(regio),
+  );
+  }).toList(),
+  );
+  Widget buildResp(Bleu bleu) => TextField(
+    controller: TextEditingController()..text = bleu.resp,
+    decoration: const InputDecoration(
+      border: OutlineInputBorder(),
+      labelText: 'Responsable Légal',
+      prefixIcon: Icon(Icons.person),
+    ),
+    keyboardType: TextInputType.text,
+    // suggests emails when keyboard is opened if any saved
+    textInputAction: TextInputAction.done,
+  );
+  Widget buildTelResp(Bleu bleu) => TextField(
+    controller: TextEditingController()..text = bleu.telresp,
+    decoration: const InputDecoration(
+      border: OutlineInputBorder(),
+      labelText: 'Numéro du responsable légale',
+      prefixIcon: Icon(Icons.phone),
+    ),
+    keyboardType: TextInputType.number,
+    // suggests emails when keyboard is opened if any saved
+    textInputAction: TextInputAction.done,
+  );
+  void update(Bleu bleu){
 
-  Widget buildCom(Bleu bleu) => TextField(
-        controller: TextEditingController()..text = bleu.com,
-        decoration: const InputDecoration(
-          border: OutlineInputBorder(),
-          labelText: 'Commentaires',
-          prefixIcon: Icon(Icons.comment),
-        ),
-        keyboardType: TextInputType.multiline,
-        // suggests emails when keyboard is opened if any saved
-        textInputAction: TextInputAction.done,
-        maxLines: null,
-        minLines: 3,
-      );
+  }
 }

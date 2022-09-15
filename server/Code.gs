@@ -4,10 +4,13 @@ function onFormSubmit(e) {
   var data =
   {
     "nom" : e.namedValues['Nom'][0],
-    "prenom" : e.namedValues['Prenom'][0],
-    "matricule" : e.namedValues['matricule'][0],
-    "regio": e.namedValues['regio'][0],
-    "med": e.namedValues['probleme medicaux ( ne répondre que si vous en avez)'][0],
+    "prenom" : e.namedValues['Prénom'][0],
+    "sexe": e.namedValues['Genre'][0],
+    "adresse": e.namedValues['Adresse'],
+    "daten": e.namedValues['Date de naissance'][0],
+    "regio": e.namedValues['Regionale'][0],
+    "resplegal": e.namedValues['Nom du responsable légal'][0] + ' ' + e.namedValues['Prénom du responsable légal'],
+    'numresplegal':e.namedValues['Numéro de téléphone du responsable légale'][0],
     "tel" : e.namedValues['Numero de téléphone'][0]
   };
     

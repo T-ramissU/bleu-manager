@@ -21,7 +21,6 @@ $respLegal = $_POST["resplegal"];
 $telRespLegal = $_POST["numresplegal"];
 $dateN = $_POST["daten"];
 
-
 $conn = new mysqli(MYSQL_SERVER, MYSQL_USERNAME, MYSQL_PASSWORD, MYSQL_DB);
 if ($conn->connect_error) { // connection to the mysql db failed
     send_mail("Serveur bleusaille", "Impossible de se connecter a la DB lors de l'ajout d'un bleu par google form. 
@@ -31,8 +30,8 @@ if ($conn->connect_error) { // connection to the mysql db failed
 }
 
 // Execute query
-$query = "INSERT INTO LISTING (Nom,Prenom,Sexe,DateN,Adresse,Med,Tel,Regio,Supp,RespLegal,NumRespLegal) VALUES 
-('$nom','$prenom','$sexe','$dateN','$adresse','$med','$tel','$regio','$supp','$respLegal','$telRespLegal')";
+$query = "INSERT INTO LISTING (Nom,Prenom,Sexe,DateN,Adresse,Tel,Regio,RespLegal,NumRespLegal) VALUES
+('$nom','$prenom','$sexe','$dateN','$adresse','$tel','$regio','$respLegal','$telRespLegal')";
 $result = $conn->query($query);
 
 if (!$result) { // bad query

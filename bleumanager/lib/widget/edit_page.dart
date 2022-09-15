@@ -1,6 +1,5 @@
-import 'package:flutter/material.dart';
-
 import 'package:bleumanager/object/bleu.dart';
+import 'package:flutter/material.dart';
 
 /// Offer to the user the possibility to modify a bleu
 class EditPage extends StatefulWidget {
@@ -36,7 +35,6 @@ class _EditPageState extends State<EditPage> {
   @override
   void initState() {
     super.initState();
-    // TODO MARK AS MODIFIED TO UPDATE THEM ON SAVE
     fnameController.addListener(() => setState(() {}));
     lnameController.addListener(() => setState(() {}));
     numberController.addListener(() => setState(() {}));
@@ -61,13 +59,14 @@ class _EditPageState extends State<EditPage> {
         FocusManager.instance.primaryFocus?.unfocus();
       },
       child: Scaffold(
+        backgroundColor: Colors.blueAccent,
         body: Stack(
           children: [
             SingleChildScrollView(
               keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
               child: Container(
                 padding: EdgeInsets.only(
-                  top: MediaQuery.of(context).size.height * 0.05,
+                  top: MediaQuery.of(context).size.height * 0.08,
                   right: 35,
                   left: 35,
                 ),
@@ -78,19 +77,17 @@ class _EditPageState extends State<EditPage> {
                     buildLName(bleu),
                     const SizedBox(height: 24),
                     buildSexe(bleu),
-                    const SizedBox(height:24),
+                    const SizedBox(height: 24),
                     buildNumber(bleu),
-                    const SizedBox(height:24),
+                    const SizedBox(height: 24),
                     buildLoc(bleu),
                     const SizedBox(height: 24),
                     buildRegio(bleu),
                     const SizedBox(height: 24),
-                    buildMedical(bleu),
-                    const SizedBox(height: 24),
                     buildResp(bleu),
                     const SizedBox(height: 24),
                     buildTelResp(bleu),
-                    const SizedBox(height:24),
+                    const SizedBox(height: 24),
                     TextButton(
                       style: TextButton.styleFrom(
                         foregroundColor: Colors.white,
@@ -98,8 +95,8 @@ class _EditPageState extends State<EditPage> {
                         disabledForegroundColor: Colors.red.withOpacity(0.38),
                       ),
                       onPressed: () {
+                        update(bleu);
                         Navigator.pop(context);
-                        //TODO mettre à jour ce qui a été modifié
                       },
                       child: const Text("Mettre à jour"),
                     ),
@@ -113,10 +110,21 @@ class _EditPageState extends State<EditPage> {
     );
   }
 
-  Widget buildFName(Bleu bleu) => TextField(
-        controller: TextEditingController()..text = bleu.firstname,
-        decoration: const InputDecoration(
-          border: OutlineInputBorder(),
+  Widget buildFName(Bleu bleu) => TextFormField(
+        initialValue: bleu.firstname,
+        decoration: InputDecoration(
+          focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(25.0),
+              borderSide: const BorderSide(
+                color: Colors.white70,
+              )),
+          border: const OutlineInputBorder(),
+          enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(25.0),
+              borderSide: const BorderSide(color: Colors.black, width: 2.0)),
+          filled: true,
+          fillColor: Colors.white70,
+          labelStyle: const TextStyle(color: Colors.black, fontSize: 20),
           labelText: 'Prénom',
           prefixIcon: Icon(Icons.person_outline_outlined),
         ),
@@ -124,21 +132,45 @@ class _EditPageState extends State<EditPage> {
         // suggests emails when keyboard is opened if any saved
         textInputAction: TextInputAction.done,
       );
-  Widget buildLName(Bleu bleu) => TextField(
-        controller: TextEditingController()..text = bleu.lastname,
-        decoration: const InputDecoration(
-          border: OutlineInputBorder(),
+
+  Widget buildLName(Bleu bleu) => TextFormField(
+        initialValue: bleu.lastname,
+        decoration: InputDecoration(
+          focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(25.0),
+              borderSide: const BorderSide(
+                color: Colors.white70,
+              )),
+          border: const OutlineInputBorder(),
+          enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(25.0),
+              borderSide: const BorderSide(color: Colors.black, width: 2.0)),
+          filled: true,
+          fillColor: Colors.white70,
+          labelStyle: const TextStyle(color: Colors.black, fontSize: 20),
           labelText: 'Nom',
-          prefixIcon: Icon(Icons.person_outline),
+          prefixIcon: const Icon(Icons.person_outline),
         ),
         // suggests emails when keyboard is opened if any saved
         keyboardType: TextInputType.name,
         textInputAction: TextInputAction.done,
       );
-  Widget buildNumber(Bleu bleu) => TextField(
-        controller: TextEditingController()..text = bleu.tel,
-        decoration: const InputDecoration(
-          border: OutlineInputBorder(),
+
+  Widget buildNumber(Bleu bleu) => TextFormField(
+        initialValue: bleu.tel,
+        decoration: InputDecoration(
+          focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(25.0),
+              borderSide: const BorderSide(
+                color: Colors.white70,
+              )),
+          border: const OutlineInputBorder(),
+          enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(25.0),
+              borderSide: const BorderSide(color: Colors.black, width: 2.0)),
+          filled: true,
+          fillColor: Colors.white70,
+          labelStyle: const TextStyle(color: Colors.black, fontSize: 20),
           labelText: 'Numéro de téléphone',
           prefixIcon: Icon(Icons.phone),
         ),
@@ -146,10 +178,22 @@ class _EditPageState extends State<EditPage> {
         // suggests emails when keyboard is opened if any saved
         textInputAction: TextInputAction.done,
       );
-  Widget buildMedical(Bleu bleu) => TextField(
-        controller: TextEditingController()..text = bleu.med,
-        decoration: const InputDecoration(
-          border: OutlineInputBorder(),
+
+  Widget buildMedical(Bleu bleu) => TextFormField(
+        initialValue: bleu.med,
+        decoration: InputDecoration(
+          focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(25.0),
+              borderSide: const BorderSide(
+                color: Colors.white70,
+              )),
+          border: const OutlineInputBorder(),
+          enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(25.0),
+              borderSide: const BorderSide(color: Colors.black, width: 2.0)),
+          filled: true,
+          fillColor: Colors.white70,
+          labelStyle: const TextStyle(color: Colors.black, fontSize: 20),
           labelText: 'Floquettes',
           prefixIcon: Icon(Icons.medical_services),
         ),
@@ -159,67 +203,155 @@ class _EditPageState extends State<EditPage> {
         maxLines: null,
         minLines: 5,
       );
-  Widget buildSexe(Bleu bleu) => TextField(
-    controller: TextEditingController()..text = bleu.sexe,
-    decoration: const InputDecoration(
-      border: OutlineInputBorder(),
-      labelText: 'Sexe',
-      prefixIcon: Icon(Icons.accessibility_sharp),
-    ),
-    keyboardType: TextInputType.text,
-    // suggests emails when keyboard is opened if any saved
-    textInputAction: TextInputAction.done,
-  );
-  Widget buildLoc(Bleu bleu) => TextField(
-    controller: TextEditingController()..text = bleu.loc,
-    decoration: const InputDecoration(
-      border: OutlineInputBorder(),
-      labelText: 'Adresse',
-      prefixIcon: Icon(Icons.house),
-    ),
-    keyboardType: TextInputType.text,
-    // suggests emails when keyboard is opened if any saved
-    textInputAction: TextInputAction.done,
-  );
-  Widget buildRegio(Bleu bleu)=>DropdownButton<String>(
-  value: bleu.regio,
-  hint: const Text("Region"),
-  onChanged: (String? value) {
-  // This is called when the user selects an item.
-  setState(() {
-  bleu.regio = value!;
-  });
-  },
-  items: bleuAllRegio.map<DropdownMenuItem<String>>((String regio) {
-  return DropdownMenuItem<String>(
-  value: regio,
-  child: Text(regio),
-  );
-  }).toList(),
-  );
-  Widget buildResp(Bleu bleu) => TextField(
-    controller: TextEditingController()..text = bleu.resp,
-    decoration: const InputDecoration(
-      border: OutlineInputBorder(),
-      labelText: 'Responsable Légal',
-      prefixIcon: Icon(Icons.person),
-    ),
-    keyboardType: TextInputType.text,
-    // suggests emails when keyboard is opened if any saved
-    textInputAction: TextInputAction.done,
-  );
-  Widget buildTelResp(Bleu bleu) => TextField(
-    controller: TextEditingController()..text = bleu.telresp,
-    decoration: const InputDecoration(
-      border: OutlineInputBorder(),
-      labelText: 'Numéro du responsable légale',
-      prefixIcon: Icon(Icons.phone),
-    ),
-    keyboardType: TextInputType.number,
-    // suggests emails when keyboard is opened if any saved
-    textInputAction: TextInputAction.done,
-  );
-  void update(Bleu bleu){
 
+  Widget buildSexe(Bleu bleu) => TextFormField(
+        controller: TextEditingController()..text = bleu.sexe,
+        decoration: InputDecoration(
+          focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(25.0),
+              borderSide: const BorderSide(
+                color: Colors.white70,
+              )),
+          border: const OutlineInputBorder(),
+          enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(25.0),
+              borderSide: const BorderSide(color: Colors.black, width: 2.0)),
+          filled: true,
+          fillColor: Colors.white70,
+          labelStyle: const TextStyle(color: Colors.black, fontSize: 20),
+          labelText: 'Genre',
+          prefixIcon: Icon(Icons.accessibility_sharp),
+        ),
+        keyboardType: TextInputType.text,
+        // suggests emails when keyboard is opened if any saved
+        textInputAction: TextInputAction.done,
+      );
+
+  Widget buildLoc(Bleu bleu) => TextFormField(
+        initialValue: bleu.loc,
+        decoration: InputDecoration(
+          focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(25.0),
+              borderSide: const BorderSide(
+                color: Colors.white70,
+              )),
+          border: const OutlineInputBorder(),
+          enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(25.0),
+              borderSide: const BorderSide(color: Colors.black, width: 2.0)),
+          filled: true,
+          fillColor: Colors.white70,
+          labelStyle: const TextStyle(color: Colors.black, fontSize: 20),
+          labelText: 'Adresse',
+          prefixIcon: Icon(Icons.house),
+        ),
+        keyboardType: TextInputType.text,
+        textInputAction: TextInputAction.done,
+      );
+
+  Widget buildRegio(Bleu bleu) => Container(
+      padding: EdgeInsets.only(
+        right: 95,
+        left: 95,
+      ),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(15),
+        color: Colors.white70,
+      ),
+      child: DropdownButtonHideUnderline(
+          child: DropdownButton<String>(
+        value: bleu.regio,
+        style: const TextStyle(
+          color: Colors.black,
+          fontSize: 20,
+        ),
+        hint: const Text("Region"),
+        onChanged: (String? value) {
+          setState(() {
+            bleu.regio = value!;
+          });
+        },
+        items: bleuAllRegio.map<DropdownMenuItem<String>>((String regio) {
+          return DropdownMenuItem<String>(
+            value: regio,
+            child: Text(regio),
+          );
+        }).toList(),
+      )));
+
+  Widget buildResp(Bleu bleu) => TextFormField(
+        initialValue: bleu.resp,
+        decoration: InputDecoration(
+          focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(25.0),
+              borderSide: const BorderSide(
+                color: Colors.white70,
+              )),
+          border: const OutlineInputBorder(),
+          enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(25.0),
+              borderSide: const BorderSide(color: Colors.black, width: 2.0)),
+          filled: true,
+          fillColor: Colors.white70,
+          labelStyle: const TextStyle(color: Colors.black, fontSize: 20),
+          labelText: 'Responsable Légal',
+          prefixIcon: Icon(Icons.person),
+        ),
+        keyboardType: TextInputType.text,
+        // suggests emails when keyboard is opened if any saved
+        textInputAction: TextInputAction.done,
+      );
+
+  Widget buildTelResp(Bleu bleu) => TextFormField(
+        initialValue: bleu.telresp,
+        decoration: InputDecoration(
+          focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(25.0),
+              borderSide: const BorderSide(
+                color: Colors.white70,
+              )),
+          border: const OutlineInputBorder(),
+          enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(25.0),
+              borderSide: const BorderSide(color: Colors.black, width: 2.0)),
+          filled: true,
+          fillColor: Colors.white70,
+          labelStyle: const TextStyle(color: Colors.black, fontSize: 20),
+          labelText: 'Numéro du responsable légale',
+          prefixIcon: Icon(Icons.phone),
+        ),
+        keyboardType: TextInputType.number,
+        // suggests emails when keyboard is opened if any saved
+        textInputAction: TextInputAction.done,
+      );
+
+  void update(Bleu bleu) {
+    if (fnameController.value.text != bleu.firstname) {
+      bleu.firstname = fnameController.value.text;
+    }
+    if (lnameController.value.text != bleu.lastname) {
+      bleu.lastname = lnameController.value.text;
+    }
+    if (numberController.value.text != bleu.tel) {
+      bleu.tel = numberController.value.text;
+    }
+    if (medicalController.value.text != bleu.med) {
+      bleu.med = medicalController.value.text;
+    }
+    if (sexeController.value.text != bleu.sexe) {
+      bleu.sexe = sexeController.value.text;
+    }
+    if (regioController.value.text != bleu.regio) {
+      bleu.regio = regioController.value.text;
+    }
+    if (locController.value.text != bleu.loc) {
+      bleu.loc = locController.value.text;
+    }
+    if (respController.value.text != bleu.resp) {
+      bleu.resp = respController.value.text;
+    }
+    if (telrespController.value.text != bleu.telresp) {
+      bleu.telresp = telrespController.value.text;
+    }
   }
 }

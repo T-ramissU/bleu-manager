@@ -15,7 +15,6 @@ class BleuPopup extends StatelessWidget {
   /// Set [_deleteAction] to true to show delete action
   /// otherwise the restore display the restore action
   const BleuPopup(this._bleu, this._deleteAction, {super.key});
-
   @override
   Widget build(BuildContext context) {
     return AlertDialog(

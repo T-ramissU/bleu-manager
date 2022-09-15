@@ -8,41 +8,54 @@ void main() async {
   runApp(const App());
 }
 
-class App extends StatelessWidget {
+class App extends StatefulWidget {
   const App({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final String title = "Bleu Manager ${DateTime.now().year}";
-    final ListPage listPage = ListPage(title: title);
-    final LoginPage loginPage = LoginPage(title: title);
+  State<App> createState() => _AppState();
+}
 
+class _AppState extends State<App> {
+  final String title = "Bleu Manager ${DateTime.now().year}";
+  late final ListPage listPage;
+  late final LoginPage loginPage;
+
+  @override
+  void initState() {
+    super.initState();
+    listPage = ListPage(title: title);
+    loginPage = LoginPage(title: title);
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return FutureBuilder<bool>(
-        future: Credential().load(),
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            final Widget home = snapshot.data! ? listPage : loginPage;
-            // Credential loaded
-            return MaterialApp(
-              title: 'Bleu Manager',
-              theme: ThemeData(
-                primarySwatch: Colors.blue,
-              ),
-              routes: {
-                '/list': (context) => listPage,
-                '/login': (context) => loginPage,
-              },
-              home: home,
-            );
-          }
-          // Credential not yet loaded
-          else {
-            return const Center(
-              child: Image(
-                image: AssetImage('assets/polytech.png'),
-              ),
-            );
-          }
-        });
+      future: Credential().load(),
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          final Widget home = snapshot.data! ? listPage : loginPage;
+          // Credential loaded
+          return MaterialApp(
+            title: 'Bleu Manager',
+            theme: ThemeData(
+              primarySwatch: Colors.blue,
+            ),
+            routes: {
+              '/list': (context) => listPage,
+              '/login': (context) => loginPage,
+            },
+            home: home,
+          );
+        }
+        // Credential not yet loaded
+        else {
+          return const Center(
+            child: Image(
+              image: AssetImage('assets/polytech.png'),
+            ),
+          );
+        }
+      },
+    );
   }
 }

@@ -19,10 +19,12 @@ class _AppState extends State<App> {
   final String title = "Bleu Manager ${DateTime.now().year}";
   late final ListPage listPage;
   late final LoginPage loginPage;
+  late Future<bool> credentialLoaded;
 
   @override
   void initState() {
     super.initState();
+    credentialLoaded = Credential().load();
     listPage = ListPage(title: title);
     loginPage = LoginPage(title: title);
   }
@@ -30,7 +32,7 @@ class _AppState extends State<App> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<bool>(
-      future: Credential().load(),
+      future: credentialLoaded,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           final Widget home = snapshot.data! ? listPage : loginPage;

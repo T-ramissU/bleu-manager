@@ -12,6 +12,7 @@ const String _serverUrl = "https://bleusaille.emixam.be";
 const String _checkAdminUrl = "$_serverUrl/check_admin.php";
 const String _fetchBleuUrl = "$_serverUrl/fetch.php";
 const String _modifyBleuUrl = "$_serverUrl/modify.php";
+const String _versionUrl = "$_serverUrl/version.php";
 
 /// Allow to exchange data with the server
 class ServerConnector {
@@ -104,5 +105,20 @@ class ServerConnector {
     });
 
     return _statusCodeToReturnInt(res.statusCode);
+  }
+
+  /// Return a tuple of three values concerning the app :
+  /// the last version, apk download link, ios download link
+  /// Return null in case of error
+  static Future<Tuple3<String, String, String>?> versionInfo() async {
+    dynamic res;
+    try {
+      res = await http.get(Uri.parse(_versionUrl));
+    } on Exception catch (_) {
+      return null;
+    }
+
+    dynamic versionInfo = json.decode(res.body);
+    return Tuple3(versionInfo["version"], versionInfo["apk_link"], versionInfo["ios_link"]);
   }
 }

@@ -11,7 +11,8 @@ $admin_matricule = $_POST["matricule"];
 $admin_token = $_POST["token"];
 $bleu_first_name = $_POST["prenom"];
 $bleu_last_name = $_POST["nom"];
-$bleu_key = $_POST["value"];
+$column = $_POST["key"];
+$value = $_POST["value"];
 
 $conn = new mysqli(MYSQL_SERVER, MYSQL_USERNAME, MYSQL_PASSWORD, MYSQL_DB);
 if ($conn->connect_error) { // connection to the mysql db failed
@@ -28,11 +29,11 @@ if (!checkAdmin($conn, $admin_matricule, $admin_token)) {
 }
 
 // Execute query
-$query = "UPDATE LISTING SET '$key'='$value' WHERE Nom='$bleu_last_name' AND Prenom='$bleu_first_name' ";
+$query = "UPDATE LISTING SET '$column'='$value' WHERE Nom='$bleu_last_name' AND Prenom='$bleu_first_name' ";
 $result = $conn->query($query);
 $conn->close();
 if (!$result) {
-    send_mail("Serveur bleusaille", "Impossible d'update la colonne '$key' avec la valeur '$value' pour le bleu '$bleu_last_name $bleu_first_name'.
+    send_mail("Serveur bleusaille", "Impossible d'update la colonne '$column' avec la valeur '$value' pour '$bleu_last_name $bleu_first_name'.
         Requête exécutée par $matricule");
     http_response_code(BAD_REQUEST);
     exit();

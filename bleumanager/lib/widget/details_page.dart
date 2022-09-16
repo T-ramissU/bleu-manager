@@ -1,3 +1,4 @@
+import 'package:bleumanager/widget/list_page.dart';
 import 'package:flutter/material.dart';
 
 import '../object/bleu.dart';
@@ -20,6 +21,8 @@ class DetailPage extends StatelessWidget {
               color: Colors.white,
             ),
             onPressed: () {
+
+            Navigator.of(context).push(MaterialPageRoute(builder: (context)=>ListPage(title: "Bleu Manager 2022") ));
 
             },
           ),
@@ -109,7 +112,7 @@ class DetailPage extends StatelessWidget {
               ))));
 
   Widget buildbd(Bleu bleu) => Container(
-          child: Column(children: [
+      child: Column(children: [
         Row(children: const [
           Icon(Icons.date_range),
           SizedBox(
@@ -132,37 +135,37 @@ class DetailPage extends StatelessWidget {
       ]));
 
   Widget buildgenre(Bleu bleu) => Container(
-        child: Column(
-          children: [
-            Row(children: const [
-              Icon(Icons.safety_divider_outlined),
-              SizedBox(
-                width: 5,
-              ),
-              Text(
-                "Gender : ",
-                style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.w500,
-                    fontSize: 24),
-              ),
-            ]),
-            SizedBox(
-              height: 6,
-            ),
-            Text(
-              bleu.sexe,
-              style: const TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.w200,
-                  fontSize: 24),
-            ),
-          ],
+    child: Column(
+      children: [
+        Row(children: const [
+          Icon(Icons.safety_divider_outlined),
+          SizedBox(
+            width: 5,
+          ),
+          Text(
+            "Gender : ",
+            style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.w500,
+                fontSize: 24),
+          ),
+        ]),
+        SizedBox(
+          height: 6,
         ),
-      );
+        Text(
+          bleu.sexe,
+          style: const TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.w200,
+              fontSize: 24),
+        ),
+      ],
+    ),
+  );
 
   Widget buildadresse(Bleu bleu) => Container(
-          child: Column(
+      child: Column(
         children: [
           Row(children: const [
             Icon(Icons.house),
@@ -189,7 +192,7 @@ class DetailPage extends StatelessWidget {
       ));
 
   Widget buildresplegal(Bleu bleu) => Container(
-          child: Column(
+      child: Column(
         children: [
           Row(children: const [
             Icon(Icons.accessibility_sharp),
@@ -219,7 +222,7 @@ class DetailPage extends StatelessWidget {
       ));
 
   Widget buildnumresp(Bleu bleu) => Container(
-          child: Column(
+      child: Column(
         children: [
           Row(children: const [
             Icon(Icons.phone),
@@ -246,79 +249,79 @@ class DetailPage extends StatelessWidget {
       ));
 
   Widget buildnum(Bleu bleu) => Column(
-        children: [
-          Row(children: const [
-            Icon(Icons.phone),
-            Text(
-              "Numéro de téléphone : ",
-              style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.w500,
-                  fontSize: 24),
-            ),
-          ]),
-          SizedBox(
-            height: 6,
-          ),
-          Text(
-            bleu.tel,
-            style: const TextStyle(
-                color: Colors.white, fontWeight: FontWeight.w200, fontSize: 24),
-          ),
-        ],
-      );
+    children: [
+      Row(children: const [
+        Icon(Icons.phone),
+        Text(
+          "Numéro de téléphone : ",
+          style: TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.w500,
+              fontSize: 24),
+        ),
+      ]),
+      SizedBox(
+        height: 6,
+      ),
+      Text(
+        bleu.tel,
+        style: const TextStyle(
+            color: Colors.white, fontWeight: FontWeight.w200, fontSize: 24),
+      ),
+    ],
+  );
 
   Widget buildMedical(Bleu bleu) => TextFormField(
-        initialValue: bleu.med,
-        decoration: InputDecoration(
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(25.0),
-            borderSide: const BorderSide(
-              color: Colors.white70,
-            ),
-          ),
-          enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(25.0),
-              borderSide: BorderSide(color: Colors.black, width: 2.0)),
-          border: OutlineInputBorder(),
-          filled: true,
-          fillColor: Colors.white70,
-          labelText: 'Floquettes',
-          labelStyle: const TextStyle(color: Colors.black),
-          prefixIcon: Icon(Icons.medical_services),
+    initialValue: bleu.med,
+    decoration: InputDecoration(
+      focusedBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(25.0),
+        borderSide: const BorderSide(
+          color: Colors.white70,
         ),
-        keyboardType: TextInputType.multiline,
-        // suggests emails when keyboard is opened if any saved
-        textInputAction: TextInputAction.done,
-        maxLines: null,
-        minLines: 5,
-      );
+      ),
+      enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(25.0),
+          borderSide: BorderSide(color: Colors.black, width: 2.0)),
+      border: OutlineInputBorder(),
+      filled: true,
+      fillColor: Colors.white70,
+      labelText: 'Floquettes',
+      labelStyle: const TextStyle(color: Colors.black),
+      prefixIcon: Icon(Icons.medical_services),
+    ),
+    keyboardType: TextInputType.multiline,
+    // suggests emails when keyboard is opened if any saved
+    textInputAction: TextInputAction.done,
+    maxLines: null,
+    minLines: 5,
+  );
 
   Widget buildcom(Bleu bleu) => TextFormField(
-        initialValue: bleu.com,
-        decoration: InputDecoration(
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(25.0),
-            borderSide: const BorderSide(
-              color: Colors.white70,
-            ),
-          ),
-          enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(25.0),
-              borderSide: BorderSide(color: Colors.black, width: 2.0)),
-          border: OutlineInputBorder(),
-          filled: true,
-          fillColor: Colors.white70,
-          labelText: 'Commentaires',
-          labelStyle: const TextStyle(color: Colors.black),
-          prefixIcon: Icon(Icons.comment),
+    initialValue: bleu.com,
+    decoration: InputDecoration(
+      focusedBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(25.0),
+        borderSide: const BorderSide(
+          color: Colors.white70,
         ),
-        keyboardType: TextInputType.multiline,
-        // suggests emails when keyboard is opened if any saved
-        textInputAction: TextInputAction.done,
-        maxLines: null,
-        minLines: 5,
-      );
+      ),
+      enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(25.0),
+          borderSide: BorderSide(color: Colors.black, width: 2.0)),
+      border: OutlineInputBorder(),
+      filled: true,
+      fillColor: Colors.white70,
+      labelText: 'Commentaires',
+      labelStyle: const TextStyle(color: Colors.black),
+      prefixIcon: Icon(Icons.comment),
+    ),
+    keyboardType: TextInputType.multiline,
+    // suggests emails when keyboard is opened if any saved
+    textInputAction: TextInputAction.done,
+    maxLines: null,
+    minLines: 5,
+  );
 
   Widget buildram1(Bleu bleu) => TextFormField(
     initialValue: bleu.ram1,
@@ -345,33 +348,33 @@ class DetailPage extends StatelessWidget {
     textInputAction: TextInputAction.done,
     maxLines: null,
     minLines: 5,
-      );
+  );
 
   Widget buildram2(Bleu bleu) => TextFormField(
-        initialValue: bleu.ram2,
-        decoration: InputDecoration(
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(25.0),
-            borderSide: const BorderSide(
-              color: Colors.white70,
-            ),
-          ),
-          enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(25.0),
-              borderSide: const BorderSide(color: Colors.black, width: 2.0)),
-          border: const OutlineInputBorder(),
-          filled: true,
-          fillColor: Colors.white70,
-          labelText: 'Ramassage 2',
-          labelStyle: const TextStyle(color: Colors.black),
-          prefixIcon: Icon(Icons.euro),
+    initialValue: bleu.ram2,
+    decoration: InputDecoration(
+      focusedBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(25.0),
+        borderSide: const BorderSide(
+          color: Colors.white70,
         ),
-        keyboardType: TextInputType.multiline,
-        // suggests emails when keyboard is opened if any saved
-        textInputAction: TextInputAction.done,
-        maxLines: null,
-        minLines: 5,
-      );
+      ),
+      enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(25.0),
+          borderSide: const BorderSide(color: Colors.black, width: 2.0)),
+      border: const OutlineInputBorder(),
+      filled: true,
+      fillColor: Colors.white70,
+      labelText: 'Ramassage 2',
+      labelStyle: const TextStyle(color: Colors.black),
+      prefixIcon: Icon(Icons.euro),
+    ),
+    keyboardType: TextInputType.multiline,
+    // suggests emails when keyboard is opened if any saved
+    textInputAction: TextInputAction.done,
+    maxLines: null,
+    minLines: 5,
+  );
 
   Widget buildram3(Bleu bleu) => TextFormField(
     initialValue: bleu.ram3,
@@ -398,7 +401,7 @@ class DetailPage extends StatelessWidget {
     textInputAction: TextInputAction.done,
     maxLines: null,
     minLines: 5,
-      );
+  );
 
   Widget buildram4(Bleu bleu) => TextFormField(
     initialValue: bleu.ram4,
@@ -416,7 +419,7 @@ class DetailPage extends StatelessWidget {
       border:  OutlineInputBorder(),
       filled: true,
       fillColor: Colors.white70,
-      labelText: 'Floquettes',
+      labelText: 'Ramassage 4',
       labelStyle: const TextStyle(color: Colors.black),
       prefixIcon: Icon(Icons.euro),
     ),
@@ -425,5 +428,5 @@ class DetailPage extends StatelessWidget {
     textInputAction: TextInputAction.done,
     maxLines: null,
     minLines: 5,
-      );
+  );
 }

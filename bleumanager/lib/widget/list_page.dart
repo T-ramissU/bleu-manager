@@ -1,9 +1,9 @@
 import 'dart:async';
-import 'package:flutter/material.dart';
 
 import 'package:bleumanager/object/bleu.dart';
-import 'package:bleumanager/util/show_message.dart';
 import 'package:bleumanager/util/credential.dart';
+import 'package:bleumanager/util/show_message.dart';
+import 'package:flutter/material.dart';
 
 /// Display all bleu and offer to the user the possibility to manage them
 class ListPage extends StatefulWidget {
@@ -106,9 +106,14 @@ class _ListPageState extends State<ListPage> {
           primary: true,
           // To make the scrollview work on desktop
           restorationId: 'data_table_list_view',
-          padding: const EdgeInsets.all(16),
+          padding: const EdgeInsets.all(8),
           children: [
             DataTable(
+              decoration: BoxDecoration(
+                color: Colors.white,
+                border: Border.all(color: Colors.grey),
+                borderRadius: BorderRadius.circular(8)
+              ),
               showCheckboxColumn: false,
               sortColumnIndex: selectedColumn,
               sortAscending: sortAscending,
@@ -192,6 +197,7 @@ class _ListPageState extends State<ListPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.blueAccent,
       body: StreamBuilder(
           // will be re-trigger when fetchRes will contains a value
           stream: fetchController.stream,
@@ -224,13 +230,16 @@ class _ListPageState extends State<ListPage> {
                 }
               });
               return const Text(""); // return invisible widget
-            };
+            }
+            ;
             // fetch not yet terminated, return progress indicator
             return const Center(
               child: CircularProgressIndicator(color: Colors.redAccent),
             );
           }),
       appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0.1,
         title: Text(widget.title),
         actions: [
           IconButton(

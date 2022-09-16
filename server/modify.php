@@ -28,7 +28,7 @@ if (!checkAdmin($conn, $admin_matricule, $admin_token)) {
 }
 
 // Execute query
-$query = "UPDATE LISTING FROM SET '$key'='$value' WHERE Nom='$bleu_last_name' AND Prenom='$bleu_first_name' ";
+$query = "UPDATE LISTING SET '$key'='$value' WHERE Nom='$bleu_last_name' AND Prenom='$bleu_first_name' ";
 $result = $conn->query($query);
 $conn->close();
 if (!$result) {

@@ -15,7 +15,7 @@ class EditPage extends StatefulWidget {
 class _EditPageState extends State<EditPage> {
   final Bleu bleu;
 
-  final fnameController = TextEditingController();
+  late final fnameController ;
   final lnameController = TextEditingController();
   final numberController = TextEditingController();
   final regioController = TextEditingController();
@@ -35,7 +35,7 @@ class _EditPageState extends State<EditPage> {
   @override
   void initState() {
     super.initState();
-    fnameController.addListener(() => setState(() {}));
+    fnameController=TextEditingController(text: bleu.firstname);
     lnameController.addListener(() => setState(() {}));
     numberController.addListener(() => setState(() {}));
     regioController.addListener(() => setState(() {}));
@@ -111,7 +111,7 @@ class _EditPageState extends State<EditPage> {
   }
 
   Widget buildFName(Bleu bleu) => TextFormField(
-        initialValue: bleu.firstname,
+        controller: fnameController,
         decoration: InputDecoration(
           focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(25.0),
@@ -135,6 +135,7 @@ class _EditPageState extends State<EditPage> {
 
   Widget buildLName(Bleu bleu) => TextFormField(
         initialValue: bleu.lastname,
+
         decoration: InputDecoration(
           focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(25.0),
@@ -171,7 +172,7 @@ class _EditPageState extends State<EditPage> {
           filled: true,
           fillColor: Colors.white70,
           labelStyle: const TextStyle(color: Colors.black, fontSize: 20),
-          labelText: 'Numéro de téléphone',
+          labelText: 'Tel',
           prefixIcon: Icon(Icons.phone),
         ),
         keyboardType: TextInputType.number,
@@ -317,7 +318,7 @@ class _EditPageState extends State<EditPage> {
           filled: true,
           fillColor: Colors.white70,
           labelStyle: const TextStyle(color: Colors.black, fontSize: 20),
-          labelText: 'Numéro du responsable légale',
+          labelText: 'Tel du responsable légale',
           prefixIcon: Icon(Icons.phone),
         ),
         keyboardType: TextInputType.number,
@@ -326,10 +327,8 @@ class _EditPageState extends State<EditPage> {
       );
 
   void update(Bleu bleu) {
-    if (fnameController.value.text != bleu.firstname) {
-      bleu.firstname = fnameController.value.text;
-    }
-    if (lnameController.value.text != bleu.lastname) {
+      bleu.firstname = "yssss";
+   /* if (lnameController.value.text != bleu.lastname) {
       bleu.lastname = lnameController.value.text;
     }
     if (numberController.value.text != bleu.tel) {
@@ -352,6 +351,6 @@ class _EditPageState extends State<EditPage> {
     }
     if (telrespController.value.text != bleu.telresp) {
       bleu.telresp = telrespController.value.text;
-    }
+    }*/
   }
 }

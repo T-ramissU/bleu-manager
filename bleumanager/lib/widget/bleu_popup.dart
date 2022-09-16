@@ -18,6 +18,11 @@ class BleuPopup extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
+      insetPadding: EdgeInsets.all(100),
+      backgroundColor: Colors.white,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(Radius.circular(10))
+      ),
       title: Text(
         "${_bleu.lastname} ${_bleu.firstname}",
         textAlign: TextAlign.center,
@@ -26,7 +31,7 @@ class BleuPopup extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           TextButton(
-            child: const Text("Details"),
+            child: const Text("Details",style: TextStyle(fontSize: 17)),
             onPressed: () => Navigator.push(
               context,
               MaterialPageRoute(
@@ -35,7 +40,7 @@ class BleuPopup extends StatelessWidget {
             ),
           ),
           TextButton(
-            child: const Text("Modifier"),
+            child: const Text("Modifier",style: TextStyle(fontSize: 17),),
             onPressed: () => Navigator.push(
               context,
               MaterialPageRoute(
@@ -44,7 +49,7 @@ class BleuPopup extends StatelessWidget {
             ),
           ),
           TextButton(
-            child: _deleteAction ? const Text("Supprimer") : const Text("Restorer"),
+            child: _deleteAction ? const Text("Supprimer",style: TextStyle(fontSize: 17)) : const Text("Restorer",style: TextStyle(fontSize: 17)),
             onPressed: () {
               _bleu.del = _deleteAction;
               Navigator.pop(context);

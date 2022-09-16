@@ -232,7 +232,8 @@ class Bleu with ChangeNotifierParametric<String> {
 class BleuDataSource with ChangeNotifier {
   List<Bleu> _bleuRemaining = [];
   List<Bleu> _bleuDeleted = [];
-
+  int countDeleted=0;
+  int countRemaining=0;
   /// Return an integer equal to :
   /// 0 if success
   /// 1 if the [credential] are not authorized on the server
@@ -250,7 +251,12 @@ class BleuDataSource with ChangeNotifier {
       // which is propoagated to the function [_updateBleu] in order to update the
       // corresponding [bleu] on the server
       bleu.addListener((String updatedJsonKey) => _updateBleu(bleu, updatedJsonKey));
-      bleu.del ? _bleuDeleted.add(bleu) : _bleuRemaining.add(bleu);
+      if(bleu.del){
+            countDeleted++;
+      }else{
+        countRemaining++;
+      }
+      bleu.del ? _bleuDeleted.add(bleu): _bleuRemaining.add(bleu);
     }
 
     return res.item2;
@@ -369,7 +375,8 @@ class BleuDataSource with ChangeNotifier {
           DataCell(Text(bleu.firstname)),
           DataCell(Text(bleu.lastname)),
           DataCell(Text(bleu.regio)),
-         /* DataCell(Text(bleu.sexe)),
+    /*
+          DataCell(Text(bleu.sexe)),
           DataCell(Text(bleu.tel)),
           DataCell(Text(bleu.com)),
           DataCell(Text(bleu.med)),

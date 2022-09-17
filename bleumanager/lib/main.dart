@@ -1,5 +1,7 @@
-import 'package:flutter/material.dart';
 
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:new_version/new_version.dart';
 import 'package:bleumanager/widget/login_page.dart';
 import 'package:bleumanager/widget/list_page.dart';
 import 'package:bleumanager/util/credential.dart';
@@ -27,7 +29,12 @@ class _AppState extends State<App> {
     credentialLoaded = Credential().load();
     listPage = ListPage(title: title);
     loginPage = LoginPage(title: title);
+
+    _checkVersion();
+
   }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +47,9 @@ class _AppState extends State<App> {
           return MaterialApp(
             title: 'Bleu Manager',
             theme: ThemeData(
-              primarySwatch: Colors.blue,
+                primarySwatch: Colors.red,
+              scaffoldBackgroundColor: Colors.black12
+
             ),
             routes: {
               '/list': (context) => listPage,
@@ -60,4 +69,25 @@ class _AppState extends State<App> {
       },
     );
   }
+  void _checkVersion() async {
+    final newVersion=NewVersion(
+      androidId:"be.ac.umons.bleumanager",
+      iOSId: "be.ac.umons.bleumanager",
+    );
+    // newVersion.showAlertIfNecessary(context: context);
+    final status = await newVersion.getVersionStatus();
+    if(status?.canUpdate==true){
+      newVersion.showUpdateDialog(
+        context: context,
+        versionStatus: status!,
+        allowDismissal: false,
+        dialogTitle: "Mis à jour",
+        dialogText: "Nouvelle mis a jour disponible. Passez de la version ${status.localVersion} à la version ${status.storeVersion}",
+        dismissButtonText: " Plus tard ",
+        dismissAction: (){
+          SystemNavigator.pop();
+        },
+        updateButtonText: "Mettre à jour",
+      );}}
 }
+

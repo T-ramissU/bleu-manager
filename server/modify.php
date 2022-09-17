@@ -9,8 +9,8 @@ if (!isset($_POST["matricule"]) || !isset($_POST["token"]) || !isset($_POST["nom
 
 $admin_matricule = $_POST["matricule"];
 $admin_token = $_POST["token"];
-$bleu_first_name = $_POST["Prenom"];
-$bleu_last_name = $_POST["Nom"];
+$bleu_first_name = "prenom";
+$bleu_last_name = "nom";
 $column = $_POST["key"];
 $value = $_POST["value"];
 

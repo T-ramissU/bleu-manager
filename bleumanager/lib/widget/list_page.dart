@@ -197,7 +197,7 @@ class _ListPageState extends State<ListPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.blueAccent,
+      //backgroundColor: Colors.blueAccent,
       body: StreamBuilder(
           // will be re-trigger when fetchRes will contains a value
           stream: fetchController.stream,
@@ -238,7 +238,7 @@ class _ListPageState extends State<ListPage> {
             );
           }),
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
+        //backgroundColor: Colors.transparent,
         elevation: 0.1,
         title: Text(widget.title),
         actions: [

@@ -327,30 +327,31 @@ class _EditPageState extends State<EditPage> {
       );
 
   void update(Bleu bleu) {
-      bleu.firstname = "yssss";
-   /* if (lnameController.value.text != bleu.lastname) {
+    if (fnameController.value.text != bleu.firstname) {
+      bleu.firstname = fnameController.value.text;
+    }else if (lnameController.value.text != bleu.lastname) {
       bleu.lastname = lnameController.value.text;
     }
-    if (numberController.value.text != bleu.tel) {
+    else if (numberController.value.text != bleu.tel) {
       bleu.tel = numberController.value.text;
     }
-    if (medicalController.value.text != bleu.med) {
+    else if (medicalController.value.text != bleu.med) {
       bleu.med = medicalController.value.text;
     }
-    if (sexeController.value.text != bleu.sexe) {
+    else if (sexeController.value.text != bleu.sexe) {
       bleu.sexe = sexeController.value.text;
     }
-    if (regioController.value.text != bleu.regio) {
+    else if (regioController.value.text != bleu.regio) {
       bleu.regio = regioController.value.text;
     }
-    if (locController.value.text != bleu.loc) {
+    else if (locController.value.text != bleu.loc) {
       bleu.loc = locController.value.text;
     }
-    if (respController.value.text != bleu.resp) {
+    else if (respController.value.text != bleu.resp) {
       bleu.resp = respController.value.text;
     }
-    if (telrespController.value.text != bleu.telresp) {
+    else if (telrespController.value.text != bleu.telresp) {
       bleu.telresp = telrespController.value.text;
-    }*/
+    }
   }
 }

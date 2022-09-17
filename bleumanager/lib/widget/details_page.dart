@@ -3,10 +3,41 @@ import 'package:flutter/material.dart';
 
 import '../object/bleu.dart';
 
-class DetailPage extends StatelessWidget {
-  final Bleu bleu;
+class DetailPage extends StatefulWidget {
+  final Bleu _bleu;
 
-  const DetailPage(this.bleu, {Key? key}) : super(key: key);
+  /// [_bleu] to modify in the page
+  const DetailPage(this._bleu, {super.key});
+
+  @override
+  State<DetailPage> createState() => _DetailPageState(_bleu);
+}
+
+class _DetailPageState extends State<DetailPage> {
+  final Bleu bleu;
+  late final ramController1;
+  late final ramController2;
+
+  late final ramController3;
+
+  late final ramController4;
+
+  late final medController;
+
+  late final comController;
+
+  _DetailPageState(this.bleu);
+
+  @override
+  void initState() {
+    super.initState();
+    ramController1 = TextEditingController(text: bleu.ram1);
+    ramController2 = TextEditingController(text: bleu.ram2);
+    ramController3 = TextEditingController(text: bleu.ram3);
+    ramController4 = TextEditingController(text: bleu.ram4);
+    medController = TextEditingController(text: bleu.med);
+    comController = TextEditingController(text: bleu.com);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,9 +52,10 @@ class DetailPage extends StatelessWidget {
               color: Colors.white,
             ),
             onPressed: () {
-
-            Navigator.of(context).push(MaterialPageRoute(builder: (context)=>ListPage(title: "Bleu Manager 2022") ));
-
+              update(bleu);
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) =>
+                      const ListPage(title: "Bleu Manager 2022")));
             },
           ),
           title: Center(
@@ -112,7 +144,7 @@ class DetailPage extends StatelessWidget {
               ))));
 
   Widget buildbd(Bleu bleu) => Container(
-      child: Column(children: [
+          child: Column(children: [
         Row(children: const [
           Icon(Icons.date_range),
           SizedBox(
@@ -135,37 +167,37 @@ class DetailPage extends StatelessWidget {
       ]));
 
   Widget buildgenre(Bleu bleu) => Container(
-    child: Column(
-      children: [
-        Row(children: const [
-          Icon(Icons.safety_divider_outlined),
-          SizedBox(
-            width: 5,
-          ),
-          Text(
-            "Gender : ",
-            style: TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.w500,
-                fontSize: 24),
-          ),
-        ]),
-        SizedBox(
-          height: 6,
+        child: Column(
+          children: [
+            Row(children: const [
+              Icon(Icons.safety_divider_outlined),
+              SizedBox(
+                width: 5,
+              ),
+              Text(
+                "Gender : ",
+                style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w500,
+                    fontSize: 24),
+              ),
+            ]),
+            SizedBox(
+              height: 6,
+            ),
+            Text(
+              bleu.sexe,
+              style: const TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.w200,
+                  fontSize: 24),
+            ),
+          ],
         ),
-        Text(
-          bleu.sexe,
-          style: const TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.w200,
-              fontSize: 24),
-        ),
-      ],
-    ),
-  );
+      );
 
   Widget buildadresse(Bleu bleu) => Container(
-      child: Column(
+          child: Column(
         children: [
           Row(children: const [
             Icon(Icons.house),
@@ -192,7 +224,7 @@ class DetailPage extends StatelessWidget {
       ));
 
   Widget buildresplegal(Bleu bleu) => Container(
-      child: Column(
+          child: Column(
         children: [
           Row(children: const [
             Icon(Icons.accessibility_sharp),
@@ -222,7 +254,7 @@ class DetailPage extends StatelessWidget {
       ));
 
   Widget buildnumresp(Bleu bleu) => Container(
-      child: Column(
+          child: Column(
         children: [
           Row(children: const [
             Icon(Icons.phone),
@@ -249,184 +281,197 @@ class DetailPage extends StatelessWidget {
       ));
 
   Widget buildnum(Bleu bleu) => Column(
-    children: [
-      Row(children: const [
-        Icon(Icons.phone),
-        Text(
-          "Numéro de téléphone : ",
-          style: TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.w500,
-              fontSize: 24),
-        ),
-      ]),
-      SizedBox(
-        height: 6,
-      ),
-      Text(
-        bleu.tel,
-        style: const TextStyle(
-            color: Colors.white, fontWeight: FontWeight.w200, fontSize: 24),
-      ),
-    ],
-  );
+        children: [
+          Row(children: const [
+            Icon(Icons.phone),
+            Text(
+              "Numéro de téléphone : ",
+              style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.w500,
+                  fontSize: 24),
+            ),
+          ]),
+          SizedBox(
+            height: 6,
+          ),
+          Text(
+            bleu.tel,
+            style: const TextStyle(
+                color: Colors.white, fontWeight: FontWeight.w200, fontSize: 24),
+          ),
+        ],
+      );
 
   Widget buildMedical(Bleu bleu) => TextFormField(
-    initialValue: bleu.med,
-    decoration: InputDecoration(
-      focusedBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(25.0),
-        borderSide: const BorderSide(
-          color: Colors.white70,
+        controller: medController,
+        decoration: InputDecoration(
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(25.0),
+            borderSide: const BorderSide(
+              color: Colors.white70,
+            ),
+          ),
+          enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(25.0),
+              borderSide: BorderSide(color: Colors.black, width: 2.0)),
+          border: OutlineInputBorder(),
+          filled: true,
+          fillColor: Colors.white70,
+          labelText: 'Floquettes',
+          labelStyle: const TextStyle(color: Colors.black),
+          prefixIcon: Icon(Icons.medical_services),
         ),
-      ),
-      enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(25.0),
-          borderSide: BorderSide(color: Colors.black, width: 2.0)),
-      border: OutlineInputBorder(),
-      filled: true,
-      fillColor: Colors.white70,
-      labelText: 'Floquettes',
-      labelStyle: const TextStyle(color: Colors.black),
-      prefixIcon: Icon(Icons.medical_services),
-    ),
-    keyboardType: TextInputType.multiline,
-    // suggests emails when keyboard is opened if any saved
-    textInputAction: TextInputAction.done,
-    maxLines: null,
-    minLines: 5,
-  );
+        keyboardType: TextInputType.multiline,
+        // suggests emails when keyboard is opened if any saved
+        textInputAction: TextInputAction.done,
+        maxLines: null,
+        minLines: 5,
+      );
 
   Widget buildcom(Bleu bleu) => TextFormField(
-    initialValue: bleu.com,
-    decoration: InputDecoration(
-      focusedBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(25.0),
-        borderSide: const BorderSide(
-          color: Colors.white70,
+        initialValue: bleu.com,
+        decoration: InputDecoration(
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(25.0),
+            borderSide: const BorderSide(
+              color: Colors.white70,
+            ),
+          ),
+          enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(25.0),
+              borderSide: BorderSide(color: Colors.black, width: 2.0)),
+          border: OutlineInputBorder(),
+          filled: true,
+          fillColor: Colors.white70,
+          labelText: 'Commentaires',
+          labelStyle: const TextStyle(color: Colors.black),
+          prefixIcon: Icon(Icons.comment),
         ),
-      ),
-      enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(25.0),
-          borderSide: BorderSide(color: Colors.black, width: 2.0)),
-      border: OutlineInputBorder(),
-      filled: true,
-      fillColor: Colors.white70,
-      labelText: 'Commentaires',
-      labelStyle: const TextStyle(color: Colors.black),
-      prefixIcon: Icon(Icons.comment),
-    ),
-    keyboardType: TextInputType.multiline,
-    // suggests emails when keyboard is opened if any saved
-    textInputAction: TextInputAction.done,
-    maxLines: null,
-    minLines: 5,
-  );
+        keyboardType: TextInputType.multiline,
+        // suggests emails when keyboard is opened if any saved
+        textInputAction: TextInputAction.done,
+        maxLines: null,
+        minLines: 5,
+      );
 
   Widget buildram1(Bleu bleu) => TextFormField(
-    initialValue: bleu.ram1,
-    decoration: InputDecoration(
-      focusedBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(25.0),
-        borderSide: const BorderSide(
-          color: Colors.white70,
+        initialValue: bleu.ram1,
+        decoration: InputDecoration(
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(25.0),
+            borderSide: const BorderSide(
+              color: Colors.white70,
+            ),
+          ),
+          enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(25.0),
+              borderSide: BorderSide(color: Colors.black, width: 2.0)),
+          border: OutlineInputBorder(),
+          filled: true,
+          fillColor: Colors.white70,
+          labelText: 'Ramassage 1',
+          labelStyle: const TextStyle(color: Colors.black),
+          prefixIcon: Icon(Icons.euro),
         ),
-      ),
-      enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(25.0),
-          borderSide: BorderSide(color: Colors.black,width: 2.0)
-      ),
-      border:  OutlineInputBorder(),
-      filled: true,
-      fillColor: Colors.white70,
-      labelText: 'Ramassage 1',
-      labelStyle: const TextStyle(color: Colors.black),
-      prefixIcon: Icon(Icons.euro),
-    ),
-    keyboardType: TextInputType.multiline,
-    // suggests emails when keyboard is opened if any saved
-    textInputAction: TextInputAction.done,
-    maxLines: null,
-    minLines: 5,
-  );
+        keyboardType: TextInputType.multiline,
+        // suggests emails when keyboard is opened if any saved
+        textInputAction: TextInputAction.done,
+        maxLines: null,
+        minLines: 5,
+      );
 
   Widget buildram2(Bleu bleu) => TextFormField(
-    initialValue: bleu.ram2,
-    decoration: InputDecoration(
-      focusedBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(25.0),
-        borderSide: const BorderSide(
-          color: Colors.white70,
+        initialValue: bleu.ram2,
+        decoration: InputDecoration(
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(25.0),
+            borderSide: const BorderSide(
+              color: Colors.white70,
+            ),
+          ),
+          enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(25.0),
+              borderSide: const BorderSide(color: Colors.black, width: 2.0)),
+          border: const OutlineInputBorder(),
+          filled: true,
+          fillColor: Colors.white70,
+          labelText: 'Ramassage 2',
+          labelStyle: const TextStyle(color: Colors.black),
+          prefixIcon: Icon(Icons.euro),
         ),
-      ),
-      enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(25.0),
-          borderSide: const BorderSide(color: Colors.black, width: 2.0)),
-      border: const OutlineInputBorder(),
-      filled: true,
-      fillColor: Colors.white70,
-      labelText: 'Ramassage 2',
-      labelStyle: const TextStyle(color: Colors.black),
-      prefixIcon: Icon(Icons.euro),
-    ),
-    keyboardType: TextInputType.multiline,
-    // suggests emails when keyboard is opened if any saved
-    textInputAction: TextInputAction.done,
-    maxLines: null,
-    minLines: 5,
-  );
+        keyboardType: TextInputType.multiline,
+        // suggests emails when keyboard is opened if any saved
+        textInputAction: TextInputAction.done,
+        maxLines: null,
+        minLines: 5,
+      );
 
   Widget buildram3(Bleu bleu) => TextFormField(
-    initialValue: bleu.ram3,
-    decoration: InputDecoration(
-      focusedBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(25.0),
-        borderSide: const BorderSide(
-          color: Colors.white70,
+        initialValue: bleu.ram3,
+        decoration: InputDecoration(
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(25.0),
+            borderSide: const BorderSide(
+              color: Colors.white70,
+            ),
+          ),
+          enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(25.0),
+              borderSide: BorderSide(color: Colors.black, width: 2.0)),
+          border: OutlineInputBorder(),
+          filled: true,
+          fillColor: Colors.white70,
+          labelText: 'Ramassage 3',
+          labelStyle: const TextStyle(color: Colors.black),
+          prefixIcon: Icon(Icons.euro),
         ),
-      ),
-      enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(25.0),
-          borderSide: BorderSide(color: Colors.black,width: 2.0)
-      ),
-      border:  OutlineInputBorder(),
-      filled: true,
-      fillColor: Colors.white70,
-      labelText: 'Ramassage 3',
-      labelStyle: const TextStyle(color: Colors.black),
-      prefixIcon: Icon(Icons.euro),
-    ),
-    keyboardType: TextInputType.multiline,
-    // suggests emails when keyboard is opened if any saved
-    textInputAction: TextInputAction.done,
-    maxLines: null,
-    minLines: 5,
-  );
+        keyboardType: TextInputType.multiline,
+        // suggests emails when keyboard is opened if any saved
+        textInputAction: TextInputAction.done,
+        maxLines: null,
+        minLines: 5,
+      );
 
   Widget buildram4(Bleu bleu) => TextFormField(
-    initialValue: bleu.ram4,
-    decoration: InputDecoration(
-      focusedBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(25.0),
-        borderSide: const BorderSide(
-          color: Colors.white70,
+        initialValue: bleu.ram4,
+        decoration: InputDecoration(
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(25.0),
+            borderSide: const BorderSide(
+              color: Colors.white70,
+            ),
+          ),
+          enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(25.0),
+              borderSide: BorderSide(color: Colors.black, width: 2.0)),
+          border: OutlineInputBorder(),
+          filled: true,
+          fillColor: Colors.white70,
+          labelText: 'Ramassage 4',
+          labelStyle: const TextStyle(color: Colors.black),
+          prefixIcon: Icon(Icons.euro),
         ),
-      ),
-      enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(25.0),
-          borderSide: BorderSide(color: Colors.black,width: 2.0)
-      ),
-      border:  OutlineInputBorder(),
-      filled: true,
-      fillColor: Colors.white70,
-      labelText: 'Ramassage 4',
-      labelStyle: const TextStyle(color: Colors.black),
-      prefixIcon: Icon(Icons.euro),
-    ),
-    keyboardType: TextInputType.multiline,
-    // suggests emails when keyboard is opened if any saved
-    textInputAction: TextInputAction.done,
-    maxLines: null,
-    minLines: 5,
-  );
+        keyboardType: TextInputType.multiline,
+        // suggests emails when keyboard is opened if any saved
+        textInputAction: TextInputAction.done,
+        maxLines: null,
+        minLines: 5,
+      );
+
+  void update(Bleu bleu) {
+    if (ramController1.value.text != bleu.ram1) {
+      bleu.ram1 = ramController1.value.text;
+    } else if (ramController2.value.text != bleu.ram2) {
+      bleu.ram2 = ramController2.value.text;
+    } else if (ramController3.value.text != bleu.ram3) {
+      bleu.ram3 = ramController3.value.text;
+    } else if (medController.value.text != bleu.med) {
+      bleu.med = medController.value.text;
+    } else if (ramController4.value.text != bleu.ram4) {
+      bleu.ram4 = ramController4.value.text;
+    } else if (comController.value.text != bleu.com) {
+      bleu.com = comController.value.text;
+    }
+  }
 }

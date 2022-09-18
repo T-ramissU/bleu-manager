@@ -74,7 +74,7 @@ class _ListPageState extends State<ListPage> {
 
   /// Return rows to display depending on [showDeleted], [prenomFilter] and [regioFilter]
   List<DataRow> getRowsToDipslay(BuildContext context) {
-    List<DataRow> allRows = bleuDataSource.getData(context, showDeleted);
+    List<DataRow> allRows = bleuDataSource.getData(setState, context, showDeleted);
     if (prenomFilter == null && regioFilter == null) return allRows;
 
     List<DataRow> filteredRows = allRows.where((bleu) {

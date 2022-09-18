@@ -33,8 +33,6 @@ class _AppState extends State<App> {
     loginPage = LoginPage(title: title);
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     // Check version after build finished

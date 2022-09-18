@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:tuple/tuple.dart';
 
 /// Inerith of this class allow to add listenner on the object
-/// The difference with [ChangeNotifier] is that a parameter of type [T] can 
+/// The difference with [ChangeNotifier] is that a parameter of type [T] can
 /// be passed by the notifier to the listener.
 class ChangeNotifierParametric<T> {
   final List<void Function(T param)> _listeners = [];
@@ -21,11 +21,12 @@ class ChangeNotifierParametric<T> {
   }
 
   /// Return true if the listener has been removed, false if it does not exists
-  bool removeListener(void Function(T param) callback) => _listeners.remove(callback);
+  bool removeListener(void Function(T param) callback) =>
+      _listeners.remove(callback);
 }
 
 /// Contains all regio name recognized by the server
-const List<String> bleuAllRegio = [ "carolo","fronta", "centrale","boraine"];
+const List<String> bleuAllRegio = ["carolo", "fronta", "centrale", "boraine"];
 
 /// Contains all Json key used by the server to identify the bleu's attributes.
 /// Allow to translate the attribute name used in [Bleu] with the one used on the server
@@ -127,30 +128,35 @@ class Bleu with ChangeNotifierParametric<String> {
       };
 
   String get lastname => _lastname;
+
   set lastname(String value) {
     _lastname = value;
     notifyListeners(_BleuJsonKey.lastname);
   }
 
   String get firstname => _firstname;
+
   set firstname(String value) {
     _firstname = value;
-    notifyListeners(_BleuJsonKey.lastname);
+    notifyListeners(_BleuJsonKey.firstname);
   }
 
   String get sexe => _sexe;
+
   set sexe(String value) {
     _sexe = value;
     notifyListeners(_BleuJsonKey.sexe);
   }
 
   bool get del => _del;
+
   set del(bool value) {
     _del = value;
     notifyListeners(_BleuJsonKey.del);
   }
 
   String get regio => _regio;
+
   /// Throw [Exception] in case of non accepted [value]
   /// The list of valid [value] are in given by [allBleuRegio]
   set regio(String value) {
@@ -162,66 +168,77 @@ class Bleu with ChangeNotifierParametric<String> {
   }
 
   String get tel => _tel;
+
   set tel(String value) {
     _tel = value;
     notifyListeners(_BleuJsonKey.tel);
   }
 
   String get com => _com;
+
   set com(String value) {
     _com = value;
     notifyListeners(_BleuJsonKey.com);
   }
 
   String get med => _med;
+
   set med(String value) {
     _med = value;
     notifyListeners(_BleuJsonKey.med);
   }
 
   String get loc => _loc;
+
   set loc(String value) {
     _loc = value;
     notifyListeners(_BleuJsonKey.loc);
   }
 
   String get bd => _bd;
+
   set bd(String value) {
     _bd = value;
     notifyListeners(_BleuJsonKey.bd);
   }
 
   String get ram1 => _ram1;
+
   set ram1(String value) {
     _ram1 = value;
     notifyListeners(_BleuJsonKey.ram1);
   }
 
   String get ram2 => _ram2;
+
   set ram2(String value) {
     _ram2 = value;
     notifyListeners(_BleuJsonKey.ram2);
   }
 
   String get ram3 => _ram3;
+
   set ram3(String value) {
     _ram3 = value;
     notifyListeners(_BleuJsonKey.ram3);
   }
 
   String get ram4 => _ram4;
+
   set ram4(String value) {
     _ram4 = value;
     notifyListeners(_BleuJsonKey.ram4);
   }
 
   String get resp => _resp;
+
   set resp(String value) {
     _resp = value;
     notifyListeners(_BleuJsonKey.resp);
   }
 
   String get telresp => _telresp;
+
   set telresp(String value) {
     _telresp = value;
     notifyListeners(_BleuJsonKey.telresp);
@@ -232,8 +249,7 @@ class Bleu with ChangeNotifierParametric<String> {
 class BleuDataSource with ChangeNotifier {
   List<Bleu> _bleuRemaining = [];
   List<Bleu> _bleuDeleted = [];
-  int countDeleted=0;
-  int countRemaining=0;
+
   /// Return an integer equal to :
   /// 0 if success
   /// 1 if the [credential] are not authorized on the server
@@ -250,13 +266,9 @@ class BleuDataSource with ChangeNotifier {
       // which correspond to a static attribute of the class [BleuJsonKey]
       // which is propoagated to the function [_updateBleu] in order to update the
       // corresponding [bleu] on the server
-      bleu.addListener((String updatedJsonKey) => _updateBleu(bleu, updatedJsonKey));
-      if(bleu.del){
-            countDeleted++;
-      }else{
-        countRemaining++;
-      }
-      bleu.del ? _bleuDeleted.add(bleu): _bleuRemaining.add(bleu);
+      bleu.addListener(
+          (String updatedJsonKey) => _updateBleu(bleu, updatedJsonKey));
+      bleu.del ? _bleuDeleted.add(bleu) : _bleuRemaining.add(bleu);
     }
 
     return res.item2;
@@ -334,7 +346,8 @@ class BleuDataSource with ChangeNotifier {
         break;
     }
     if (value != null) {
-      ServerConnector.modifyBleu(Credential(), updatedJsonKey, value,bleu.lastname,bleu.firstname); // update it on the server
+      ServerConnector.modifyBleu(Credential(), updatedJsonKey, value,
+          bleu.lastname, bleu.firstname); // update it on the server
     }
   }
 
@@ -360,34 +373,28 @@ class BleuDataSource with ChangeNotifier {
   /// [Bleu.telresp], [Bleu.ram1], [Bleu.ram2], [Bleu.ram3], [Bleu.ram4]
   ///
   /// Set [deleted] to true to get all deleted bleu otherwise it return all remaining bleu
-  List<DataRow> getData(BuildContext context, bool deleted) {
+  List<DataRow> getData(void Function(void Function()) setState,
+      BuildContext context, bool deleted) {
     List<Bleu> list = deleted ? _bleuDeleted : _bleuRemaining;
 
     List<DataRow> listBleu = <DataRow>[];
     for (Bleu bleu in list) {
       DataRow row = DataRow(
-        onLongPress: () async {
-          await showDialog(
-              context: context,
-              builder: (BuildContext context) => BleuPopup(bleu, !bleu.del));
+        onLongPress: () {
+          // update list on return
+          setState(
+            () async {
+              await showDialog(
+                  context: context,
+                  builder: (BuildContext context) =>
+                      BleuPopup(bleu, !bleu.del));
+            },
+          );
         },
         cells: [
           DataCell(Text(bleu.firstname)),
           DataCell(Text(bleu.lastname)),
           DataCell(Text(bleu.regio)),
-    /*
-          DataCell(Text(bleu.sexe)),
-          DataCell(Text(bleu.tel)),
-          DataCell(Text(bleu.com)),
-          DataCell(Text(bleu.med)),
-          DataCell(Text(bleu.bd)),
-          DataCell(Text(bleu.loc)),
-          DataCell(Text(bleu.resp)),
-          DataCell(Text(bleu.telresp)),
-          DataCell(Text(bleu.ram1)),
-          DataCell(Text(bleu.ram2)),
-          DataCell(Text(bleu.ram3)),
-          DataCell(Text(bleu.ram4)),*/
         ],
       );
       listBleu.add(row);

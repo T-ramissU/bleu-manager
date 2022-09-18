@@ -1,7 +1,9 @@
-
+import 'dart:io' show Platform;
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:new_version/new_version.dart';
+import 'package:tuple/tuple.dart';
+import 'package:package_info_plus/package_info_plus.dart';
+
+import 'package:bleumanager/util/server_connector.dart';
 import 'package:bleumanager/widget/login_page.dart';
 import 'package:bleumanager/widget/list_page.dart';
 import 'package:bleumanager/util/credential.dart';
@@ -29,15 +31,17 @@ class _AppState extends State<App> {
     credentialLoaded = Credential().load();
     listPage = ListPage(title: title);
     loginPage = LoginPage(title: title);
-
-    _checkVersion();
-
   }
 
 
 
   @override
   Widget build(BuildContext context) {
+    // Check version after build finished
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _checkVersion();
+    });
+
     return FutureBuilder<bool>(
       future: credentialLoaded,
       builder: (context, snapshot) {
@@ -69,25 +73,40 @@ class _AppState extends State<App> {
       },
     );
   }
-  void _checkVersion() async {
-    final newVersion=NewVersion(
-      androidId:"be.ac.umons.bleumanager",
-      iOSId: "be.ac.umons.bleumanager",
-    );
-    // newVersion.showAlertIfNecessary(context: context);
-    final status = await newVersion.getVersionStatus();
-    if(status?.canUpdate==true){
-      newVersion.showUpdateDialog(
+
+  Future<void> _checkVersion() async {
+    Tuple3? versionInfo = await ServerConnector.versionInfo();
+
+    PackageInfo localInfo = await PackageInfo.fromPlatform();
+    String localVersion = localInfo.version;
+
+    if(versionInfo != null && localVersion != versionInfo.item1){
+      String link = "";
+      if (Platform.isAndroid) {
+        link = versionInfo.item2;
+      } else if (Platform.isIOS) {
+        link = versionInfo.item3;
+      }
+
+      showDialog(
         context: context,
-        versionStatus: status!,
-        allowDismissal: false,
-        dialogTitle: "Mis à jour",
-        dialogText: "Nouvelle mis a jour disponible. Passez de la version ${status.localVersion} à la version ${status.storeVersion}",
-        dismissButtonText: " Plus tard ",
-        dismissAction: (){
-          SystemNavigator.pop();
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text('Mise à jour disponnible'),
+            content: Text("Une mise à jour est disponnible, vous pouvez la télécharger ici : $link. Puis veuillez l'installer."),
+            actions: <Widget>[
+              TextButton(
+                style: TextButton.styleFrom(
+                  textStyle: Theme.of(context).textTheme.labelLarge,
+                ),
+                child: const Text('Plus tard'),
+                onPressed: () => Navigator.of(context).pop(),
+              ),
+            ],
+          );
         },
-        updateButtonText: "Mettre à jour",
-      );}}
+      );
+    }
+  }
 }
 

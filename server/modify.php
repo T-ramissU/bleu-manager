@@ -16,7 +16,7 @@ $value = $_POST["value"];
 
 $conn = new mysqli(MYSQL_SERVER, MYSQL_USERNAME, MYSQL_PASSWORD, MYSQL_DB);
 if ($conn->connect_error) { // connection to the mysql db failed
-    send_mail("Serveur bleusaille", "Impossible de se connecter a la DB lors de la tentative de : $matricule.");
+    send_mail("Serveur bleusaille", "Impossible de se connecter à la DB lors de la tentative de : $matricule.");
     http_response_code(SERVER_ERROR);
     exit();
 }
@@ -33,8 +33,9 @@ $query = "UPDATE LISTING SET '$column'='$value' WHERE Nom='$bleu_last_name' AND 
 $result = $conn->query($query);
 $conn->close();
 if (!$result) {
-    send_mail("Serveur bleusaille", "Impossible d'update la colonne '$column' avec la valeur '$value' pour '$bleu_last_name $bleu_first_name'.
-        Requête exécutée par $matricule");
+    send_mail("Serveur bleusaille", "Impossible de mettre à jour la colonne '$column' avec la valeur '$value' pour '$bleu_last_name $bleu_first_name'.
+        Requête exécutée par $matricule.
+        Erreur sql : {$conn->error}.");
     http_response_code(BAD_REQUEST);
     exit();
 }

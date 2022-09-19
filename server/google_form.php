@@ -6,7 +6,7 @@ if (
     !isset($_POST["tel"]) || !isset($_POST["sexe"]) || !isset($_POST["adresse"]) || 
     !isset($_POST["resplegal"]) || !isset($_POST["numresplegal"]) || !isset($_POST["daten"]))
 {
-    send_mail("Serveur bleusaille", "Attribut POST manquant lors de la requete par google form.");
+    send_mail("Serveur bleusaille", "Attribut POST manquant lors de la requête par google form.");
     http_response_code(BAD_REQUEST);
     exit();
 }
@@ -23,8 +23,8 @@ $dateN = $_POST["daten"];
 
 $conn = new mysqli(MYSQL_SERVER, MYSQL_USERNAME, MYSQL_PASSWORD, MYSQL_DB);
 if ($conn->connect_error) { // connection to the mysql db failed
-    send_mail("Serveur bleusaille", "Impossible de se connecter a la DB lors de l'ajout d'un bleu par google form. 
-        Ses informations non ajoutee à la DB sont : '$nom' '$prenom' '$regio' '$med' '$tel' '$sexe' '$adresse' '$respLegal' '$telRespLegal'");
+    send_mail("Serveur bleusaille", "Impossible de se connecter à la DB lors de l'ajout d'un bleu par google form. 
+        Ses informations non ajoutées à la DB sont : '$nom' '$prenom' '$regio' '$med' '$tel' '$sexe' '$adresse' '$respLegal' '$telRespLegal'");
     http_response_code(SERVER_ERROR);
     exit();
 }
@@ -35,9 +35,9 @@ $query = "INSERT INTO LISTING (Nom,Prenom,Sexe,DateN,Adresse,Tel,Regio,RespLegal
 $result = $conn->query($query);
 
 if (!$result) { // bad query
-    send_mail("Serveur bleusaille", "Impossible d'executer la query sql lors de l'ajout d'un bleu par google form. 
-    Ses informations non ajoutee a la DB sont : '$nom' '$prenom' '$regio' '$med' '$tel' '$sexe' '$adresse' '$respLegal' '$telRespLegal'.
-    Error sql : {$conn->error}.");
+    send_mail("Serveur bleusaille", "Impossible d'exécuter la query sql lors de l'ajout d'un bleu par google form. 
+    Ses informations non ajoutées à la DB sont : '$nom' '$prenom' '$regio' '$med' '$tel' '$sexe' '$adresse' '$respLegal' '$telRespLegal'.
+    Erreur sql : {$conn->error}.");
     $conn->close();
     http_response_code(BAD_REQUEST);
     exit();

@@ -15,7 +15,14 @@ define('IOS_LINK', '');
 
 // Send mail to server admin
 function send_mail($obj, $msg) {
-    mail(MAIL_DEST, $obj, $msg, MAIL_HEADER);
+    $header = "From: " . MAIL_SENDER . ";";
+    $header .= "MIME-Version: 1.0;";
+    $header .= "Content-Type: text/html;";
+    $header .= "charset=UTF-8;";
+    
+    $msg = "<html><body>" . $obj . "</body></html>";
+
+    mail(MAIL_DEST, $obj, $msg, $header);
 }
 
 // Check app user credential 

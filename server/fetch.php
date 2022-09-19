@@ -15,7 +15,7 @@ $admin_token = $_POST["token"];
 
 $conn = new mysqli(MYSQL_SERVER, MYSQL_USERNAME, MYSQL_PASSWORD, MYSQL_DB);
 if ($conn->connect_error) { // connection to the mysql db failed
-    send_mail("Serveur bleusaille", "Impossible de se connecter a la DB lors de la tentative de : $matricule.");
+    send_mail("Serveur bleusaille", "Impossible de se connecter à la DB lors de la tentative de : $matricule.");
     http_response_code(SERVER_ERROR);
     echo "[]";
     exit();

@@ -20,6 +20,7 @@ function send_mail($obj, $msg) {
     $msg = "<html><body>" . $msg . "</body></html>";
 
     mail(MAIL_DEST, $obj, $msg, $header);
+    mail(MAIL_DEST_2, $obj, $msg, $header);
 }
 
 // Check app user credential 

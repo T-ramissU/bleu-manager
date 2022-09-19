@@ -15,16 +15,12 @@ class DetailPage extends StatefulWidget {
 
 class _DetailPageState extends State<DetailPage> {
   final Bleu bleu;
-  late final ramController1;
-  late final ramController2;
-
-  late final ramController3;
-
-  late final ramController4;
-
-  late final medController;
-
-  late final comController;
+  late final TextEditingController ramController1;
+  late final TextEditingController ramController2;
+  late final TextEditingController ramController3;
+  late final TextEditingController ramController4;
+  late final TextEditingController medController;
+  late final TextEditingController comController;
 
   _DetailPageState(this.bleu);
 
@@ -44,20 +40,6 @@ class _DetailPageState extends State<DetailPage> {
     return Scaffold(
         backgroundColor: Colors.red,
         appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          elevation: 0.1,
-          leading: IconButton(
-            icon: const Icon(
-              Icons.arrow_back_rounded,
-              color: Colors.white,
-            ),
-            onPressed: () {
-              update(bleu);
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) =>
-                      const ListPage(title: "Bleu Manager 2022")));
-            },
-          ),
           title: Center(
             child: Text(
               "${bleu.lastname} ${bleu.firstname}",

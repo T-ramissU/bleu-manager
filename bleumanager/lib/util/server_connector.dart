@@ -21,7 +21,7 @@ class ServerConnector {
   /// Return 2 if bad request
   /// Return 3 if server error or otherwise
   static int _statusCodeToReturnInt(int statusCode) {
-    switch(statusCode) {
+    switch (statusCode) {
       case _successCode:
         return 0;
       case _unauthorizedCode:
@@ -42,8 +42,8 @@ class ServerConnector {
   ///           or not defined
   /// Return 2 if the [key] or [value] are not valid
   /// Return 3 if error server or something else
-  static Future<int> modifyBleu(
-      Credential credential, String key, String value,String lname, String fname) async {
+  static Future<int> modifyBleu(Credential credential, String key, String value,
+      String lname, String fname) async {
     if (credential.username == null || credential.password == null) return 1;
 
     var res = await http.post(Uri.parse(_modifyBleuUrl), body: {
@@ -66,7 +66,8 @@ class ServerConnector {
   /// 1 if the [credential] are not authorized on the server
   ///   or not defined
   /// 3 if error server or something else
-  static Future<Tuple2<List<Bleu>, int>> fetchBleu(Credential credential) async {
+  static Future<Tuple2<List<Bleu>, int>> fetchBleu(
+      Credential credential) async {
     if (credential.username == null || credential.password == null) {
       return const Tuple2([], 1);
     }
@@ -78,9 +79,7 @@ class ServerConnector {
         "token": credential.password
       });
     } on Exception catch (_) {
-
       return const Tuple2([], 3);
-
     }
 
     List<Bleu> bleuList = [];
@@ -119,6 +118,7 @@ class ServerConnector {
     }
 
     dynamic versionInfo = json.decode(res.body);
-    return Tuple3(versionInfo["version"], versionInfo["apk_link"], versionInfo["ios_link"]);
+    return Tuple3(versionInfo["version"], versionInfo["apk_link"],
+        versionInfo["ios_link"]);
   }
 }

@@ -1,4 +1,3 @@
-import 'package:bleumanager/widget/update_popup.dart';
 import 'package:flutter/material.dart';
 
 import 'package:bleumanager/widget/login_page.dart';

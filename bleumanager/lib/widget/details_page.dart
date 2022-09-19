@@ -1,4 +1,3 @@
-import 'package:bleumanager/widget/list_page.dart';
 import 'package:flutter/material.dart';
 
 import '../object/bleu.dart';
@@ -125,8 +124,7 @@ class _DetailPageState extends State<DetailPage> {
                 ),
               ))));
 
-  Widget buildbd(Bleu bleu) => Container(
-          child: Column(children: [
+  Widget buildbd(Bleu bleu) => Column(children: [
         Row(children: const [
           Icon(Icons.date_range),
           SizedBox(
@@ -138,7 +136,7 @@ class _DetailPageState extends State<DetailPage> {
                 color: Colors.white, fontWeight: FontWeight.w500, fontSize: 24),
           ),
         ]),
-        SizedBox(
+        const SizedBox(
           height: 6,
         ),
         Text(
@@ -146,40 +144,35 @@ class _DetailPageState extends State<DetailPage> {
           style: const TextStyle(
               color: Colors.white, fontWeight: FontWeight.w200, fontSize: 24),
         ),
-      ]));
+      ]);
 
-  Widget buildgenre(Bleu bleu) => Container(
-        child: Column(
-          children: [
-            Row(children: const [
-              Icon(Icons.safety_divider_outlined),
-              SizedBox(
-                width: 5,
-              ),
-              Text(
-                "Genre : ",
-                style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.w500,
-                    fontSize: 24),
-              ),
-            ]),
-            const SizedBox(
-              height: 6,
+  Widget buildgenre(Bleu bleu) => Column(
+        children: [
+          Row(children: const [
+            Icon(Icons.safety_divider_outlined),
+            SizedBox(
+              width: 5,
             ),
             Text(
-              bleu.sexe,
-              style: const TextStyle(
+              "Genre : ",
+              style: TextStyle(
                   color: Colors.white,
-                  fontWeight: FontWeight.w200,
+                  fontWeight: FontWeight.w500,
                   fontSize: 24),
             ),
-          ],
-        ),
+          ]),
+          const SizedBox(
+            height: 6,
+          ),
+          Text(
+            bleu.sexe,
+            style: const TextStyle(
+                color: Colors.white, fontWeight: FontWeight.w200, fontSize: 24),
+          ),
+        ],
       );
 
-  Widget buildadresse(Bleu bleu) => Container(
-          child: Column(
+  Widget buildadresse(Bleu bleu) => Column(
         children: [
           Row(children: const [
             Icon(Icons.house),
@@ -194,7 +187,7 @@ class _DetailPageState extends State<DetailPage> {
                   fontSize: 24),
             ),
           ]),
-          SizedBox(
+          const SizedBox(
             height: 6,
           ),
           Text(
@@ -203,10 +196,9 @@ class _DetailPageState extends State<DetailPage> {
                 color: Colors.white, fontWeight: FontWeight.w200, fontSize: 24),
           ),
         ],
-      ));
+      );
 
-  Widget buildresplegal(Bleu bleu) => Container(
-          child: Column(
+  Widget buildresplegal(Bleu bleu) => Column(
         children: [
           Row(children: const [
             Icon(Icons.accessibility_sharp),
@@ -221,22 +213,16 @@ class _DetailPageState extends State<DetailPage> {
                   fontSize: 24),
             ),
           ]),
-          SizedBox(
-            height: 6,
-          ),
-          SizedBox(
-            height: 6,
-          ),
+          const SizedBox(height: 6),
           Text(
             bleu.resp,
             style: const TextStyle(
                 color: Colors.white, fontWeight: FontWeight.w200, fontSize: 24),
           ),
         ],
-      ));
+      );
 
-  Widget buildnumresp(Bleu bleu) => Container(
-          child: Column(
+  Widget buildnumresp(Bleu bleu) => Column(
         children: [
           Row(children: const [
             Icon(Icons.phone),
@@ -251,7 +237,7 @@ class _DetailPageState extends State<DetailPage> {
                   fontSize: 24),
             ),
           ]),
-          SizedBox(
+          const SizedBox(
             height: 6,
           ),
           Text(
@@ -260,7 +246,7 @@ class _DetailPageState extends State<DetailPage> {
                 color: Colors.white, fontWeight: FontWeight.w200, fontSize: 24),
           ),
         ],
-      ));
+      );
 
   Widget buildnum(Bleu bleu) => Column(
         children: [
@@ -274,7 +260,7 @@ class _DetailPageState extends State<DetailPage> {
                   fontSize: 24),
             ),
           ]),
-          SizedBox(
+          const SizedBox(
             height: 6,
           ),
           Text(
@@ -296,13 +282,13 @@ class _DetailPageState extends State<DetailPage> {
           ),
           enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(25.0),
-              borderSide: BorderSide(color: Colors.black, width: 2.0)),
-          border: OutlineInputBorder(),
+              borderSide: const BorderSide(color: Colors.black, width: 2.0)),
+          border: const OutlineInputBorder(),
           filled: true,
           fillColor: Colors.white70,
           labelText: 'Floquettes',
           labelStyle: const TextStyle(color: Colors.black),
-          prefixIcon: Icon(Icons.medical_services),
+          prefixIcon: const Icon(Icons.medical_services),
         ),
         keyboardType: TextInputType.multiline,
         // suggests emails when keyboard is opened if any saved
@@ -322,13 +308,13 @@ class _DetailPageState extends State<DetailPage> {
           ),
           enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(25.0),
-              borderSide: BorderSide(color: Colors.black, width: 2.0)),
-          border: OutlineInputBorder(),
+              borderSide: const BorderSide(color: Colors.black, width: 2.0)),
+          border: const OutlineInputBorder(),
           filled: true,
           fillColor: Colors.white70,
           labelText: 'Commentaires',
           labelStyle: const TextStyle(color: Colors.black),
-          prefixIcon: Icon(Icons.comment),
+          prefixIcon: const Icon(Icons.comment),
         ),
         keyboardType: TextInputType.multiline,
         // suggests emails when keyboard is opened if any saved
@@ -348,13 +334,13 @@ class _DetailPageState extends State<DetailPage> {
           ),
           enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(25.0),
-              borderSide: BorderSide(color: Colors.black, width: 2.0)),
-          border: OutlineInputBorder(),
+              borderSide: const BorderSide(color: Colors.black, width: 2.0)),
+          border: const OutlineInputBorder(),
           filled: true,
           fillColor: Colors.white70,
           labelText: 'Ramassage 1',
           labelStyle: const TextStyle(color: Colors.black),
-          prefixIcon: Icon(Icons.euro),
+          prefixIcon: const Icon(Icons.euro),
         ),
         keyboardType: TextInputType.multiline,
         // suggests emails when keyboard is opened if any saved
@@ -380,7 +366,7 @@ class _DetailPageState extends State<DetailPage> {
           fillColor: Colors.white70,
           labelText: 'Ramassage 2',
           labelStyle: const TextStyle(color: Colors.black),
-          prefixIcon: Icon(Icons.euro),
+          prefixIcon: const Icon(Icons.euro),
         ),
         keyboardType: TextInputType.multiline,
         // suggests emails when keyboard is opened if any saved
@@ -400,13 +386,13 @@ class _DetailPageState extends State<DetailPage> {
           ),
           enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(25.0),
-              borderSide: BorderSide(color: Colors.black, width: 2.0)),
-          border: OutlineInputBorder(),
+              borderSide: const BorderSide(color: Colors.black, width: 2.0)),
+          border: const OutlineInputBorder(),
           filled: true,
           fillColor: Colors.white70,
           labelText: 'Ramassage 3',
           labelStyle: const TextStyle(color: Colors.black),
-          prefixIcon: Icon(Icons.euro),
+          prefixIcon: const Icon(Icons.euro),
         ),
         keyboardType: TextInputType.multiline,
         // suggests emails when keyboard is opened if any saved
@@ -426,13 +412,13 @@ class _DetailPageState extends State<DetailPage> {
           ),
           enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(25.0),
-              borderSide: BorderSide(color: Colors.black, width: 2.0)),
-          border: OutlineInputBorder(),
+              borderSide: const BorderSide(color: Colors.black, width: 2.0)),
+          border: const OutlineInputBorder(),
           filled: true,
           fillColor: Colors.white70,
           labelText: 'Ramassage 4',
           labelStyle: const TextStyle(color: Colors.black),
-          prefixIcon: Icon(Icons.euro),
+          prefixIcon: const Icon(Icons.euro),
         ),
         keyboardType: TextInputType.multiline,
         // suggests emails when keyboard is opened if any saved

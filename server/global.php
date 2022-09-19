@@ -15,12 +15,9 @@ define('IOS_LINK', '');
 
 // Send mail to server admin
 function send_mail($obj, $msg) {
-    $header = "From: " . MAIL_SENDER . ";";
-    $header .= "MIME-Version: 1.0;";
-    $header .= "Content-Type: text/html;";
-    $header .= "charset=UTF-8;";
+    $header = implode("\r\n", ["From:" . MAIL_SENDER . ";", "MIME-Version: 1.0", "Content-type: text/html; charset=utf-8"]);
     
-    $msg = "<html><body>" . $obj . "</body></html>";
+    $msg = "<html><body>" . $msg . "</body></html>";
 
     mail(MAIL_DEST, $obj, $msg, $header);
 }

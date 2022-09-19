@@ -96,10 +96,13 @@ class _ListPageState extends State<ListPage> {
   Widget _buildTable(BuildContext context) {
     return SingleChildScrollView(
       keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+
+      scrollDirection: Axis.vertical,
       child: RefreshIndicator(
         onRefresh: () => fetch(),
         child: ListView(
           scrollDirection: Axis.vertical,
+          physics: const NeverScrollableScrollPhysics(),
           // To fix "Vertical viewport was given unbounded height" error
           shrinkWrap: true,
           // To fix "Vertical viewport was given unbounded height" error
@@ -119,14 +122,14 @@ class _ListPageState extends State<ListPage> {
               sortAscending: sortAscending,
               columns: [
                 DataColumn(
+                  label: const Text("Prenom"),
+                  onSort: (columnIndex, ascending) =>
+                      sort<String>((b) => b.firstname, columnIndex, ascending),
+                ),
+                DataColumn(
                   label: const Text("Nom"),
                   onSort: (columnIndex, ascending) =>
                       sort<String>((b) => b.lastname, columnIndex, ascending),
-                ),
-                DataColumn(
-                  label: const Text("Prénom"),
-                  onSort: (columnIndex, ascending) =>
-                      sort<String>((b) => b.firstname, columnIndex, ascending),
                 ),
                 DataColumn(
                   label: const Text("Regio"),
@@ -197,6 +200,7 @@ class _ListPageState extends State<ListPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       //backgroundColor: Colors.blueAccent,
       body: StreamBuilder(
           // will be re-trigger when fetchRes will contains a value
@@ -205,12 +209,13 @@ class _ListPageState extends State<ListPage> {
             if (snapshot.hasData && snapshot.data == 0) {
               // successful fetch, return table
 
-              return Column(
+              return SingleChildScrollView(
+                  child: Column(
                 children: [
                   _buildFilter(context),
                   _buildTable(context),
                 ],
-              );
+              ));
             } else if (snapshot.hasData) {
               // error during fetch
               // wait until build is finished to show message

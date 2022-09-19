@@ -59,7 +59,7 @@ class _EditPageState extends State<EditPage> {
         FocusManager.instance.primaryFocus?.unfocus();
       },
       child: Scaffold(
-        backgroundColor: Colors.blueAccent,
+        backgroundColor: Colors.red,
         body: Stack(
           children: [
             SingleChildScrollView(
@@ -82,16 +82,19 @@ class _EditPageState extends State<EditPage> {
                     const SizedBox(height: 24),
                     buildLoc(bleu),
                     const SizedBox(height: 24),
-                    buildRegio(bleu),
+                    //buildRegio(bleu),
                     const SizedBox(height: 24),
                     buildResp(bleu),
                     const SizedBox(height: 24),
                     buildTelResp(bleu),
-                    const SizedBox(height: 24),
-                    TextButton(
+                    const SizedBox(height: 60),
+                    SizedBox(
+                      height: 50,
+                    width: 200,
+                    child : TextButton(
                       style: TextButton.styleFrom(
                         foregroundColor: Colors.white,
-                        backgroundColor: Colors.redAccent,
+                        backgroundColor: Colors.black,
                         disabledForegroundColor: Colors.red.withOpacity(0.38),
                       ),
                       onPressed: () {
@@ -99,6 +102,8 @@ class _EditPageState extends State<EditPage> {
                         Navigator.pop(context);
                       },
                       child: const Text("Mettre à jour"),
+                    )
+
                     ),
                   ],
                 ),

@@ -42,7 +42,7 @@ class _DetailPageState extends State<DetailPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.blueAccent,
+        backgroundColor: Colors.red,
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           elevation: 0.1,
@@ -92,27 +92,27 @@ class _DetailPageState extends State<DetailPage> {
                       ),
                       buildgenre(bleu),
                       const SizedBox(
-                        height: 15,
+                        height: 40,
                       ),
                       buildbd(bleu),
                       const SizedBox(
-                        height: 15,
+                        height: 40,
                       ),
                       buildnum(bleu),
                       const SizedBox(
-                        height: 15,
+                        height: 40,
                       ),
                       buildadresse(bleu),
                       const SizedBox(
-                        height: 15,
+                        height: 40,
                       ),
                       buildresplegal(bleu),
                       const SizedBox(
-                        height: 15,
+                        height: 40,
                       ),
                       buildnumresp(bleu),
                       const SizedBox(
-                        height: 15,
+                        height: 40,
                       ),
                       buildMedical(bleu),
                       const SizedBox(
@@ -175,14 +175,14 @@ class _DetailPageState extends State<DetailPage> {
                 width: 5,
               ),
               Text(
-                "Gender : ",
+                "Genre : ",
                 style: TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.w500,
                     fontSize: 24),
               ),
             ]),
-            SizedBox(
+            const SizedBox(
               height: 6,
             ),
             Text(

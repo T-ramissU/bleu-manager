@@ -15,7 +15,7 @@ $admin_token = $_POST["token"];
 
 $conn = new mysqli(MYSQL_SERVER, MYSQL_USERNAME, MYSQL_PASSWORD, MYSQL_DB);
 if ($conn->connect_error) { // connection to the mysql db failed
-    send_mail("Serveur bleusaille", "Impossible de se connecter à la DB lors de la tentative de : $matricule.");
+    send_mail("Serveur bleusaille", "Impossible de se connecter à la DB lors de la tentative de $admin_matricule.");
     http_response_code(SERVER_ERROR);
     echo "[]";
     exit();
@@ -34,8 +34,8 @@ $query = "SELECT * FROM LISTING";
 $result = $conn->query($query);
 
 if (!$result) { // bad query
+    send_mail("Serveur bleusaille", "Impossible de fetch les bleu de la DB lors de la tentative de $admin_matricule.");
     $conn->close();
-    send_mail("Serveur bleusaille", "Impossible de fetch les bleu de la DB lors de la tentative de : $matricule.");
     http_response_code(SERVER_ERROR);
     echo "[]";
     exit();

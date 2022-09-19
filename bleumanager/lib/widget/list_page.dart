@@ -76,7 +76,8 @@ class _ListPageState extends State<ListPage> {
 
   /// Return rows to display depending on [showDeleted], [prenomFilter] and [regioFilter]
   List<DataRow> getRowsToDipslay(BuildContext context) {
-    List<DataRow> allRows = bleuDataSource.getData(setState, context, showDeleted);
+    List<DataRow> allRows =
+        bleuDataSource.getData(setState, context, showDeleted);
     if (prenomFilter == null && regioFilter == null) return allRows;
 
     List<DataRow> filteredRows = allRows.where((bleu) {
@@ -96,41 +97,50 @@ class _ListPageState extends State<ListPage> {
   }
 
   Widget _buildTable(BuildContext context) {
-    return Expanded (
+    return Expanded(
       child: ListView(
-          restorationId: 'data_table_list_view',
-          padding: const EdgeInsets.all(8),
-          children: [
-            DataTable(
-              decoration: BoxDecoration(
+        restorationId: 'data_table_list_view',
+        padding: const EdgeInsets.all(8),
+        children: [
+          DataTable(
+            decoration: BoxDecoration(
                 color: Colors.white,
                 border: Border.all(color: Colors.grey),
-                borderRadius: BorderRadius.circular(8)
+                borderRadius: BorderRadius.circular(8)),
+            showCheckboxColumn: false,
+            sortColumnIndex: selectedColumn,
+            sortAscending: sortAscending,
+            columns: [
+              DataColumn(
+                label: const Text(
+                  "Prénom",
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+                onSort: (columnIndex, ascending) =>
+                    sort<String>((b) => b.firstname, columnIndex, ascending),
               ),
-              showCheckboxColumn: false,
-              sortColumnIndex: selectedColumn,
-              sortAscending: sortAscending,
-              columns: [
-                DataColumn(
-                  label: const Text("Prenom"),
-                  onSort: (columnIndex, ascending) =>
-                      sort<String>((b) => b.firstname, columnIndex, ascending),
+              DataColumn(
+                label: const Text(
+                  "Nom",
+                  style: TextStyle(fontWeight: FontWeight.bold),
                 ),
-                DataColumn(
-                  label: const Text("Nom"),
-                  onSort: (columnIndex, ascending) =>
-                      sort<String>((b) => b.lastname, columnIndex, ascending),
+                onSort: (columnIndex, ascending) =>
+                    sort<String>((b) => b.lastname, columnIndex, ascending),
+              ),
+              DataColumn(
+                label: const Text(
+                  "Regio",
+                  style: TextStyle(fontWeight: FontWeight.bold),
                 ),
-                DataColumn(
-                  label: const Text("Regio"),
-                  onSort: (columnIndex, ascending) =>
-                      sort<String>((b) => b.regio, columnIndex, ascending),
-                ),
-              ],
-              rows: getRowsToDipslay(context),
-            ),
-          ],
-    ),);
+                onSort: (columnIndex, ascending) =>
+                    sort<String>((b) => b.regio, columnIndex, ascending),
+              ),
+            ],
+            rows: getRowsToDipslay(context),
+          ),
+        ],
+      ),
+    );
   }
 
   Widget _buildFilter(BuildContext context) {
@@ -155,7 +165,7 @@ class _ListPageState extends State<ListPage> {
             ),
             DropdownButton<String>(
               value: regioFilter,
-              hint: const Text("Region"),
+              hint: const Text("Regio"),
               onChanged: (String? value) {
                 // This is called when the user selects an item.
                 setState(() {
@@ -236,7 +246,7 @@ class _ListPageState extends State<ListPage> {
         actions: [
           IconButton(
             // update listing
-            onPressed: () => fetch().then((value) => setState((){})),
+            onPressed: () => fetch().then((value) => setState(() {})),
             icon: const Icon(Icons.refresh),
           ),
           IconButton(

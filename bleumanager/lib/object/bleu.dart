@@ -26,7 +26,7 @@ class ChangeNotifierParametric<T> {
 }
 
 /// Contains all regio name recognized by the server
-const List<String> bleuAllRegio = ["carolo", "fronta", "centrale", "boraine"];
+const List<String> bleuAllRegio = ["Carolo", "Fronta", "Centrale", "Boraine"];
 
 /// Contains all Json key used by the server to identify the bleu's attributes.
 /// Allow to translate the attribute name used in [Bleu] with the one used on the server
@@ -381,15 +381,10 @@ class BleuDataSource with ChangeNotifier {
     for (Bleu bleu in list) {
       DataRow row = DataRow(
         onLongPress: () {
-          // update list on return
-          setState(
-            () async {
-              await showDialog(
-                  context: context,
-                  builder: (BuildContext context) =>
-                      BleuPopup(bleu, !bleu.del));
-            },
-          );
+          showDialog(
+            context: context,
+            builder: (BuildContext context) => BleuPopup(bleu, !bleu.del),
+          ).then((value) => setState(() {})); // update list on return
         },
         cells: [
           DataCell(Text(bleu.firstname)),

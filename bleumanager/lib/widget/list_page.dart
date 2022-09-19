@@ -1,9 +1,10 @@
 import 'dart:async';
+import 'package:bleumanager/widget/update_popup.dart';
+import 'package:flutter/material.dart';
 
 import 'package:bleumanager/object/bleu.dart';
 import 'package:bleumanager/util/credential.dart';
 import 'package:bleumanager/util/show_message.dart';
-import 'package:flutter/material.dart';
 
 /// Display all bleu and offer to the user the possibility to manage them
 class ListPage extends StatefulWidget {
@@ -53,6 +54,7 @@ class _ListPageState extends State<ListPage> {
   void initState() {
     super.initState();
     fetch();
+    checkUpdate(context);
   }
 
   @override
@@ -94,20 +96,8 @@ class _ListPageState extends State<ListPage> {
   }
 
   Widget _buildTable(BuildContext context) {
-    return SingleChildScrollView(
-      keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-
-      scrollDirection: Axis.vertical,
-      child: RefreshIndicator(
-        onRefresh: () => fetch(),
-        child: ListView(
-          scrollDirection: Axis.vertical,
-          physics: const NeverScrollableScrollPhysics(),
-          // To fix "Vertical viewport was given unbounded height" error
-          shrinkWrap: true,
-          // To fix "Vertical viewport was given unbounded height" error
-          primary: true,
-          // To make the scrollview work on desktop
+    return Expanded (
+      child: ListView(
           restorationId: 'data_table_list_view',
           padding: const EdgeInsets.all(8),
           children: [
@@ -140,9 +130,7 @@ class _ListPageState extends State<ListPage> {
               rows: getRowsToDipslay(context),
             ),
           ],
-        ),
-      ),
-    );
+    ),);
   }
 
   Widget _buildFilter(BuildContext context) {
@@ -209,13 +197,12 @@ class _ListPageState extends State<ListPage> {
             if (snapshot.hasData && snapshot.data == 0) {
               // successful fetch, return table
 
-              return SingleChildScrollView(
-                  child: Column(
+              return Column(
                 children: [
                   _buildFilter(context),
                   _buildTable(context),
                 ],
-              ));
+              );
             } else if (snapshot.hasData) {
               // error during fetch
               // wait until build is finished to show message
@@ -247,6 +234,11 @@ class _ListPageState extends State<ListPage> {
         elevation: 0.1,
         title: Text(widget.title),
         actions: [
+          IconButton(
+            // update listing
+            onPressed: () => fetch().then((value) => setState((){})),
+            icon: const Icon(Icons.refresh),
+          ),
           IconButton(
             // allow to switch from list of remaining and deleted bleu
             onPressed: () => setState(() => showDeleted = !showDeleted),

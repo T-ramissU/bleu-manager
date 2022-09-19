@@ -20,7 +20,7 @@ class BleuPopup extends StatelessWidget {
     return AlertDialog(
       insetPadding: EdgeInsets.all(100),
       backgroundColor: Colors.white,
-      shape: RoundedRectangleBorder(
+      shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.circular(10))
       ),
       title: Text(

@@ -239,8 +239,6 @@ class _ListPageState extends State<ListPage> {
             );
           }),
       appBar: AppBar(
-        //backgroundColor: Colors.transparent,
-        elevation: 0.1,
         title: Text(widget.title),
         actions: [
           IconButton(

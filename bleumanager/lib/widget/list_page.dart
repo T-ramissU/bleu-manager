@@ -99,8 +99,9 @@ class _ListPageState extends State<ListPage> {
   Widget _buildTable(BuildContext context) {
     return Expanded(
       child: ListView(
+
         restorationId: 'data_table_list_view',
-        padding: const EdgeInsets.all(8),
+        padding: const EdgeInsets.all(1),
         children: [
           DataTable(
             decoration: BoxDecoration(

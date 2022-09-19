@@ -14,41 +14,45 @@ class EditPage extends StatefulWidget {
 
 class _EditPageState extends State<EditPage> {
   final Bleu bleu;
+  /// Contains the regios to display, null means all
+  String? regioFilter;
+  String? initValue;
 
-  late final fnameController ;
-  final lnameController = TextEditingController();
-  final numberController = TextEditingController();
-  final regioController = TextEditingController();
-  final medicalController = TextEditingController();
-  final locController = TextEditingController();
-  final bdController = TextEditingController();
-  final sexeController = TextEditingController();
-  final respController = TextEditingController();
-  final telrespController = TextEditingController();
-  final ramController1 = TextEditingController();
-  final ramController2 = TextEditingController();
-  final ramController3 = TextEditingController();
-  final ramController4 = TextEditingController();
+  late final  fnameController ;
+  late final lnameController ;
+  late final numberController ;
+  late final regioController ;
+  late final medicalController;
+  late final locController ;
+  late final bdController ;
+  late final sexeController ;
+  late final respController ;
+  late final telrespController ;
+  late final ramController1 ;
+  late final ramController2 ;
+  late final ramController3 ;
+  late final ramController4 ;
 
   _EditPageState(this.bleu);
 
   @override
   void initState() {
+    //String? initValue= bleu.regio;
     super.initState();
     fnameController=TextEditingController(text: bleu.firstname);
-    lnameController.addListener(() => setState(() {}));
-    numberController.addListener(() => setState(() {}));
-    regioController.addListener(() => setState(() {}));
-    medicalController.addListener(() => setState(() {}));
-    sexeController.addListener(() => setState(() {}));
-    locController.addListener(() => setState(() {}));
-    bdController.addListener(() => setState(() {}));
-    respController.addListener(() => setState(() {}));
-    telrespController.addListener(() => setState(() {}));
-    ramController1.addListener(() => setState(() {}));
-    ramController2.addListener(() => setState(() {}));
-    ramController3.addListener(() => setState(() {}));
-    ramController4.addListener(() => setState(() {}));
+    lnameController=TextEditingController(text: bleu.lastname);
+    numberController=TextEditingController(text: bleu.tel);
+    regioController=TextEditingController(text: bleu.regio);
+    medicalController=TextEditingController(text: bleu.med);
+    sexeController=TextEditingController(text: bleu.sexe);
+    locController=TextEditingController(text: bleu.loc);
+    bdController= TextEditingController(text: bleu.bd);
+    respController=TextEditingController(text: bleu.resp);
+    telrespController=TextEditingController(text: bleu.telresp);
+    ramController1=TextEditingController(text: bleu.ram1);
+    ramController2=TextEditingController(text: bleu.ram2);
+    ramController3 =TextEditingController(text: bleu.ram3);
+    ramController4 = TextEditingController(text: bleu.ram4);
   }
 
   @override
@@ -82,7 +86,7 @@ class _EditPageState extends State<EditPage> {
                     const SizedBox(height: 24),
                     buildLoc(bleu),
                     const SizedBox(height: 24),
-                    //buildRegio(bleu),
+                    buildRegio(bleu),
                     const SizedBox(height: 24),
                     buildResp(bleu),
                     const SizedBox(height: 24),
@@ -266,24 +270,24 @@ class _EditPageState extends State<EditPage> {
       ),
       child: DropdownButtonHideUnderline(
           child: DropdownButton<String>(
-        value: bleu.regio,
-        style: const TextStyle(
-          color: Colors.black,
-          fontSize: 20,
-        ),
-        hint: const Text("Region"),
-        onChanged: (String? value) {
-          setState(() {
-            bleu.regio = value!;
-          });
-        },
-        items: bleuAllRegio.map<DropdownMenuItem<String>>((String regio) {
-          return DropdownMenuItem<String>(
-            value: regio,
-            child: Text(regio),
-          );
-        }).toList(),
-      )));
+            value: initValue,
+            hint: const Text("Regio"),
+
+            onChanged: (String? value) {
+              // This is called when the user selects an item.
+              setState(() {
+                regioFilter = value;
+              });
+            },
+            items: bleuAllRegio.map<DropdownMenuItem<String>>((String regio) {
+              return DropdownMenuItem<String>(
+                value: regio,
+                child: Text(regio),
+              );
+            }).toList(),
+          )
+      )
+  );
 
   Widget buildResp(Bleu bleu) => TextFormField(
         initialValue: bleu.resp,
@@ -334,28 +338,28 @@ class _EditPageState extends State<EditPage> {
   void update(Bleu bleu) {
     if (fnameController.value.text != bleu.firstname) {
       bleu.firstname = fnameController.value.text;
-    }else if (lnameController.value.text != bleu.lastname) {
+    } if (lnameController.value.text != bleu.lastname) {
       bleu.lastname = lnameController.value.text;
     }
-    else if (numberController.value.text != bleu.tel) {
+     if (numberController.value.text != bleu.tel) {
       bleu.tel = numberController.value.text;
     }
-    else if (medicalController.value.text != bleu.med) {
+     if (medicalController.value.text != bleu.med) {
       bleu.med = medicalController.value.text;
     }
-    else if (sexeController.value.text != bleu.sexe) {
+     if (sexeController.value.text != bleu.sexe) {
       bleu.sexe = sexeController.value.text;
     }
-    else if (regioController.value.text != bleu.regio) {
+     if (regioController.value.text != bleu.regio) {
       bleu.regio = regioController.value.text;
     }
-    else if (locController.value.text != bleu.loc) {
+     if (locController.value.text != bleu.loc) {
       bleu.loc = locController.value.text;
     }
-    else if (respController.value.text != bleu.resp) {
+     if (respController.value.text != bleu.resp) {
       bleu.resp = respController.value.text;
     }
-    else if (telrespController.value.text != bleu.telresp) {
+     if (telrespController.value.text != bleu.telresp) {
       bleu.telresp = telrespController.value.text;
     }
   }

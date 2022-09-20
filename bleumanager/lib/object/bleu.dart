@@ -68,8 +68,7 @@ class Bleu with ChangeNotifierParametric<String> {
   String _ram3;
   String _ram4;
 
-  Bleu(
-      this._lastname,
+  Bleu(this._lastname,
       this._firstname,
       this._sexe,
       this._del,
@@ -108,7 +107,8 @@ class Bleu with ChangeNotifierParametric<String> {
 
   /// Convert a [Bleu] object, to a json object where the keys
   /// are the static attribute of the class [_BleuJsonKey]
-  Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() =>
+      {
         _BleuJsonKey.lastname: _lastname,
         _BleuJsonKey.firstname: _firstname,
         _BleuJsonKey.sexe: _sexe,
@@ -267,7 +267,7 @@ class BleuDataSource with ChangeNotifier {
       // which is propoagated to the function [_updateBleu] in order to update the
       // corresponding [bleu] on the server
       bleu.addListener(
-          (String updatedJsonKey) => _updateBleu(bleu, updatedJsonKey));
+              (String updatedJsonKey) => _updateBleu(bleu, updatedJsonKey));
       bleu.del ? _bleuDeleted.add(bleu) : _bleuRemaining.add(bleu);
     }
 
@@ -293,20 +293,19 @@ class BleuDataSource with ChangeNotifier {
         value = bleu.sexe;
         break;
       case _BleuJsonKey.del:
-        {
-          //place the bleu in the right list if bleu.del has been switched
-          int i = _bleuRemaining.indexOf(bleu);
-          if (i < 0 && !bleu.del) {
-            //[bleu] is in the deleted list & del is false
-            _bleuDeleted.removeAt(i);
-            _bleuRemaining.add(bleu);
-          } else if (i >= 0 && bleu.del) {
-            //[bleu] is in the remaining list & del is true
-            _bleuRemaining.removeAt(i);
-            _bleuDeleted.add(bleu);
-          }
-          value = bleu.del.toString();
+        //place the bleu in the right list if bleu.del has been switched
+        int i = _bleuRemaining.indexOf(bleu);
+        if (i < 0 && !bleu.del) {
+          //[bleu] is in the deleted list & del is false
+          i = _bleuDeleted.indexOf(bleu);
+          _bleuDeleted.removeAt(i);
+          _bleuRemaining.add(bleu);
+        } else if (i >= 0 && bleu.del) {
+          //[bleu] is in the remaining list & del is true
+          _bleuRemaining.removeAt(i);
+          _bleuDeleted.add(bleu);
         }
+        value = bleu.del ? "1" : "0";
         break;
       case _BleuJsonKey.regio:
         value = bleu.regio;

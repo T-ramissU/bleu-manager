@@ -88,7 +88,7 @@ class _ListPageState extends State<ListPage> {
       }
       if (choosed && prenomFilter != null) {
         Text prenomColumn = bleu.cells[0].child as Text;
-        choosed = prenomColumn.data!.contains(prenomFilter!);
+        choosed = prenomColumn.data!.toLowerCase().contains(prenomFilter!.toLowerCase());
       }
       return choosed;
     }).toList();

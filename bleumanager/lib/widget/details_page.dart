@@ -39,6 +39,13 @@ class _DetailPageState extends State<DetailPage> {
     return Scaffold(
         backgroundColor: Colors.red,
         appBar: AppBar(
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back, color: Colors.white),
+            onPressed: () {
+              update(bleu);
+              Navigator.of(context).pop();
+            }
+          ),
           centerTitle: true,
           title: Text(
               "${bleu.lastname} ${bleu.firstname}",

@@ -240,6 +240,7 @@ class _ListPageState extends State<ListPage> {
           }),
       appBar: AppBar(
         title: Text(widget.title),
+        centerTitle: true,
         actions: [
           IconButton(
             // update listing

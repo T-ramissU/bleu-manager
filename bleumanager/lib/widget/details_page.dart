@@ -39,15 +39,14 @@ class _DetailPageState extends State<DetailPage> {
     return Scaffold(
         backgroundColor: Colors.red,
         appBar: AppBar(
-          title: Center(
-            child: Text(
+          centerTitle: true,
+          title: Text(
               "${bleu.lastname} ${bleu.firstname}",
               style: const TextStyle(
                 color: Colors.white,
                 fontSize: 24,
               ),
               textAlign: TextAlign.center,
-            ),
           ),
         ),
         body: details(bleu));

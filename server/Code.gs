@@ -1,5 +1,20 @@
-var url = "https://bleusaille.emixam.be/google_form.php";
-var options =
+function onFormSubmit(e) {
+  var url = "https://bleusaille.emixam.be/google_form.php";
+  
+  var data =
+  {
+    "nom" : e.namedValues['Nom'][0],
+    "prenom" : e.namedValues['Prénom'][0],
+    "sexe": e.namedValues['Genre'][0],
+    "adresse": e.namedValues['Adresse'][0],
+    "daten": e.namedValues['Date de naissance'][0],
+    "regio": e.namedValues['Régionale'][0],
+    "resplegal": e.namedValues['Nom du responsable légal'][0] + ' ' + e.namedValues['Prénom du responsable légal'],
+    'numresplegal':e.namedValues['Numéro de téléphone du responsable légal'][0],
+    "tel" : e.namedValues['Numéro de téléphone'][0], 
+  };
+    
+  var options =
   {
     "method" : "POST",
     "payload" : data, 
@@ -7,28 +22,16 @@ var options =
     "muteHttpExceptions": false
   };
 
-function onFormSubmit(form) {  
-  var data =
-  {
-    "nom" : form.namedValues['Nom'][0],
-    "prenom" : formnamedValues['Prénom'][0],
-    "sexe": formnamedValues['Genre'][0],
-    "adresse": formnamedValues['Adresse'][0],
-    "daten": formnamedValues['Date de naissance'][0],
-    "regio": formnamedValues['Régionale'][0],
-    "resplegal": formnamedValues['Nom du responsable légal'][0] + ' ' + formnamedValues['Prénom du responsable légal'],
-    'numresplegal':formnamedValues['Numéro de téléphone du responsable légal'][0],
-    "tel" : formnamedValues['Numéro de téléphone'][0], 
-  };
-    
   UrlFetchApp.fetch(url, options);
 }
 
 function sendAll() {
   var sheet = SpreadsheetApp.getActive().getSheetByName("Réponses au formulaire 1");
-  var table = sheet.getDataRange().getValues();
+  var data = sheet.getDataRange().getValues();
 
-  table.forEach(function (row) {    
+  data.forEach(function (row) {
+    var url = "https://bleusaille.emixam.be/google_form.php";
+    
     var data =
     {
       "nom" : row[1],
@@ -41,7 +44,14 @@ function sendAll() {
       'numresplegal': row[23],
       "tel" : row[8], 
     };
-
+      
+    var options =
+    {
+      "method" : "POST",
+      "payload" : data, 
+      "followRedirects" : false,
+      "muteHttpExceptions": false
+    };
     try {
       UrlFetchApp.fetch(url, options);
     } catch(e) {

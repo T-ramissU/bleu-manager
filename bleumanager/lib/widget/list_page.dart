@@ -67,7 +67,7 @@ class _ListPageState extends State<ListPage> {
   /// in a [ascending] order or not. (Refresh the page)
   void sort<T>(Comparable<T> Function(Bleu b) getField, int columnIndex,
       bool ascending) {
-    bleuDataSource.sort<T>(getField, ascending);
+    bleuDataSource.sort<T>(getField, ascending, showDeleted);
     setState(() {
       selectedColumn = columnIndex;
       sortAscending = ascending;

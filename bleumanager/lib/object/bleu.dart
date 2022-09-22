@@ -68,7 +68,8 @@ class Bleu with ChangeNotifierParametric<String> {
   String _ram3;
   String _ram4;
 
-  Bleu(this._lastname,
+  Bleu(
+      this._lastname,
       this._firstname,
       this._sexe,
       this._del,
@@ -107,8 +108,7 @@ class Bleu with ChangeNotifierParametric<String> {
 
   /// Convert a [Bleu] object, to a json object where the keys
   /// are the static attribute of the class [_BleuJsonKey]
-  Map<String, dynamic> toJson() =>
-      {
+  Map<String, dynamic> toJson() => {
         _BleuJsonKey.lastname: _lastname,
         _BleuJsonKey.firstname: _firstname,
         _BleuJsonKey.sexe: _sexe,
@@ -267,7 +267,7 @@ class BleuDataSource with ChangeNotifier {
       // which is propoagated to the function [_updateBleu] in order to update the
       // corresponding [bleu] on the server
       bleu.addListener(
-              (String updatedJsonKey) => _updateBleu(bleu, updatedJsonKey));
+          (String updatedJsonKey) => _updateBleu(bleu, updatedJsonKey));
       bleu.del ? _bleuDeleted.add(bleu) : _bleuRemaining.add(bleu);
     }
 
@@ -354,9 +354,9 @@ class BleuDataSource with ChangeNotifier {
   ///
   /// Set [deleted] to true to sort deleted all bleu, otherwise it sort all remainig bleu
   /// [ascending] determines if the sort is in ascending or descending order
-  void sort<T>(Comparable<T> Function(Bleu b) getField, bool ascending,
-      {bool? deleted}) {
-    List<Bleu> list = deleted == null ? _bleuRemaining : _bleuDeleted;
+  void sort<T>(
+      Comparable<T> Function(Bleu b) getField, bool ascending, deleted) {
+    List<Bleu> list = deleted ? _bleuDeleted : _bleuRemaining;
     list.sort((a, b) {
       final aValue = getField(a);
       final bValue = getField(b);

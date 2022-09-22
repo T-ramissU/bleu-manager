@@ -246,7 +246,7 @@ class _DetailPageState extends State<DetailPage> {
           const SizedBox(
             height: 6,
           ),
-          Text(
+          SelectableText(
             bleu.telresp,
             style: const TextStyle(
                 color: Colors.white, fontWeight: FontWeight.w200, fontSize: 24),
@@ -269,7 +269,7 @@ class _DetailPageState extends State<DetailPage> {
           const SizedBox(
             height: 6,
           ),
-          Text(
+          SelectableText(
             bleu.tel,
             style: const TextStyle(
                 color: Colors.white, fontWeight: FontWeight.w200, fontSize: 24),
